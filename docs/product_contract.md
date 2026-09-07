@@ -139,7 +139,7 @@ FleetGuard will not:
 - use real, confidential or employer-owned railway data;
 - claim certification for safety-critical use;
 - automatically authorise maintenance or vehicle withdrawal;
-- produce a stream data engineering pipeline with Kafka and Spark workflow;
+- build any streaming data-engineering pipeline using Kafka and Spark;
 - attempt to model every possible rail subsystem;
 - use an LLM to calculate anomaly scores;
 - permit the agent unrestricted database access;
