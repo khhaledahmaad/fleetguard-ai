@@ -14,6 +14,10 @@ from fleetguard.contracts import (
     OperatingState,
     TelemetryEvent,
 )
+from fleetguard.generator.cycle import (
+    DEFAULT_OPERATING_CYCLE,
+    OperatingCycle,
+)
 
 
 @dataclass(frozen=True)
@@ -29,25 +33,31 @@ def _clamp(value: float, minimum: float, maximum: float) -> float:
 def _operating_state_and_speed(
     minute_index: int,
     rng: random.Random,
-) -> tuple[OperatingState, float]:
-    phase = minute_index % 60
+    cycle: OperatingCycle,
+) -> tuple[OperatingState, float, float]:
+    operating_state, phase_progress = cycle.state_at(minute_index)
 
-    if phase < 10:
-        return OperatingState.STATIONARY, 0.0
+    if operating_state == OperatingState.STATIONARY:
+        return operating_state, 0.0, phase_progress
 
-    if phase < 45:
-        moving_progress = (phase - 10) / 34
-        speed = 55 + 20 * math.sin(math.pi * moving_progress)
+    if operating_state == OperatingState.MOVING:
+        speed = 55 + 20 * math.sin(math.pi * phase_progress)
         speed += rng.normalvariate(0, 1.5)
-        return OperatingState.MOVING, _clamp(speed, 1, 120)
 
-    if phase < 55:
-        braking_progress = (phase - 45) / 9
-        speed = 70 * (1 - braking_progress)
-        speed += rng.normalvariate(0, 1)
-        return OperatingState.BRAKING, _clamp(speed, 0, 120)
+        return (
+            operating_state,
+            _clamp(speed, 1, 120),
+            phase_progress,
+        )
 
-    return OperatingState.STATIONARY, 0.0
+    speed = 70 * (1 - phase_progress)
+    speed += rng.normalvariate(0, 1)
+
+    return (
+        operating_state,
+        _clamp(speed, 0, 120),
+        phase_progress,
+    )
 
 
 def _ambient_temperature(event_time: datetime) -> float:
@@ -62,6 +72,7 @@ def generate_healthy_batch(
     start_time: datetime,
     periods: int,
     seed: int | None = None,
+    cycle: OperatingCycle = DEFAULT_OPERATING_CYCLE,
 ) -> HealthyBatch:
     if start_time.tzinfo is None or start_time.utcoffset() is None:
         raise ValueError("start_time must include timezone information")
@@ -79,9 +90,10 @@ def generate_healthy_batch(
 
     for minute_index in range(periods):
         event_time = start_time + timedelta(minutes=minute_index)
-        operating_state, speed_kph = _operating_state_and_speed(
+        operating_state, speed_kph, phase_progress = _operating_state_and_speed(
             minute_index,
             rng,
+            cycle,
         )
 
         ambient_temp_c = _ambient_temperature(event_time)
@@ -114,7 +126,7 @@ def generate_healthy_batch(
         vibration_rms_g = _clamp(vibration_rms_g, 0, 10)
 
         if operating_state == OperatingState.BRAKING:
-            braking_progress = (minute_index % 60 - 45) / 9
+            braking_progress = braking_progress = phase_progress
 
             brake_pipe_pressure_bar = (
                 asset.brake_pressure_baseline_bar
