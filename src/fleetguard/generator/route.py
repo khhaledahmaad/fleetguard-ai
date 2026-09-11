@@ -3,8 +3,16 @@ from __future__ import annotations
 import math
 import random
 from dataclasses import dataclass
+from datetime import date, datetime
 
-from fleetguard.contracts import JourneyPhase, OperatingState
+from fleetguard.contracts import (
+    STANDARD_SAMPLING_INTERVAL_SECONDS,
+    JourneyMetadata,
+    JourneyPhase,
+    LoadState,
+    OperatingState,
+    TravelDirection,
+)
 
 
 @dataclass(frozen=True)
@@ -33,7 +41,7 @@ class RailRoute:
 class JourneySegment:
     phase: JourneyPhase
     state: OperatingState
-    duration_minutes: int
+    duration_seconds: int
     start_progress: float
     end_progress: float
 
@@ -45,10 +53,20 @@ class JourneyPlan:
     segments: tuple[JourneySegment, ...]
     reverse: bool
     nominal_speed_kph: float
+    load_state: LoadState
+    cargo_type: str
+
+    @property
+    def duration_seconds(self) -> int:
+        return sum(segment.duration_seconds for segment in self.segments)
 
     @property
     def duration_minutes(self) -> int:
-        return sum(segment.duration_minutes for segment in self.segments)
+        return math.ceil(self.duration_seconds / 60)
+
+    @property
+    def travel_direction(self) -> TravelDirection:
+        return TravelDirection.REVERSE if self.reverse else TravelDirection.FORWARD
 
     @property
     def origin(self) -> str:
@@ -158,6 +176,8 @@ def create_journey_plan(
     seed: int,
     route: RailRoute = LONDON_SWANSEA_FREIGHT_ROUTE,
     allow_reverse: bool = True,
+    service_date: date = date(2026, 1, 1),
+    journey_number: int | None = None,
 ) -> JourneyPlan:
     rng = random.Random(seed)
     reverse = allow_reverse and bool(rng.randrange(2))
@@ -173,7 +193,7 @@ def create_journey_plan(
         JourneySegment(
             JourneyPhase.ORIGIN_DWELL,
             OperatingState.STATIONARY,
-            rng.randint(20, 45),
+            rng.randint(20, 45) * 60,
             0.0,
             0.0,
         )
@@ -186,7 +206,7 @@ def create_journey_plan(
             JourneySegment(
                 JourneyPhase.RUNNING,
                 OperatingState.MOVING,
-                section_minutes - braking_minutes,
+                (section_minutes - braking_minutes) * 60,
                 start,
                 end - (end - start) * braking_minutes / section_minutes,
             )
@@ -195,7 +215,7 @@ def create_journey_plan(
             JourneySegment(
                 JourneyPhase.RUNNING,
                 OperatingState.BRAKING,
-                braking_minutes,
+                braking_minutes * 60,
                 segments[-1].end_progress,
                 end,
             )
@@ -205,7 +225,7 @@ def create_journey_plan(
                 JourneySegment(
                     JourneyPhase.INTERMEDIATE_DWELL,
                     OperatingState.STATIONARY,
-                    rng.randint(4, 14),
+                    rng.randint(4, 14) * 60,
                     end,
                     end,
                 )
@@ -214,39 +234,71 @@ def create_journey_plan(
         JourneySegment(
             JourneyPhase.DESTINATION_DWELL,
             OperatingState.STATIONARY,
-            rng.randint(25, 60),
+            rng.randint(25, 60) * 60,
             1.0,
             1.0,
         )
     )
-    direction = "REV" if reverse else "FWD"
+    sequence = seed % 10000 if journey_number is None else journey_number
+    if not 0 <= sequence <= 9999:
+        raise ValueError("journey_number must be between 0 and 9999")
+    load_state = rng.choice((LoadState.LOADED, LoadState.EMPTY))
     return JourneyPlan(
-        journey_id=f"FG-JNY-{seed}-{direction}",
+        journey_id=f"FG-JNY-{service_date:%Y%m%d}-{sequence:04d}",
         route=route,
         segments=tuple(segments),
         reverse=reverse,
         nominal_speed_kph=nominal_speed,
+        load_state=load_state,
+        cargo_type="aggregates" if load_state == LoadState.LOADED else "none",
     )
 
 
-def create_random_journey_plan(seed: int) -> JourneyPlan:
+def create_random_journey_plan(
+    seed: int,
+    service_date: date = date(2026, 1, 1),
+) -> JourneyPlan:
     rng = random.Random(seed)
     route = rng.choice(DEFAULT_ROUTES)
-    return create_journey_plan(seed=seed, route=route, allow_reverse=True)
+    return create_journey_plan(
+        seed=seed,
+        route=route,
+        allow_reverse=True,
+        service_date=service_date,
+    )
+
+
+def build_journey_metadata(
+    plan: JourneyPlan,
+    scheduled_start_time: datetime,
+    sampling_interval_seconds: int = STANDARD_SAMPLING_INTERVAL_SECONDS,
+) -> JourneyMetadata:
+    return JourneyMetadata(
+        journey_id=plan.journey_id,
+        route_id=plan.route.route_id,
+        origin_terminal=plan.origin,
+        destination_terminal=plan.destination,
+        travel_direction=plan.travel_direction,
+        scheduled_start_time=scheduled_start_time,
+        estimated_duration_seconds=plan.duration_seconds,
+        sampling_interval_seconds=sampling_interval_seconds,
+        load_state=plan.load_state,
+        cargo_type=plan.cargo_type,
+    )
 
 
 def journey_state_at(
-    plan: JourneyPlan, minute_index: int
+    plan: JourneyPlan, elapsed_seconds: int
 ) -> tuple[JourneyPhase, OperatingState, float, float]:
-    if not 0 <= minute_index < plan.duration_minutes:
-        raise ValueError("minute_index is outside the journey")
+    if not 0 <= elapsed_seconds < plan.duration_seconds:
+        raise ValueError("elapsed_seconds is outside the journey")
     elapsed = 0
     for segment in plan.segments:
-        if minute_index < elapsed + segment.duration_minutes:
-            local = (minute_index - elapsed) / max(segment.duration_minutes - 1, 1)
+        if elapsed_seconds < elapsed + segment.duration_seconds:
+            local = (elapsed_seconds - elapsed) / max(segment.duration_seconds - 1, 1)
             progress = segment.start_progress + local * (
                 segment.end_progress - segment.start_progress
             )
             return segment.phase, segment.state, progress, local
-        elapsed += segment.duration_minutes
+        elapsed += segment.duration_seconds
     raise RuntimeError("journey timeline is incomplete")

@@ -11,7 +11,7 @@ All asset identities, measurements, operating patterns and failures are
 synthetically generated. They do not represent any real operator, vehicle,
 fleet or employer-owned system.
 
-Each wagon models two bogies, two wheelsets per bogie, two wheels per wheelset,
+Each wagon models two bogies, two axles/wheelsets per bogie, two wheels per axle,
 shared wagon-level pneumatic equipment and one digital monitoring controller.
 The model is production-shaped but intentionally vendor-neutral.
 
@@ -35,7 +35,7 @@ Each asset has persistent metadata:
 | `bearing_baseline_temp_c` | Asset-specific healthy baseline | `42.5` |
 | `vibration_baseline_g` | Asset-specific healthy vibration | `0.18` |
 | `brake_pressure_baseline_bar` | Asset-specific healthy pressure | `5.0` |
-| `bogies` | Two bogies, four wheelsets and eight wheels | nested metadata |
+| `bogies` | Two bogies, four axles and eight wheels | nested metadata |
 | `generator_seed` | Seed used for reproducibility | `1042` |
 
 Assets must not behave identically. Persistent differences in age, load and
@@ -43,14 +43,17 @@ sensor baselines will create controlled fleet heterogeneity.
 
 ## 3. Time and Sampling
 
-The default full dataset contains:
+The standard portfolio dataset uses:
 
 - 24 assets;
 - 14 consecutive days;
-- one telemetry event per asset per minute;
+- one telemetry event per active asset every 10 seconds;
 - timestamps stored in UTC;
-- approximately 483,840 telemetry events before injected duplicates or missing
-  observations.
+- complete route-derived journeys rather than continuous fabricated movement.
+
+The final event count depends on the randomly assigned journeys and dwell
+periods. Development and high-resolution profiles use 60-second and 1-second
+sampling respectively. All profiles feed one-minute feature windows.
 
 A smaller development profile may generate a requested number of periods. Main
 dataset generation uses complete journeys whose duration is calculated from
@@ -87,7 +90,7 @@ Journey phases provide operational context: `origin_dwell`, `running`,
 
 ## 5. Telemetry Signals
 
-Schema 2.0 contains wagon, bogie, wheelset and controller signals.
+Schema 3.0 contains wagon, bogie, axle, wheel and controller signals.
 
 | Signal | Unit | Healthy range | Purpose |
 |---|---:|---:|---|
@@ -104,6 +107,8 @@ Schema 2.0 contains wagon, bogie, wheelset and controller signals.
 | wheelset vibration RMS | g | 0.02–0.70 | Mechanical-health signal |
 | controller temperature and voltage | °C, V | contract bounded | Device-health context |
 | controller health and counters | categorical/count | healthy baseline | Device diagnostics |
+| `rail_condition` | category | dry/wet/leaf/icy | Route-surface context |
+| `estimated_adhesion_coefficient` | coefficient | 0–0.6 | Wagon controller estimate |
 
 These ranges are synthetic modelling constraints, not operational railway
 limits.
@@ -171,7 +176,12 @@ activity, and health/counter values remain stable in healthy generation.
 - Wheel: left/right identity and slowly changing diameter metadata.
 - Controller: temperature, supply voltage, health, uptime and error counters.
 
-Both wheels on a conventional wheelset share axle RPM. Their diameters may
+Rail condition belongs to the wagon's current route position. The controller
+combines wagon, bogie and axle information into one wagon-level estimated
+adhesion coefficient. A separate true adhesion value remains internal ground
+truth and must not be provided to the model.
+
+Both wheels on a conventional axle/wheelset share RPM. Their diameters may
 differ slightly within the healthy synthetic tolerance; speed/RPM/diameter
 disagreement is reserved for later fault injection or derived features.
 
@@ -351,7 +361,7 @@ It assumes:
 
 - one monitored bearing assembly per asset;
 - one aggregated braking system per asset;
-- regular one-minute telemetry;
+- configurable 60-second, 10-second or 1-second telemetry with one-minute features;
 - predefined operating-state transitions;
 - labelled synthetic failures for evaluation;
 - no direct safety or maintenance action from model output.

@@ -29,7 +29,7 @@ def test_valid_asset_metadata() -> None:
     asset = AssetMetadata(**valid_asset())
 
     assert asset.asset_id == "FG-WGN-0001"
-    assert asset.schema_version == "2.0"
+    assert asset.schema_version == "3.0"
 
 
 def test_asset_id_must_follow_contract() -> None:
@@ -93,6 +93,7 @@ def test_valid_healthy_ground_truth() -> None:
     truth = AnomalyTruth(
         event_id=uuid4(),
         asset_id="FG-WGN-0001",
+        true_adhesion_coefficient=0.3,
         is_anomaly=False,
         anomaly_type=AnomalyType.NONE,
         anomaly_severity=AnomalySeverity.NONE,
@@ -108,6 +109,7 @@ def test_valid_bearing_anomaly_ground_truth() -> None:
     truth = AnomalyTruth(
         event_id=uuid4(),
         asset_id="FG-WGN-0001",
+        true_adhesion_coefficient=0.3,
         is_anomaly=True,
         anomaly_type=AnomalyType.BEARING_DEGRADATION,
         anomaly_severity=AnomalySeverity.MEDIUM,
@@ -127,6 +129,7 @@ def test_inconsistent_anomaly_ground_truth_is_rejected() -> None:
         AnomalyTruth(
             event_id=uuid4(),
             asset_id="FG-WGN-0001",
+            true_adhesion_coefficient=0.3,
             is_anomaly=True,
             anomaly_type=AnomalyType.NONE,
             anomaly_severity=AnomalySeverity.HIGH,

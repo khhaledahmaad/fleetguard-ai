@@ -5,14 +5,15 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from fleetguard.contracts import (
+    STANDARD_SAMPLING_INTERVAL_SECONDS,
     AnomalyTruth,
     AssetMetadata,
+    AxleMetadata,
+    AxlePosition,
     BogieMetadata,
-    BogiePosition,
     TelemetryEvent,
     WheelMetadata,
-    WheelsetMetadata,
-    WheelsetPosition,
+    WheelSide,
 )
 from fleetguard.generator.cycle import (
     DEFAULT_OPERATING_CYCLE,
@@ -42,31 +43,32 @@ def generate_fleet_assets(
 
     for asset_number in range(1, asset_count + 1):
         asset_id = f"FG-WGN-{asset_number:04d}"
-        handbrake_position = BogiePosition(rng.choice(("a", "b")))
+        handbrake_bogie_id = rng.choice((1, 2))
         bogies_list: list[BogieMetadata] = []
-        for position in (BogiePosition.A, BogiePosition.B):
-            wheelsets: list[WheelsetMetadata] = []
-            for wheelset_number, wheelset_position in enumerate(
-                (WheelsetPosition.LEADING, WheelsetPosition.TRAILING), start=1
-            ):
+        for bogie_id in (1, 2):
+            axles: list[AxleMetadata] = []
+            for axle_position in (AxlePosition.OUTER, AxlePosition.INNER):
                 left_diameter = rng.uniform(900, 960)
-                wheelsets.append(
-                    WheelsetMetadata(
-                        wheelset_id=(f"{asset_id}-BG{position.value.upper()}-WS{wheelset_number}"),
-                        position=wheelset_position,
-                        left_wheel=WheelMetadata(side="left", diameter_mm=round(left_diameter, 2)),
-                        right_wheel=WheelMetadata(
-                            side="right",
-                            diameter_mm=round(left_diameter + rng.uniform(-0.8, 0.8), 2),
+                axles.append(
+                    AxleMetadata(
+                        axle_position=axle_position,
+                        wheels=(
+                            WheelMetadata(
+                                wheel_side=WheelSide.LEFT,
+                                diameter_mm=round(left_diameter, 2),
+                            ),
+                            WheelMetadata(
+                                wheel_side=WheelSide.RIGHT,
+                                diameter_mm=round(left_diameter + rng.uniform(-0.8, 0.8), 2),
+                            ),
                         ),
                     )
                 )
             bogies_list.append(
                 BogieMetadata(
-                    bogie_id=f"{asset_id}-BG{position.value.upper()}",
-                    position=position,
-                    handbrake_equipped=position == handbrake_position,
-                    wheelsets=tuple(wheelsets),
+                    bogie_id=bogie_id,
+                    handbrake_equipped=bogie_id == handbrake_bogie_id,
+                    axles=tuple(axles),
                 )
             )
         bogies = tuple(bogies_list)
@@ -91,6 +93,7 @@ def generate_healthy_fleet(
     start_time: datetime,
     periods: int,
     cycle: OperatingCycle = DEFAULT_OPERATING_CYCLE,
+    sampling_interval_seconds: int = 60,
 ) -> FleetBatch:
     if not assets:
         raise ValueError("at least one asset is required")
@@ -109,6 +112,7 @@ def generate_healthy_fleet(
             start_time=start_time,
             periods=periods,
             cycle=cycle,
+            sampling_interval_seconds=sampling_interval_seconds,
         )
 
         events.extend(asset_batch.events)
@@ -125,6 +129,7 @@ def generate_healthy_journey_fleet(
     assets: tuple[AssetMetadata, ...],
     start_time: datetime,
     journey: JourneyPlan,
+    sampling_interval_seconds: int = STANDARD_SAMPLING_INTERVAL_SECONDS,
 ) -> FleetBatch:
     if not assets:
         raise ValueError("at least one asset is required")
@@ -134,7 +139,12 @@ def generate_healthy_journey_fleet(
     events: list[TelemetryEvent] = []
     truth: list[AnomalyTruth] = []
     for asset in assets:
-        batch = generate_healthy_journey(asset, start_time, journey)
+        batch = generate_healthy_journey(
+            asset,
+            start_time,
+            journey,
+            sampling_interval_seconds=sampling_interval_seconds,
+        )
         events.extend(batch.events)
         truth.extend(batch.truth)
     return FleetBatch(assets=assets, events=tuple(events), truth=tuple(truth))

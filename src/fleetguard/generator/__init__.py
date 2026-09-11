@@ -13,6 +13,7 @@ from fleetguard.generator.healthy import (
     generate_healthy_batch,
     generate_healthy_journey,
 )
+from fleetguard.generator.normalise import NormalisedObservations, normalise_event
 from fleetguard.generator.route import (
     AVONMOUTH_CARDIFF_FREIGHT_ROUTE,
     CARDIFF_SWANSEA_FREIGHT_ROUTE,
@@ -22,6 +23,7 @@ from fleetguard.generator.route import (
     JourneyPlan,
     RailRoute,
     RoutePoint,
+    build_journey_metadata,
     create_journey_plan,
     create_random_journey_plan,
     interpolate_route,
@@ -32,6 +34,7 @@ __all__ = [
     "FleetBatch",
     "HealthyBatch",
     "OperatingCycle",
+    "NormalisedObservations",
     "DEFAULT_ROUTES",
     "AVONMOUTH_CARDIFF_FREIGHT_ROUTE",
     "CARDIFF_SWANSEA_FREIGHT_ROUTE",
@@ -40,6 +43,7 @@ __all__ = [
     "LONDON_AVONMOUTH_FREIGHT_ROUTE",
     "RailRoute",
     "RoutePoint",
+    "build_journey_metadata",
     "create_journey_plan",
     "create_random_journey_plan",
     "generate_fleet_assets",
@@ -48,4 +52,5 @@ __all__ = [
     "generate_healthy_journey",
     "generate_healthy_journey_fleet",
     "interpolate_route",
+    "normalise_event",
 ]

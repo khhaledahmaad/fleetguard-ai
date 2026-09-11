@@ -4,11 +4,15 @@ FleetGuard AI is a production-shaped MLOps platform for anomaly detection on
 synthetic freight-wagon telemetry. It is a portfolio and learning system, not a
 safety-critical railway product.
 
-The schema models two bogies and four wheelsets per wagon, shared pneumatic
-signals, controller diagnostics and journey-aware motion along a synthetic UK
-freight corridor. Development batches can use a fixed period count; production-
-shaped generation uses route-derived journey durations with terminal and
-intermediate dwell.
+Schema 3.0 models two bogies, four axles/wheelsets and eight wheels per wagon,
+shared pneumatic signals, controller diagnostics, rail condition, estimated
+adhesion and journey-aware motion along a synthetic UK freight corridor.
+Development batches can use a fixed period count; production-shaped generation
+uses route-derived journey durations with terminal and intermediate dwell.
+
+Operational journeys default to 10-second sampling. Supported profiles are 60
+seconds for development, 10 seconds for the standard portfolio dataset and 1
+second for high-resolution experiments. Model features use one-minute windows.
 
 `create_random_journey_plan(seed)` reproducibly selects one of several London,
 Avonmouth, Cardiff and Swansea terminal-to-terminal duties and may reverse its
