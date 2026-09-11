@@ -11,8 +11,9 @@ All asset identities, measurements, operating patterns and failures are
 synthetically generated. They do not represent any real operator, vehicle,
 fleet or employer-owned system.
 
-The initial platform models one monitored axle-bearing assembly and one braking
-system per asset. Additional components are outside the first release.
+Each wagon models two bogies, two wheelsets per bogie, two wheels per wheelset,
+shared wagon-level pneumatic equipment and one digital monitoring controller.
+The model is production-shaped but intentionally vendor-neutral.
 
 ## 2. Initial Fleet
 
@@ -34,6 +35,7 @@ Each asset has persistent metadata:
 | `bearing_baseline_temp_c` | Asset-specific healthy baseline | `42.5` |
 | `vibration_baseline_g` | Asset-specific healthy vibration | `0.18` |
 | `brake_pressure_baseline_bar` | Asset-specific healthy pressure | `5.0` |
+| `bogies` | Two bogies, four wheelsets and eight wheels | nested metadata |
 | `generator_seed` | Seed used for reproducibility | `1042` |
 
 Assets must not behave identically. Persistent differences in age, load and
@@ -50,8 +52,9 @@ The default full dataset contains:
 - approximately 483,840 telemetry events before injected duplicates or missing
   observations.
 
-A smaller development profile may generate fewer assets and shorter periods,
-but it must use the same schemas and behaviour rules.
+A smaller development profile may generate a requested number of periods. Main
+dataset generation uses complete journeys whose duration is calculated from
+route distance, nominal freight speed, terminal dwell and intermediate stops.
 
 Events must distinguish:
 
@@ -79,20 +82,28 @@ Examples:
 Invalid direct state changes should be avoided unless deliberately generated as
 a data-quality test.
 
+Journey phases provide operational context: `origin_dwell`, `running`,
+`intermediate_dwell` and `destination_dwell`.
+
 ## 5. Telemetry Signals
 
-The first release contains eight core numerical signals.
+Schema 2.0 contains wagon, bogie, wheelset and controller signals.
 
 | Signal | Unit | Healthy range | Purpose |
 |---|---:|---:|---|
 | `speed_kph` | km/h | 0–120 | Represents vehicle movement |
 | `ambient_temp_c` | °C | -10–35 | Provides environmental context |
-| `axle_load_tonnes` | tonnes | 10–25 | Represents load on the monitored axle |
-| `bearing_temp_c` | °C | ambient to 85 | Primary bearing-health signal |
-| `vibration_rms_g` | g | 0.02–0.70 | Secondary bearing-health signal |
+| `latitude`, `longitude` | degrees | UK corridor | Route position context |
+| three-axis acceleration | m/s² | contract bounded | Braking, curves and track response |
 | `brake_pipe_pressure_bar` | bar | 3.2–5.2 | Indicates pneumatic brake-pipe state |
-| `brake_cylinder_pressure_bar` | bar | 0–3.8 | Indicates applied braking force |
-| `battery_voltage_v` | V | 22–28 | Represents telemetry-device power health |
+| AR/SR pressure | bar | 0–6 | Shared reservoir behaviour |
+| bogie brake-cylinder pressure | bar | 0–5 | Bogie-level braking response |
+| wheelset RPM and speed | rpm, km/h | contract bounded | Rotation and ground-speed consistency |
+| axle load | tonnes | 0–30 | Per-wheelset load context |
+| left/right bearing temperature | °C | ambient to 85 | Bearing-health signals |
+| wheelset vibration RMS | g | 0.02–0.70 | Mechanical-health signal |
+| controller temperature and voltage | °C, V | contract bounded | Device-health context |
+| controller health and counters | categorical/count | healthy baseline | Device diagnostics |
 
 These ranges are synthetic modelling constraints, not operational railway
 limits.
@@ -147,10 +158,30 @@ During braking:
 During brake release, pressures should gradually return towards their normal
 values.
 
-### Battery voltage
+### Controller behaviour
 
-Battery voltage should change slowly and remain largely independent of
-short-term mechanical behaviour.
+Controller voltage changes slowly, temperature responds mildly to ambient and
+activity, and health/counter values remain stable in healthy generation.
+
+## 6.1 Physical hierarchy and signal ownership
+
+- Wagon: journey, route, GPS, ground speed, acceleration, BP, AR and SR.
+- Bogie: handbrake configuration and brake-cylinder pressure.
+- Wheelset: one axle RPM, axle load, vibration and two bearing temperatures.
+- Wheel: left/right identity and slowly changing diameter metadata.
+- Controller: temperature, supply voltage, health, uptime and error counters.
+
+Both wheels on a conventional wheelset share axle RPM. Their diameters may
+differ slightly within the healthy synthetic tolerance; speed/RPM/diameter
+disagreement is reserved for later fault injection or derived features.
+
+## 6.2 Synthetic UK route
+
+The initial route follows the geographic order of the Great Western and South
+Wales corridor: London, Reading, Swindon, Bath, Bristol, Avonmouth, Newport,
+Cardiff, Port Talbot and Swansea. Terminal names and all commercial movements
+are fictional. The committed points form a compact corridor-level polyline,
+not navigation-grade track geometry and not an operational railway timetable.
 
 ## 7. Ground-Truth Anomaly Fields
 

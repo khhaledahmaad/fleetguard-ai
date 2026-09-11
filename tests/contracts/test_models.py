@@ -12,46 +12,24 @@ from fleetguard.contracts import (
     OperatingState,
     TelemetryEvent,
 )
+from fleetguard.generator import generate_fleet_assets, generate_healthy_batch
 
 
 def valid_asset() -> dict:
-    return {
-        "asset_id": "FG-WGN-0001",
-        "fleet_id": "FG-DEMO-01",
-        "commissioning_age_years": 7.4,
-        "nominal_load_tonnes": 62.0,
-        "bearing_baseline_temp_c": 42.5,
-        "vibration_baseline_g": 0.18,
-        "brake_pressure_baseline_bar": 5.0,
-        "generator_seed": 1042,
-    }
+    return generate_fleet_assets(1, 42)[0].model_dump()
 
 
 def valid_event() -> dict:
     event_time = datetime(2026, 1, 1, 12, 0, tzinfo=UTC)
-
-    return {
-        "event_id": uuid4(),
-        "asset_id": "FG-WGN-0001",
-        "event_time": event_time,
-        "generated_at": event_time,
-        "operating_state": OperatingState.MOVING,
-        "speed_kph": 72.0,
-        "ambient_temp_c": 16.0,
-        "axle_load_tonnes": 18.5,
-        "bearing_temp_c": 48.2,
-        "vibration_rms_g": 0.24,
-        "brake_pipe_pressure_bar": 5.0,
-        "brake_cylinder_pressure_bar": 0.1,
-        "battery_voltage_v": 25.1,
-    }
+    asset = generate_fleet_assets(1, 42)[0]
+    return generate_healthy_batch(asset, event_time, 60).events[15].model_dump()
 
 
 def test_valid_asset_metadata() -> None:
     asset = AssetMetadata(**valid_asset())
 
     assert asset.asset_id == "FG-WGN-0001"
-    assert asset.schema_version == "1.0"
+    assert asset.schema_version == "2.0"
 
 
 def test_asset_id_must_follow_contract() -> None:

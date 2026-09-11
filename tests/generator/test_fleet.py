@@ -41,6 +41,19 @@ def test_fleet_contains_controlled_heterogeneity() -> None:
     assert len({asset.vibration_baseline_g for asset in assets}) > 1
 
 
+def test_each_wagon_has_two_bogies_four_wheelsets_and_one_handbrake_bogie() -> None:
+    assets = generate_fleet_assets(asset_count=5, seed=42)
+
+    for asset in assets:
+        assert len(asset.bogies) == 2
+        assert sum(bogie.handbrake_equipped for bogie in asset.bogies) == 1
+        assert sum(len(bogie.wheelsets) for bogie in asset.bogies) == 4
+        for bogie in asset.bogies:
+            for wheelset in bogie.wheelsets:
+                difference = abs(wheelset.left_wheel.diameter_mm - wheelset.right_wheel.diameter_mm)
+                assert difference <= 2
+
+
 def test_healthy_fleet_contains_every_asset_and_event() -> None:
     assets = generate_fleet_assets(asset_count=3, seed=42)
 

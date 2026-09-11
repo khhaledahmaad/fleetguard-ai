@@ -6,23 +6,13 @@ import pytest
 from fleetguard.contracts import (
     AnomalySeverity,
     AnomalyType,
-    AssetMetadata,
     OperatingState,
 )
-from fleetguard.generator import generate_healthy_batch
+from fleetguard.generator import generate_fleet_assets, generate_healthy_batch
 
 
-def make_asset() -> AssetMetadata:
-    return AssetMetadata(
-        asset_id="FG-WGN-0001",
-        fleet_id="FG-DEMO-01",
-        commissioning_age_years=7.4,
-        nominal_load_tonnes=62.0,
-        bearing_baseline_temp_c=42.5,
-        vibration_baseline_g=0.18,
-        brake_pressure_baseline_bar=5.0,
-        generator_seed=1042,
-    )
+def make_asset():
+    return generate_fleet_assets(1, 42)[0]
 
 
 def test_generates_requested_number_of_records() -> None:
@@ -122,8 +112,8 @@ def test_braking_signals_follow_expected_relationships() -> None:
         event.brake_pipe_pressure_bar for event in moving_events
     )
 
-    assert mean(event.brake_cylinder_pressure_bar for event in braking_events) > mean(
-        event.brake_cylinder_pressure_bar for event in moving_events
+    assert mean(event.bogies[0].brake_cylinder_pressure_bar for event in braking_events) > mean(
+        event.bogies[0].brake_cylinder_pressure_bar for event in moving_events
     )
 
 
