@@ -14,6 +14,7 @@ from fleetguard.generator.healthy import (
     generate_healthy_journey,
 )
 from fleetguard.generator.normalise import NormalisedObservations, normalise_event
+from fleetguard.generator.output import write_generation_run
 from fleetguard.generator.route import (
     AVONMOUTH_CARDIFF_FREIGHT_ROUTE,
     CARDIFF_SWANSEA_FREIGHT_ROUTE,
@@ -53,4 +54,5 @@ __all__ = [
     "generate_healthy_journey_fleet",
     "interpolate_route",
     "normalise_event",
+    "write_generation_run",
 ]
