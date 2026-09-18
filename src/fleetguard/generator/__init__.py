@@ -1,3 +1,8 @@
+from fleetguard.generator.anomalies import (
+    AnomalyScenario,
+    ComponentTarget,
+    inject_bearing_degradation,
+)
 from fleetguard.generator.cycle import (
     DEFAULT_OPERATING_CYCLE,
     OperatingCycle,
@@ -55,4 +60,7 @@ __all__ = [
     "interpolate_route",
     "normalise_event",
     "write_generation_run",
+    "AnomalyScenario",
+    "ComponentTarget",
+    "inject_bearing_degradation",
 ]

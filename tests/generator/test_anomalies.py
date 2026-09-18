@@ -7,7 +7,10 @@ from fleetguard.generator.anomalies import (
     AnomalySeverity,
     AnomalyType,
     ComponentTarget,
+    inject_bearing_degradation,
 )
+from fleetguard.generator.fleet import generate_fleet_assets
+from fleetguard.generator.healthy import generate_healthy_batch
 
 
 def make_bearing_scenario() -> AnomalyScenario:
@@ -54,7 +57,7 @@ def test_scenario_requires_timezone_aware_timestamps() -> None:
     ):
         AnomalyScenario(
             scenario_id="FG-ANO-0001",
-            anomaly_type=AnomalyType.SENSOR_DRIFT,
+            anomaly_type=AnomalyType.SENSOR_FAULT,
             target=ComponentTarget(
                 asset_id="FG-WGN-0001",
                 signal_name="ambient_temp_c",
@@ -74,7 +77,7 @@ def test_scenario_end_must_follow_start() -> None:
     ):
         AnomalyScenario(
             scenario_id="FG-ANO-0001",
-            anomaly_type=AnomalyType.SENSOR_DRIFT,
+            anomaly_type=AnomalyType.SENSOR_FAULT,
             target=ComponentTarget(
                 asset_id="FG-WGN-0001",
                 signal_name="ambient_temp_c",
@@ -114,3 +117,74 @@ def test_active_interval_includes_boundaries() -> None:
     assert scenario.is_active(scenario.end_time)
     assert not scenario.is_active(scenario.start_time - timedelta(seconds=1))
     assert not scenario.is_active(scenario.end_time + timedelta(seconds=1))
+
+
+def make_event_and_truth(minutes_after_start: int = 60):
+    scenario = make_bearing_scenario()
+    batch = generate_healthy_batch(
+        asset=generate_fleet_assets(1, 42)[0],
+        start_time=scenario.start_time,
+        periods=121,
+    )
+    return batch.events[minutes_after_start], batch.truth[minutes_after_start]
+
+
+def test_bearing_degradation_changes_only_target_wheel_and_axle() -> None:
+    scenario = make_bearing_scenario()
+    event, truth = make_event_and_truth()
+
+    updated_event, updated_truth = inject_bearing_degradation(event, truth, scenario)
+
+    target_axle_before = event.bogies[0].axles[0]
+    target_axle_after = updated_event.bogies[0].axles[0]
+    assert target_axle_before.axle_position == "outer"
+    assert target_axle_after.vibration_rms_g == pytest.approx(
+        target_axle_before.vibration_rms_g + 0.35
+    )
+    assert target_axle_after.wheels[0].bearing_temp_c == pytest.approx(
+        target_axle_before.wheels[0].bearing_temp_c + 17.5
+    )
+    assert target_axle_after.wheels[1] == target_axle_before.wheels[1]
+    assert updated_event.bogies[0].axles[1] == event.bogies[0].axles[1]
+    assert updated_event.bogies[1] == event.bogies[1]
+    assert updated_event.model_copy(update={"bogies": event.bogies}) == event
+    assert updated_truth.is_anomaly is True
+    assert updated_truth.anomaly_type is AnomalyType.BEARING_DEGRADATION
+    assert updated_truth.affected_signal == "bearing_temp_c"
+    assert updated_truth.anomaly_progress == pytest.approx(0.5)
+
+
+def test_injection_does_not_mutate_healthy_baseline() -> None:
+    scenario = make_bearing_scenario()
+    event, truth = make_event_and_truth()
+    event_before = event.model_dump(mode="json")
+    truth_before = truth.model_dump(mode="json")
+
+    inject_bearing_degradation(event, truth, scenario)
+
+    assert event.model_dump(mode="json") == event_before
+    assert truth.model_dump(mode="json") == truth_before
+
+
+def test_injection_outside_scenario_returns_original_records() -> None:
+    scenario = make_bearing_scenario()
+    event, truth = make_event_and_truth()
+    future_scenario = AnomalyScenario(
+        scenario_id="FG-ANO-0002",
+        anomaly_type=AnomalyType.BEARING_DEGRADATION,
+        target=scenario.target,
+        start_time=scenario.end_time + timedelta(hours=1),
+        end_time=scenario.end_time + timedelta(hours=2),
+        peak_severity=AnomalySeverity.HIGH,
+    )
+
+    assert inject_bearing_degradation(event, truth, future_scenario) == (event, truth)
+
+
+def test_injection_rejects_mismatched_event_and_truth() -> None:
+    scenario = make_bearing_scenario()
+    event, _ = make_event_and_truth()
+    _, other_truth = make_event_and_truth(minutes_after_start=61)
+
+    with pytest.raises(ValueError, match="event and truth identities must match"):
+        inject_bearing_degradation(event, other_truth, scenario)
