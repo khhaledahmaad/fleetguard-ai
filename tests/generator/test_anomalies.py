@@ -7,6 +7,8 @@ from fleetguard.generator.anomalies import (
     AnomalySeverity,
     AnomalyType,
     ComponentTarget,
+    InjectedBatch,
+    inject_anomaly_scenarios,
     inject_bearing_degradation,
 )
 from fleetguard.generator.fleet import generate_fleet_assets
@@ -124,7 +126,7 @@ def make_event_and_truth(minutes_after_start: int = 60):
     batch = generate_healthy_batch(
         asset=generate_fleet_assets(1, 42)[0],
         start_time=scenario.start_time,
-        periods=121,
+        periods=max(121, minutes_after_start + 1),
     )
     return batch.events[minutes_after_start], batch.truth[minutes_after_start]
 
@@ -188,3 +190,87 @@ def test_injection_rejects_mismatched_event_and_truth() -> None:
 
     with pytest.raises(ValueError, match="event and truth identities must match"):
         inject_bearing_degradation(event, other_truth, scenario)
+
+
+def test_bearing_degradation_persists_at_peak_after_end_time() -> None:
+    scenario = make_bearing_scenario()
+    event, truth = make_event_and_truth(minutes_after_start=150)
+
+    updated_event, updated_truth = inject_bearing_degradation(
+        event,
+        truth,
+        scenario,
+    )
+
+    target_axle_before = event.bogies[0].axles[0]
+    target_axle_after = updated_event.bogies[0].axles[0]
+
+    assert target_axle_after.vibration_rms_g == pytest.approx(
+        target_axle_before.vibration_rms_g + 0.70
+    )
+
+    assert target_axle_after.wheels[0].bearing_temp_c == pytest.approx(
+        target_axle_before.wheels[0].bearing_temp_c + 35.0
+    )
+
+    assert updated_truth.is_anomaly is True
+    assert updated_truth.anomaly_progress == pytest.approx(1.0)
+
+
+def test_batch_injection_applies_scenario_across_matching_events() -> None:
+    scenario = make_bearing_scenario()
+
+    healthy_batch = generate_healthy_batch(
+        asset=generate_fleet_assets(1, 42)[0],
+        start_time=scenario.start_time,
+        periods=151,
+    )
+
+    injected_batch = inject_anomaly_scenarios(
+        events=healthy_batch.events,
+        truth=healthy_batch.truth,
+        scenarios=(scenario,),
+    )
+
+    assert isinstance(injected_batch, InjectedBatch)
+    assert len(injected_batch.events) == len(healthy_batch.events)
+    assert len(injected_batch.truth) == len(healthy_batch.truth)
+
+    assert injected_batch.events[0] == healthy_batch.events[0]
+    assert injected_batch.truth[0] == healthy_batch.truth[0]
+
+    halfway_truth = injected_batch.truth[60]
+    peak_truth = injected_batch.truth[120]
+    post_peak_truth = injected_batch.truth[150]
+
+    assert halfway_truth.is_anomaly is True
+    assert halfway_truth.anomaly_progress == pytest.approx(0.5)
+
+    assert peak_truth.is_anomaly is True
+    assert peak_truth.anomaly_progress == pytest.approx(1.0)
+
+    assert post_peak_truth.is_anomaly is True
+    assert post_peak_truth.anomaly_progress == pytest.approx(1.0)
+
+    assert healthy_batch.truth[60].is_anomaly is False
+    assert healthy_batch.truth[120].is_anomaly is False
+    assert healthy_batch.truth[150].is_anomaly is False
+
+
+def test_batch_injection_rejects_mismatched_record_counts() -> None:
+    scenario = make_bearing_scenario()
+    healthy_batch = generate_healthy_batch(
+        asset=generate_fleet_assets(1, 42)[0],
+        start_time=scenario.start_time,
+        periods=2,
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="events and truth must contain the same number of records",
+    ):
+        inject_anomaly_scenarios(
+            events=healthy_batch.events,
+            truth=healthy_batch.truth[:1],
+            scenarios=(scenario,),
+        )

@@ -17,6 +17,12 @@ _BEARING_EFFECTS = {
 
 
 @dataclass(frozen=True)
+class InjectedBatch:
+    events: tuple[TelemetryEvent, ...]
+    truth: tuple[AnomalyTruth, ...]
+
+
+@dataclass(frozen=True)
 class ComponentTarget:
     asset_id: str
     bogie_id: Literal[1, 2] | None = None
@@ -77,7 +83,7 @@ def inject_bearing_degradation(
     if event.event_id != truth.event_id or event.asset_id != truth.asset_id:
         raise ValueError("event and truth identities must match")
 
-    if event.asset_id != scenario.target.asset_id or not scenario.is_active(event.event_time):
+    if event.asset_id != scenario.target.asset_id or event.event_time < scenario.start_time:
         return event, truth
 
     progress = scenario.progress_at(event.event_time)
@@ -164,3 +170,38 @@ def inject_bearing_degradation(
         }
     )
     return updated_event, updated_truth
+
+
+def inject_anomaly_scenarios(
+    events: tuple[TelemetryEvent, ...],
+    truth: tuple[AnomalyTruth, ...],
+    scenarios: tuple[AnomalyScenario, ...],
+) -> InjectedBatch:
+    """Apply ordered anomaly scenarios across a generated telemetry batch."""
+    if len(events) != len(truth):
+        raise ValueError("events and truth must contain the same number of records")
+
+    updated_events: list[TelemetryEvent] = []
+    updated_truth: list[AnomalyTruth] = []
+
+    for event, truth_record in zip(events, truth, strict=True):
+        current_event = event
+        current_truth = truth_record
+
+        for scenario in scenarios:
+            if scenario.anomaly_type is AnomalyType.BEARING_DEGRADATION:
+                current_event, current_truth = inject_bearing_degradation(
+                    current_event,
+                    current_truth,
+                    scenario,
+                )
+            else:
+                raise ValueError(f"unsupported anomaly type: {scenario.anomaly_type}")
+
+        updated_events.append(current_event)
+        updated_truth.append(current_truth)
+
+    return InjectedBatch(
+        events=tuple(updated_events),
+        truth=tuple(updated_truth),
+    )

@@ -1,6 +1,8 @@
 from fleetguard.generator.anomalies import (
     AnomalyScenario,
     ComponentTarget,
+    InjectedBatch,
+    inject_anomaly_scenarios,
     inject_bearing_degradation,
 )
 from fleetguard.generator.cycle import (
@@ -62,5 +64,7 @@ __all__ = [
     "write_generation_run",
     "AnomalyScenario",
     "ComponentTarget",
+    "InjectedBatch",
+    "inject_anomaly_scenarios",
     "inject_bearing_degradation",
 ]
