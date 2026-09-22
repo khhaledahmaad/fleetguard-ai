@@ -60,6 +60,7 @@ def write_generation_run(
     fleet_batch: FleetBatch,
     journey_metadata: JourneyMetadata,
     seed: int,
+    anomaly_profile: str = "none",
 ) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -174,6 +175,7 @@ def write_generation_run(
         "schema_version": SCHEMA_VERSION,
         "generator_version": version("fleetguard-ai"),
         "seed": seed,
+        "anomaly_profile": anomaly_profile,
         "sampling_interval_seconds": (journey_metadata.sampling_interval_seconds),
         "feature_window_seconds": FEATURE_WINDOW_SECONDS,
         "journey_id": journey_metadata.journey_id,

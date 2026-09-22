@@ -15,6 +15,10 @@ from fleetguard.contracts import (
     WheelMetadata,
     WheelSide,
 )
+from fleetguard.generator.anomalies import (
+    AnomalyScenario,
+    inject_anomaly_scenarios,
+)
 from fleetguard.generator.cycle import (
     DEFAULT_OPERATING_CYCLE,
     OperatingCycle,
@@ -148,3 +152,20 @@ def generate_healthy_journey_fleet(
         events.extend(batch.events)
         truth.extend(batch.truth)
     return FleetBatch(assets=assets, events=tuple(events), truth=tuple(truth))
+
+
+def inject_fleet_anomaly_scenarios(
+    fleet_batch: FleetBatch,
+    scenarios: tuple[AnomalyScenario, ...],
+) -> FleetBatch:
+    injected_batch = inject_anomaly_scenarios(
+        events=fleet_batch.events,
+        truth=fleet_batch.truth,
+        scenarios=scenarios,
+    )
+
+    return FleetBatch(
+        assets=fleet_batch.assets,
+        events=injected_batch.events,
+        truth=injected_batch.truth,
+    )

@@ -14,6 +14,7 @@ from fleetguard.generator.fleet import (
     generate_fleet_assets,
     generate_healthy_fleet,
     generate_healthy_journey_fleet,
+    inject_fleet_anomaly_scenarios,
 )
 from fleetguard.generator.healthy import (
     HealthyBatch,
@@ -67,4 +68,5 @@ __all__ = [
     "InjectedBatch",
     "inject_anomaly_scenarios",
     "inject_bearing_degradation",
+    "inject_fleet_anomaly_scenarios",
 ]

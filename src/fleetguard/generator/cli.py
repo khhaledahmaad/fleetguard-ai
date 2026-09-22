@@ -2,12 +2,21 @@ from __future__ import annotations
 
 import argparse
 from collections.abc import Sequence
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
+from fleetguard.contracts import (
+    AnomalySeverity,
+    AnomalyType,
+)
+from fleetguard.generator.anomalies import (
+    AnomalyScenario,
+    ComponentTarget,
+)
 from fleetguard.generator.fleet import (
     generate_fleet_assets,
     generate_healthy_journey_fleet,
+    inject_fleet_anomaly_scenarios,
 )
 from fleetguard.generator.output import write_generation_run
 from fleetguard.generator.route import (
@@ -26,6 +35,30 @@ def _aware_datetime(value: str) -> datetime:
         raise argparse.ArgumentTypeError("start time must include a UTC offset")
 
     return parsed
+
+
+def _build_bearing_demo_scenario(
+    asset_id: str,
+    start_time: datetime,
+    journey_duration_seconds: int,
+) -> AnomalyScenario:
+    anomaly_start = start_time + timedelta(seconds=int(journey_duration_seconds * 0.35))
+
+    peak_time = start_time + timedelta(seconds=int(journey_duration_seconds * 0.70))
+
+    return AnomalyScenario(
+        scenario_id="FG-ANO-BEARING-DEMO-0001",
+        anomaly_type=AnomalyType.BEARING_DEGRADATION,
+        target=ComponentTarget(
+            asset_id=asset_id,
+            bogie_id=1,
+            axle_position="outer",
+            wheel_side="left",
+        ),
+        start_time=anomaly_start,
+        end_time=peak_time,
+        peak_severity=AnomalySeverity.HIGH,
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -64,6 +97,13 @@ def build_parser() -> argparse.ArgumentParser:
         required=True,
     )
 
+    parser.add_argument(
+        "--anomaly-profile",
+        choices=("none", "bearing-demo"),
+        default="none",
+        help="Optional reproducible anomaly profile.",
+    )
+
     return parser
 
 
@@ -90,14 +130,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         assets,
         arguments.start_time,
         journey,
-        sampling_interval_seconds=(arguments.sampling_interval_seconds),
+        sampling_interval_seconds=arguments.sampling_interval_seconds,
     )
+
+    if arguments.anomaly_profile == "bearing-demo":
+        scenario = _build_bearing_demo_scenario(
+            asset_id=assets[0].asset_id,
+            start_time=arguments.start_time,
+            journey_duration_seconds=journey.duration_seconds,
+        )
+
+        fleet_batch = inject_fleet_anomaly_scenarios(
+            fleet_batch,
+            scenarios=(scenario,),
+        )
 
     manifest = write_generation_run(
         arguments.output_dir,
         fleet_batch,
         journey_metadata,
         arguments.seed,
+        anomaly_profile=arguments.anomaly_profile,
     )
 
     print(f"Journey: {journey.origin} -> " f"{journey.destination}")
@@ -105,5 +158,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"Sampling: " f"{arguments.sampling_interval_seconds} seconds")
     print(f"Telemetry events: " f"{manifest['counts']['telemetry_events']}")
     print(f"Output: {arguments.output_dir}")
+    print(f"Anomaly Profile: {arguments.anomaly_profile}")
 
     return 0
