@@ -1,0 +1,13 @@
+{
+  "cargo_type": "aggregates",
+  "destination_terminal": "Avonmouth Freight Terminal",
+  "estimated_duration_seconds": 19800,
+  "journey_id": "FG-JNY-20260101-0042",
+  "load_state": "loaded",
+  "origin_terminal": "London Aggregate Terminal",
+  "route_id": "FG-RTE-LONDON-AVONMOUTH",
+  "sampling_interval_seconds": 60,
+  "scheduled_start_time": "2026-01-01T06:00:00Z",
+  "schema_version": "3.0",
+  "travel_direction": "forward"
+}

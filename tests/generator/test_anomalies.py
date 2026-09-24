@@ -10,6 +10,7 @@ from fleetguard.generator.anomalies import (
     InjectedBatch,
     inject_anomaly_scenarios,
     inject_bearing_degradation,
+    inject_brake_pressure_leak,
 )
 from fleetguard.generator.fleet import generate_fleet_assets
 from fleetguard.generator.healthy import generate_healthy_batch
@@ -26,6 +27,22 @@ def make_bearing_scenario() -> AnomalyScenario:
             bogie_id=1,
             axle_position="outer",
             wheel_side="left",
+        ),
+        start_time=start,
+        end_time=start + timedelta(hours=2),
+        peak_severity=AnomalySeverity.HIGH,
+    )
+
+
+def make_brake_leak_scenario() -> AnomalyScenario:
+    start = datetime(2026, 1, 1, 8, 0, tzinfo=UTC)
+
+    return AnomalyScenario(
+        scenario_id="FG-ANO-0002",
+        anomaly_type=AnomalyType.BRAKE_PRESSURE_LEAK,
+        target=ComponentTarget(
+            asset_id="FG-WGN-0001",
+            signal_name="brake_pipe_pressure_bar",
         ),
         start_time=start,
         end_time=start + timedelta(hours=2),
@@ -274,3 +291,78 @@ def test_batch_injection_rejects_mismatched_record_counts() -> None:
             truth=healthy_batch.truth[:1],
             scenarios=(scenario,),
         )
+
+
+def test_brake_leak_requires_brake_pipe_signal_target() -> None:
+    start = datetime(2026, 1, 1, 8, 0, tzinfo=UTC)
+
+    with pytest.raises(
+        ValueError,
+        match="Brake-pressure leakage requires",
+    ):
+        AnomalyScenario(
+            scenario_id="FG-ANO-0002",
+            anomaly_type=AnomalyType.BRAKE_PRESSURE_LEAK,
+            target=ComponentTarget(
+                asset_id="FG-WGN-0001",
+                signal_name="bearing_temp_c",
+            ),
+            start_time=start,
+            end_time=start + timedelta(hours=2),
+            peak_severity=AnomalySeverity.HIGH,
+        )
+
+
+def test_brake_leak_changes_only_shared_pneumatic_signals() -> None:
+    scenario = make_brake_leak_scenario()
+    event, truth = make_event_and_truth()
+
+    updated_event, updated_truth = inject_brake_pressure_leak(
+        event,
+        truth,
+        scenario,
+    )
+
+    assert updated_event.brake_pipe_pressure_bar == pytest.approx(
+        event.brake_pipe_pressure_bar - 0.40
+    )
+
+    assert updated_event.auxiliary_reservoir_pressure_bar == pytest.approx(
+        event.auxiliary_reservoir_pressure_bar - 0.175
+    )
+
+    assert (
+        updated_event.secondary_reservoir_pressure_bar
+        == event.secondary_reservoir_pressure_bar
+    )
+
+    assert updated_event.bogies == event.bogies
+    assert updated_event.speed_kph == event.speed_kph
+    assert updated_event.operating_state == event.operating_state
+
+    assert updated_truth.is_anomaly is True
+    assert updated_truth.anomaly_type is AnomalyType.BRAKE_PRESSURE_LEAK
+    assert updated_truth.affected_component == "wagon:pneumatic_system"
+    assert updated_truth.affected_signal == "brake_pipe_pressure_bar"
+    assert updated_truth.anomaly_progress == pytest.approx(0.5)
+
+
+def test_brake_leak_persists_at_peak_after_end_time() -> None:
+    scenario = make_brake_leak_scenario()
+    event, truth = make_event_and_truth(minutes_after_start=150)
+
+    updated_event, updated_truth = inject_brake_pressure_leak(
+        event,
+        truth,
+        scenario,
+    )
+
+    assert updated_event.brake_pipe_pressure_bar == pytest.approx(
+        event.brake_pipe_pressure_bar - 0.80
+    )
+
+    assert updated_event.auxiliary_reservoir_pressure_bar == pytest.approx(
+        event.auxiliary_reservoir_pressure_bar - 0.35
+    )
+
+    assert updated_truth.anomaly_progress == pytest.approx(1.0)

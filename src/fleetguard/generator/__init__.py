@@ -4,6 +4,7 @@ from fleetguard.generator.anomalies import (
     InjectedBatch,
     inject_anomaly_scenarios,
     inject_bearing_degradation,
+    inject_brake_pressure_leak,
 )
 from fleetguard.generator.cycle import (
     DEFAULT_OPERATING_CYCLE,
@@ -69,4 +70,5 @@ __all__ = [
     "inject_anomaly_scenarios",
     "inject_bearing_degradation",
     "inject_fleet_anomaly_scenarios",
+    "inject_brake_pressure_leak",
 ]

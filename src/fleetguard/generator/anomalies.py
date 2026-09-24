@@ -15,6 +15,12 @@ _BEARING_EFFECTS = {
     AnomalySeverity.HIGH: (35.0, 0.70),
 }
 
+_BRAKE_LEAK_EFFECTS = {
+    AnomalySeverity.LOW: (0.20, 0.08),
+    AnomalySeverity.MEDIUM: (0.45, 0.18),
+    AnomalySeverity.HIGH: (0.80, 0.35),
+}
+
 
 @dataclass(frozen=True)
 class InjectedBatch:
@@ -56,6 +62,15 @@ class AnomalyScenario:
                 "Bearing degradation requires bogie, axle and wheel targeting"
             )
 
+        if (
+            self.anomaly_type is AnomalyType.BRAKE_PRESSURE_LEAK
+            and self.target.signal_name != "brake_pipe_pressure_bar"
+        ):
+            raise ValueError(
+                "Brake-pressure leakage requires "
+                "signal_name='brake_pipe_pressure_bar'"
+            )
+
     def is_active(self, event_time: datetime) -> bool:
         return self.start_time <= event_time <= self.end_time
 
@@ -83,7 +98,10 @@ def inject_bearing_degradation(
     if event.event_id != truth.event_id or event.asset_id != truth.asset_id:
         raise ValueError("event and truth identities must match")
 
-    if event.asset_id != scenario.target.asset_id or event.event_time < scenario.start_time:
+    if (
+        event.asset_id != scenario.target.asset_id
+        or event.event_time < scenario.start_time
+    ):
         return event, truth
 
     progress = scenario.progress_at(event.event_time)
@@ -172,6 +190,68 @@ def inject_bearing_degradation(
     return updated_event, updated_truth
 
 
+def inject_brake_pressure_leak(
+    event: TelemetryEvent,
+    truth: AnomalyTruth,
+    scenario: AnomalyScenario,
+) -> tuple[TelemetryEvent, AnomalyTruth]:
+    """Apply a progressive wagon-level pneumatic pressure leak."""
+    if scenario.anomaly_type is not AnomalyType.BRAKE_PRESSURE_LEAK:
+        raise ValueError("scenario must describe brake-pressure leakage")
+
+    if event.event_id != truth.event_id or event.asset_id != truth.asset_id:
+        raise ValueError("event and truth identities must match")
+
+    if (
+        event.asset_id != scenario.target.asset_id
+        or event.event_time < scenario.start_time
+    ):
+        return event, truth
+
+    progress = scenario.progress_at(event.event_time)
+
+    if progress == 0:
+        return event, truth
+
+    maximum_pipe_loss, maximum_auxiliary_loss = _BRAKE_LEAK_EFFECTS[
+        scenario.peak_severity
+    ]
+
+    updated_event = event.model_copy(
+        update={
+            "brake_pipe_pressure_bar": round(
+                max(
+                    0.0,
+                    event.brake_pipe_pressure_bar - maximum_pipe_loss * progress,
+                ),
+                3,
+            ),
+            "auxiliary_reservoir_pressure_bar": round(
+                max(
+                    0.0,
+                    event.auxiliary_reservoir_pressure_bar
+                    - maximum_auxiliary_loss * progress,
+                ),
+                3,
+            ),
+        }
+    )
+
+    updated_truth = truth.model_copy(
+        update={
+            "is_anomaly": True,
+            "anomaly_type": AnomalyType.BRAKE_PRESSURE_LEAK,
+            "anomaly_severity": scenario.peak_severity,
+            "affected_component": "wagon:pneumatic_system",
+            "affected_signal": "brake_pipe_pressure_bar",
+            "anomaly_start_time": scenario.start_time,
+            "anomaly_progress": round(progress, 6),
+        }
+    )
+
+    return updated_event, updated_truth
+
+
 def inject_anomaly_scenarios(
     events: tuple[TelemetryEvent, ...],
     truth: tuple[AnomalyTruth, ...],
@@ -195,8 +275,16 @@ def inject_anomaly_scenarios(
                     current_truth,
                     scenario,
                 )
+            elif scenario.anomaly_type is AnomalyType.BRAKE_PRESSURE_LEAK:
+                current_event, current_truth = inject_brake_pressure_leak(
+                    current_event,
+                    current_truth,
+                    scenario,
+                )
             else:
-                raise ValueError(f"unsupported anomaly type: {scenario.anomaly_type}")
+                raise ValueError(
+                    f"unsupported anomaly type: " f"{scenario.anomaly_type}"
+                )
 
         updated_events.append(current_event)
         updated_truth.append(current_truth)
