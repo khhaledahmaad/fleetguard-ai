@@ -194,3 +194,57 @@ def test_cli_generates_brake_leak_demo_dataset(
     ]
 
     assert all(record["is_anomaly"] is False for record in wagon_two_truth)
+
+
+def test_cli_generates_sensor_drift_demo_dataset(
+    tmp_path,
+) -> None:
+    output_dir = tmp_path / "sensor-drift-demo"
+
+    result = main(
+        [
+            "--assets",
+            "2",
+            "--seed",
+            "42",
+            "--start-time",
+            "2026-01-01T06:00:00+00:00",
+            "--sampling-interval-seconds",
+            "60",
+            "--anomaly-profile",
+            "sensor-drift-demo",
+            "--output-dir",
+            str(output_dir),
+        ]
+    )
+
+    manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
+
+    truth_records = [
+        json.loads(line)
+        for line in (output_dir / "anomaly_truth.jsonl")
+        .read_text(encoding="utf-8")
+        .splitlines()
+    ]
+
+    anomalous_records = [record for record in truth_records if record["is_anomaly"]]
+
+    assert result == 0
+    assert manifest["anomaly_profile"] == "sensor-drift-demo"
+    assert anomalous_records
+
+    assert {record["asset_id"] for record in anomalous_records} == {"FG-WGN-0001"}
+
+    assert {record["anomaly_type"] for record in anomalous_records} == {"sensor_fault"}
+
+    assert {record["affected_component"] for record in anomalous_records} == {
+        "bogie:2/axle:inner/wheel:right/" "sensor:bearing_temp_c"
+    }
+
+    assert max(record["anomaly_progress"] for record in anomalous_records) == 1.0
+
+    wagon_two_truth = [
+        record for record in truth_records if record["asset_id"] == "FG-WGN-0002"
+    ]
+
+    assert all(record["is_anomaly"] is False for record in wagon_two_truth)

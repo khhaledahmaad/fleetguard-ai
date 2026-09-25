@@ -1,0 +1,48 @@
+{
+  "anomaly_profile": "sensor-drift-demo",
+  "counts": {
+    "assets": 2,
+    "axle_observations": 2640,
+    "bogie_observations": 1320,
+    "telemetry_events": 660,
+    "truth_records": 660,
+    "wheel_observations": 5280
+  },
+  "feature_window_seconds": 60,
+  "files": {
+    "anomaly_truth.jsonl": {
+      "records": 660,
+      "sha256": "ebc59f3480434a2d22256040d705a117a1ea559e8d129609753cab061816d829"
+    },
+    "asset_metadata.jsonl": {
+      "records": 2,
+      "sha256": "4b29bf56206d7bbc162321d62db1377293559f5ed509d20185a51bf70585df61"
+    },
+    "axle_observations.jsonl": {
+      "records": 2640,
+      "sha256": "beac85027040e492a4b64d3426ae02fa20eb8eef01a16b527b4b59270ed4cd75"
+    },
+    "bogie_observations.jsonl": {
+      "records": 1320,
+      "sha256": "3c089434aec6e795f4ce0aeb074262cb3940ca12225d05872aad15e1d01778a7"
+    },
+    "journey_metadata.json": {
+      "records": 1,
+      "sha256": "ea49d019bc90768708d492b3971f2c68ea528aff380111414f5d1b70cb236677"
+    },
+    "telemetry.jsonl": {
+      "records": 660,
+      "sha256": "457dbae1ea30bd67d97be0f3dbc67cd56381ca7ed19ef17e3f04789d05ddc923"
+    },
+    "wheel_observations.jsonl": {
+      "records": 5280,
+      "sha256": "af1392072272a4ad985ea779764c0c878abfa5b48dbf03174bd4ad8e276c43e0"
+    }
+  },
+  "generator_version": "0.1.0",
+  "journey_id": "FG-JNY-20260101-0042",
+  "route_id": "FG-RTE-LONDON-AVONMOUTH",
+  "sampling_interval_seconds": 60,
+  "schema_version": "3.0",
+  "seed": 42
+}

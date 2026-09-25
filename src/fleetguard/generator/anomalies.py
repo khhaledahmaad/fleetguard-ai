@@ -21,6 +21,12 @@ _BRAKE_LEAK_EFFECTS = {
     AnomalySeverity.HIGH: (0.80, 0.35),
 }
 
+_SENSOR_DRIFT_EFFECTS = {
+    AnomalySeverity.LOW: 4.0,
+    AnomalySeverity.MEDIUM: 10.0,
+    AnomalySeverity.HIGH: 20.0,
+}
+
 
 @dataclass(frozen=True)
 class InjectedBatch:
@@ -69,6 +75,17 @@ class AnomalyScenario:
             raise ValueError(
                 "Brake-pressure leakage requires "
                 "signal_name='brake_pipe_pressure_bar'"
+            )
+
+        if self.anomaly_type is AnomalyType.SENSOR_FAULT and (
+            self.target.signal_name != "bearing_temp_c"
+            or self.target.bogie_id is None
+            or self.target.axle_position is None
+            or self.target.wheel_side is None
+        ):
+            raise ValueError(
+                "Bearing-temperature sensor drift requires "
+                "bogie, axle, wheel and signal targeting"
             )
 
     def is_active(self, event_time: datetime) -> bool:
@@ -252,6 +269,105 @@ def inject_brake_pressure_leak(
     return updated_event, updated_truth
 
 
+def inject_bearing_temperature_sensor_drift(
+    event: TelemetryEvent,
+    truth: AnomalyTruth,
+    scenario: AnomalyScenario,
+) -> tuple[TelemetryEvent, AnomalyTruth]:
+    """Apply progressive bias to one bearing-temperature sensor."""
+    if scenario.anomaly_type is not AnomalyType.SENSOR_FAULT:
+        raise ValueError("scenario must describe a sensor fault")
+
+    if event.event_id != truth.event_id or event.asset_id != truth.asset_id:
+        raise ValueError("event and truth identities must match")
+
+    if (
+        event.asset_id != scenario.target.asset_id
+        or event.event_time < scenario.start_time
+    ):
+        return event, truth
+
+    progress = scenario.progress_at(event.event_time)
+
+    if progress == 0:
+        return event, truth
+
+    maximum_temperature_bias = _SENSOR_DRIFT_EFFECTS[scenario.peak_severity]
+
+    updated_bogies = []
+    target_found = False
+
+    for bogie in event.bogies:
+        updated_axles = []
+
+        for axle in bogie.axles:
+            is_target_axle = (
+                bogie.bogie_id == scenario.target.bogie_id
+                and axle.axle_position == scenario.target.axle_position
+            )
+
+            updated_wheels = []
+
+            for wheel in axle.wheels:
+                is_target_wheel = (
+                    is_target_axle and wheel.wheel_side == scenario.target.wheel_side
+                )
+
+                if is_target_wheel:
+                    target_found = True
+
+                    updated_wheels.append(
+                        wheel.model_copy(
+                            update={
+                                "bearing_temp_c": round(
+                                    min(
+                                        150.0,
+                                        wheel.bearing_temp_c
+                                        + maximum_temperature_bias * progress,
+                                    ),
+                                    3,
+                                )
+                            }
+                        )
+                    )
+                else:
+                    updated_wheels.append(wheel)
+
+            updated_axles.append(
+                axle.model_copy(update={"wheels": tuple(updated_wheels)})
+                if is_target_axle
+                else axle
+            )
+
+        updated_bogies.append(bogie.model_copy(update={"axles": tuple(updated_axles)}))
+
+    if not target_found:
+        raise ValueError("sensor-fault target was not found in telemetry event")
+
+    component = (
+        f"bogie:{scenario.target.bogie_id}/"
+        f"axle:{scenario.target.axle_position}/"
+        f"wheel:{scenario.target.wheel_side}/"
+        "sensor:bearing_temp_c"
+    )
+
+    updated_event = event.model_copy(update={"bogies": tuple(updated_bogies)})
+
+    updated_truth = truth.model_copy(
+        update={
+            "is_anomaly": True,
+            "anomaly_type": AnomalyType.SENSOR_FAULT,
+            "anomaly_severity": scenario.peak_severity,
+            "affected_component": component,
+            "affected_signal": "bearing_temp_c",
+            "anomaly_start_time": scenario.start_time,
+            "anomaly_progress": round(progress, 6),
+        }
+    )
+
+    return updated_event, updated_truth
+
+
 def inject_anomaly_scenarios(
     events: tuple[TelemetryEvent, ...],
     truth: tuple[AnomalyTruth, ...],
@@ -275,12 +391,21 @@ def inject_anomaly_scenarios(
                     current_truth,
                     scenario,
                 )
+
             elif scenario.anomaly_type is AnomalyType.BRAKE_PRESSURE_LEAK:
                 current_event, current_truth = inject_brake_pressure_leak(
                     current_event,
                     current_truth,
                     scenario,
                 )
+
+            elif scenario.anomaly_type is AnomalyType.SENSOR_FAULT:
+                current_event, current_truth = inject_bearing_temperature_sensor_drift(
+                    current_event,
+                    current_truth,
+                    scenario,
+                )
+
             else:
                 raise ValueError(
                     f"unsupported anomaly type: " f"{scenario.anomaly_type}"

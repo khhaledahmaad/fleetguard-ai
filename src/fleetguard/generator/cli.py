@@ -83,6 +83,31 @@ def _build_brake_leak_demo_scenario(
     )
 
 
+def _build_sensor_drift_demo_scenario(
+    asset_id: str,
+    start_time: datetime,
+    journey_duration_seconds: int,
+) -> AnomalyScenario:
+    anomaly_start = start_time + timedelta(seconds=int(journey_duration_seconds * 0.30))
+
+    peak_time = start_time + timedelta(seconds=int(journey_duration_seconds * 0.60))
+
+    return AnomalyScenario(
+        scenario_id="FG-ANO-SENSOR-DRIFT-DEMO-0001",
+        anomaly_type=AnomalyType.SENSOR_FAULT,
+        target=ComponentTarget(
+            asset_id=asset_id,
+            bogie_id=2,
+            axle_position="inner",
+            wheel_side="right",
+            signal_name="bearing_temp_c",
+        ),
+        start_time=anomaly_start,
+        end_time=peak_time,
+        peak_severity=AnomalySeverity.HIGH,
+    )
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Generate a FleetGuard telemetry dataset."
@@ -121,7 +146,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "--anomaly-profile",
-        choices=("none", "bearing-demo", "brake-leak-demo"),
+        choices=("none", "bearing-demo", "brake-leak-demo", "sensor-drift-demo"),
         default="none",
         help="Optional reproducible anomaly profile.",
     )
@@ -169,6 +194,18 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     elif arguments.anomaly_profile == "brake-leak-demo":
         scenario = _build_brake_leak_demo_scenario(
+            asset_id=assets[0].asset_id,
+            start_time=arguments.start_time,
+            journey_duration_seconds=journey.duration_seconds,
+        )
+
+        fleet_batch = inject_fleet_anomaly_scenarios(
+            fleet_batch,
+            scenarios=(scenario,),
+        )
+
+    elif arguments.anomaly_profile == "sensor-drift-demo":
+        scenario = _build_sensor_drift_demo_scenario(
             asset_id=assets[0].asset_id,
             start_time=arguments.start_time,
             journey_duration_seconds=journey.duration_seconds,

@@ -10,6 +10,7 @@ from fleetguard.generator.anomalies import (
     InjectedBatch,
     inject_anomaly_scenarios,
     inject_bearing_degradation,
+    inject_bearing_temperature_sensor_drift,
     inject_brake_pressure_leak,
 )
 from fleetguard.generator.fleet import generate_fleet_assets
@@ -43,6 +44,25 @@ def make_brake_leak_scenario() -> AnomalyScenario:
         target=ComponentTarget(
             asset_id="FG-WGN-0001",
             signal_name="brake_pipe_pressure_bar",
+        ),
+        start_time=start,
+        end_time=start + timedelta(hours=2),
+        peak_severity=AnomalySeverity.HIGH,
+    )
+
+
+def make_sensor_drift_scenario() -> AnomalyScenario:
+    start = datetime(2026, 1, 1, 8, 0, tzinfo=UTC)
+
+    return AnomalyScenario(
+        scenario_id="FG-ANO-0003",
+        anomaly_type=AnomalyType.SENSOR_FAULT,
+        target=ComponentTarget(
+            asset_id="FG-WGN-0001",
+            bogie_id=2,
+            axle_position="inner",
+            wheel_side="right",
+            signal_name="bearing_temp_c",
         ),
         start_time=start,
         end_time=start + timedelta(hours=2),
@@ -364,5 +384,84 @@ def test_brake_leak_persists_at_peak_after_end_time() -> None:
     assert updated_event.auxiliary_reservoir_pressure_bar == pytest.approx(
         event.auxiliary_reservoir_pressure_bar - 0.35
     )
+
+    assert updated_truth.anomaly_progress == pytest.approx(1.0)
+
+
+def test_sensor_drift_requires_full_sensor_target() -> None:
+    start = datetime(2026, 1, 1, 8, 0, tzinfo=UTC)
+
+    with pytest.raises(
+        ValueError,
+        match="Bearing-temperature sensor drift requires",
+    ):
+        AnomalyScenario(
+            scenario_id="FG-ANO-0003",
+            anomaly_type=AnomalyType.SENSOR_FAULT,
+            target=ComponentTarget(
+                asset_id="FG-WGN-0001",
+                signal_name="bearing_temp_c",
+            ),
+            start_time=start,
+            end_time=start + timedelta(hours=2),
+            peak_severity=AnomalySeverity.HIGH,
+        )
+
+
+def test_sensor_drift_changes_only_target_sensor_reading() -> None:
+    scenario = make_sensor_drift_scenario()
+    event, truth = make_event_and_truth()
+
+    updated_event, updated_truth = inject_bearing_temperature_sensor_drift(
+        event,
+        truth,
+        scenario,
+    )
+
+    target_axle_before = event.bogies[1].axles[1]
+    target_axle_after = updated_event.bogies[1].axles[1]
+
+    assert target_axle_before.axle_position == "inner"
+    assert target_axle_before.wheels[1].wheel_side == "right"
+
+    assert target_axle_after.wheels[1].bearing_temp_c == pytest.approx(
+        target_axle_before.wheels[1].bearing_temp_c + 10.0
+    )
+
+    assert target_axle_after.vibration_rms_g == target_axle_before.vibration_rms_g
+
+    assert target_axle_after.wheels[0] == target_axle_before.wheels[0]
+
+    assert updated_event.bogies[0] == event.bogies[0]
+
+    assert updated_event.bogies[1].axles[0] == event.bogies[1].axles[0]
+
+    assert updated_truth.is_anomaly is True
+    assert updated_truth.anomaly_type is AnomalyType.SENSOR_FAULT
+    assert updated_truth.affected_component == (
+        "bogie:2/axle:inner/wheel:right/" "sensor:bearing_temp_c"
+    )
+    assert updated_truth.anomaly_progress == pytest.approx(0.5)
+
+
+def test_sensor_drift_persists_at_peak_after_end_time() -> None:
+    scenario = make_sensor_drift_scenario()
+
+    event, truth = make_event_and_truth(minutes_after_start=150)
+
+    updated_event, updated_truth = inject_bearing_temperature_sensor_drift(
+        event,
+        truth,
+        scenario,
+    )
+
+    target_axle_before = event.bogies[1].axles[1]
+    target_axle_after = updated_event.bogies[1].axles[1]
+
+    assert target_axle_after.wheels[1].bearing_temp_c == pytest.approx(
+        target_axle_before.wheels[1].bearing_temp_c + 20.0
+    )
+
+    assert target_axle_after.vibration_rms_g == target_axle_before.vibration_rms_g
 
     assert updated_truth.anomaly_progress == pytest.approx(1.0)
