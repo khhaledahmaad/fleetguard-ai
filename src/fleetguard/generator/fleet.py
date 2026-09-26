@@ -76,16 +76,25 @@ def generate_fleet_assets(
                 )
             )
         bogies = tuple(bogies_list)
+        commissioning_age_years = round(rng.uniform(1, 25), 2)
+        nominal_load_tonnes = round(rng.uniform(45, 85), 2)
+        bearing_baseline_temp_c = round(rng.uniform(38, 48), 3)
+        vibration_baseline_g = round(rng.uniform(0.12, 0.25), 4)
+        brake_pressure_baseline_bar = round(rng.uniform(4.8, 5.2), 3)
+        generator_seed = rng.randrange(0, 2**31)
         asset = AssetMetadata(
             asset_id=asset_id,
             fleet_id=fleet_id,
-            commissioning_age_years=round(rng.uniform(1, 25), 2),
-            nominal_load_tonnes=round(rng.uniform(45, 85), 2),
-            bearing_baseline_temp_c=round(rng.uniform(38, 48), 3),
-            vibration_baseline_g=round(rng.uniform(0.12, 0.25), 4),
-            brake_pressure_baseline_bar=round(rng.uniform(4.8, 5.2), 3),
+            commissioning_age_years=commissioning_age_years,
+            nominal_load_tonnes=nominal_load_tonnes,
+            bearing_baseline_temp_c=bearing_baseline_temp_c,
+            vibration_baseline_g=vibration_baseline_g,
+            brake_pressure_baseline_bar=brake_pressure_baseline_bar,
+            battery_standby_days=round(
+                random.Random(generator_seed ^ 0xBA77).uniform(5, 7), 3
+            ),
             bogies=bogies,
-            generator_seed=rng.randrange(0, 2**31),
+            generator_seed=generator_seed,
         )
         assets.append(asset)
 

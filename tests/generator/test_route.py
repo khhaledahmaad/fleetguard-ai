@@ -36,7 +36,7 @@ def test_journey_metadata_uses_standard_sampling_profile() -> None:
         datetime(2026, 1, 1, tzinfo=UTC),
     )
 
-    assert metadata.schema_version == "3.0"
+    assert metadata.schema_version == "3.1"
     assert metadata.sampling_interval_seconds == 10
     assert metadata.estimated_duration_seconds == journey.duration_seconds
 

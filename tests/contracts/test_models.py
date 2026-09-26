@@ -29,7 +29,8 @@ def test_valid_asset_metadata() -> None:
     asset = AssetMetadata(**valid_asset())
 
     assert asset.asset_id == "FG-WGN-0001"
-    assert asset.schema_version == "3.0"
+    assert asset.schema_version == "3.1"
+    assert 5 <= asset.battery_standby_days <= 7
 
 
 def test_asset_id_must_follow_contract() -> None:
@@ -45,6 +46,15 @@ def test_valid_telemetry_event() -> None:
 
     assert isinstance(event.event_id, UUID)
     assert event.operating_state == OperatingState.MOVING
+    assert 3.0 <= event.battery_voltage_v <= 4.2
+
+
+def test_battery_voltage_outside_cell_equivalent_range_is_rejected() -> None:
+    data = valid_event()
+    data["battery_voltage_v"] = 25.2
+
+    with pytest.raises(ValidationError):
+        TelemetryEvent(**data)
 
 
 def test_naive_timestamp_is_rejected() -> None:

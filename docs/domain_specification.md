@@ -90,7 +90,7 @@ Journey phases provide operational context: `origin_dwell`, `running`,
 
 ## 5. Telemetry Signals
 
-Schema 3.0 contains wagon, bogie, axle, wheel and controller signals.
+Schema 3.1 contains wagon, bogie, axle, wheel and controller signals.
 
 | Signal | Unit | Healthy range | Purpose |
 |---|---:|---:|---|
@@ -105,13 +105,22 @@ Schema 3.0 contains wagon, bogie, axle, wheel and controller signals.
 | axle load | tonnes | 0–30 | Per-wheelset load context |
 | left/right bearing temperature | °C | ambient to 85 | Bearing-health signals |
 | wheelset vibration RMS | g | 0.02–0.70 | Mechanical-health signal |
-| controller temperature and voltage | °C, V | contract bounded | Device-health context |
+| `battery_voltage_v` | V | 3.0–4.2, per-cell equivalent | Shared wagon battery |
+| `power_source` | category | battery/generators | Current wagon power source |
+| controller temperature and supply voltage | °C, V | contract bounded | Regulated device-health context |
 | controller health and counters | categorical/count | healthy baseline | Device diagnostics |
 | `rail_condition` | category | dry/wet/leaf/icy | Route-surface context |
 | `estimated_adhesion_coefficient` | coefficient | 0–0.6 | Wagon controller estimate |
 
 These ranges are synthetic modelling constraints, not operational railway
 limits.
+
+Four axle-end generators are assumed to provide wagon power and charge one
+shared battery during movement above the synthetic 5 km/h generation threshold.
+At a standstill, the battery supplies the controller. The configured healthy
+full-to-cut-off standby duration varies from five to seven days per wagon.
+The current journey dataset covers only hours and does not model shutdown or
+message gaps during a multi-day out-of-service standstill.
 
 ## 6. Healthy Signal Relationships
 

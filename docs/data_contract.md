@@ -1,4 +1,4 @@
-# FleetGuard AI — Data Contract 3.0
+# FleetGuard AI — Data Contract 3.1
 
 ## Event grain
 
@@ -12,6 +12,7 @@ two axles/wheelsets per bogie and one monitoring controller.
 | Scope | Fields | Character |
 |---|---|---|
 | Wagon | identity, fleet, age, nominal load, healthy baselines | persistent |
+| Wagon battery | expected standby endurance in days | persistent |
 | Bogie | identity 1/2 and handbrake-equipped flag | persistent |
 | Axle/wheelset | inner/outer position within its bogie | persistent |
 | Wheel | left/right side and diameter in millimetres | slowly changing |
@@ -26,16 +27,34 @@ share one rigid axle and therefore one measured wheelset RPM.
 | Journey | journey ID, route ID, phase, progress |
 | Wagon | GPS, speed, ambient temperature, three-axis acceleration |
 | Pneumatics | brake pipe, auxiliary reservoir, secondary reservoir |
+| Wagon power | `battery_voltage_v`, `power_source` (`battery` or `axle_generators`) |
 | Bogie | brake-cylinder pressure |
 | Wheelset | RPM, wheel speed, axle load, two bearing temperatures, vibration RMS |
-| Controller | temperature, voltage, health, uptime, reset and communication counters |
+| Controller | temperature, separate regulated `supply_voltage_v`, health, uptime, reset and communication counters |
 
 All numerical units are encoded in field names. Contract ranges are synthetic
 validation boundaries rather than certified railway limits.
 
+`battery_voltage_v` is a synthetic single-cell-equivalent battery measurement
+(3.0–4.2 V); it is not a measured whole-pack voltage. The controller's regulated
+~25 V supply is a separate electrical rail. Each wagon has one shared battery
+and four axle-end generators, one at each axle. The journey generator treats
+speeds of at least 5 km/h as sufficient for generator power and charging; this
+is a simulation threshold, not a manufacturer specification. While generator
+power is unavailable the battery discharges at a configured rate corresponding
+to a full-to-cut-off standby period of 5–7 days. Charging and discharging use
+simple linear voltage approximations, not a physical state-of-charge model.
+
+This revision adds required wagon power fields, so newly generated records use
+schema 3.1. Older sample files in `data/generated/` remain schema 3.0 historical
+outputs and must not be combined with 3.1 datasets without a migration. The
+current journey generator does not simulate multi-day parked operation or the
+absence of messages after a power cut-off; those require a separate duty/parking
+timeline and an outage-level truth record.
+
 ## Raw versus derived values
 
-Schema 3.0 stores simulated sensor readings and physical metadata. Feature
+Schema 3.1 stores simulated sensor readings and physical metadata. Feature
 engineering will later derive diameter difference, wheel/ground-speed residual,
 slip ratio, bogie pressure imbalance, pressure decay/recovery rates, bearing
 temperature residuals and vibration-window statistics. Ground truth must never

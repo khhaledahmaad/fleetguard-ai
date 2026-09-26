@@ -7,7 +7,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-SCHEMA_VERSION = "3.0"
+SCHEMA_VERSION = "3.1"
 SUPPORTED_SAMPLING_INTERVALS = (1, 10, 60)
 STANDARD_SAMPLING_INTERVAL_SECONDS = 10
 FEATURE_WINDOW_SECONDS = 60
@@ -31,6 +31,7 @@ SignalName = Literal[
     "controller_temperature_c",
     "controller_supply_voltage_v",
     "controller_health_status",
+    "battery_voltage_v",
 ]
 
 
@@ -64,6 +65,11 @@ class ControllerHealthStatus(StrEnum):
     DEGRADED = "degraded"
     FAULT = "fault"
     OFFLINE = "offline"
+
+
+class PowerSource(StrEnum):
+    AXLE_GENERATORS = "axle_generators"
+    BATTERY = "battery"
 
 
 class AxlePosition(StrEnum):
@@ -130,7 +136,7 @@ class BogieMetadata(ContractModel):
 
 
 class AssetMetadata(ContractModel):
-    schema_version: Literal["3.0"] = SCHEMA_VERSION
+    schema_version: Literal["3.1"] = SCHEMA_VERSION
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
     asset_type: Literal["freight_wagon"] = "freight_wagon"
     fleet_id: str = Field(pattern=r"^FG-[A-Z0-9]+-\d{2}$")
@@ -139,6 +145,7 @@ class AssetMetadata(ContractModel):
     bearing_baseline_temp_c: float = Field(ge=-10, le=85)
     vibration_baseline_g: float = Field(ge=0, le=1)
     brake_pressure_baseline_bar: float = Field(ge=3, le=6)
+    battery_standby_days: float = Field(ge=5, le=7)
     bogies: tuple[BogieMetadata, BogieMetadata]
     generator_seed: int = Field(ge=0)
 
@@ -182,7 +189,7 @@ class ControllerTelemetry(ContractModel):
 
 
 class JourneyMetadata(ContractModel):
-    schema_version: Literal["3.0"] = SCHEMA_VERSION
+    schema_version: Literal["3.1"] = SCHEMA_VERSION
     journey_id: str = Field(pattern=r"^FG-JNY-\d{8}-\d{4}$")
     route_id: str = Field(pattern=r"^FG-RTE-[A-Z0-9-]+$")
     origin_terminal: str
@@ -203,7 +210,7 @@ class JourneyMetadata(ContractModel):
 
 
 class TelemetryEvent(ContractModel):
-    schema_version: Literal["3.0"] = SCHEMA_VERSION
+    schema_version: Literal["3.1"] = SCHEMA_VERSION
     event_id: UUID
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
     journey_id: str = Field(pattern=r"^FG-JNY-\d{8}-\d{4}$")
@@ -227,6 +234,8 @@ class TelemetryEvent(ContractModel):
     brake_pipe_pressure_bar: float = Field(ge=0, le=6)
     auxiliary_reservoir_pressure_bar: float = Field(ge=0, le=6)
     secondary_reservoir_pressure_bar: float = Field(ge=0, le=6)
+    battery_voltage_v: float = Field(ge=3.0, le=4.2)
+    power_source: PowerSource
     bogies: tuple[BogieTelemetry, BogieTelemetry]
     controller: ControllerTelemetry
 
@@ -249,7 +258,7 @@ class TelemetryEvent(ContractModel):
 
 
 class ComponentObservation(ContractModel):
-    schema_version: Literal["3.0"] = SCHEMA_VERSION
+    schema_version: Literal["3.1"] = SCHEMA_VERSION
     event_id: UUID
     event_time: datetime
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
@@ -287,7 +296,7 @@ class WheelObservation(ComponentObservation):
 
 
 class AnomalyTruth(ContractModel):
-    schema_version: Literal["3.0"] = SCHEMA_VERSION
+    schema_version: Literal["3.1"] = SCHEMA_VERSION
     event_id: UUID
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
     true_adhesion_coefficient: float = Field(ge=0, le=0.6)

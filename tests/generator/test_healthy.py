@@ -7,6 +7,7 @@ from fleetguard.contracts import (
     AnomalySeverity,
     AnomalyType,
     OperatingState,
+    PowerSource,
 )
 from fleetguard.generator import generate_fleet_assets, generate_healthy_batch
 
@@ -115,6 +116,27 @@ def test_braking_signals_follow_expected_relationships() -> None:
     assert mean(event.bogies[0].brake_cylinder_pressure_bar for event in braking_events) > mean(
         event.bogies[0].brake_cylinder_pressure_bar for event in moving_events
     )
+
+
+def test_one_wagon_battery_discharge_and_recharge_follow_power_source() -> None:
+    batch = generate_healthy_batch(
+        asset=make_asset(),
+        start_time=datetime(2026, 1, 1, tzinfo=UTC),
+        periods=30,
+    )
+
+    parked = batch.events[:10]
+    generating = [
+        event for event in batch.events[10:]
+        if event.power_source is PowerSource.AXLE_GENERATORS
+    ]
+
+    assert all(event.power_source is PowerSource.BATTERY for event in parked)
+    assert parked[-1].battery_voltage_v < parked[0].battery_voltage_v
+    assert generating
+    assert generating[-1].battery_voltage_v > parked[-1].battery_voltage_v
+    assert all(3.0 <= event.battery_voltage_v <= 4.2 for event in batch.events)
+    assert all(24 < event.controller.supply_voltage_v < 26 for event in batch.events)
 
 
 def test_ground_truth_matches_every_event() -> None:

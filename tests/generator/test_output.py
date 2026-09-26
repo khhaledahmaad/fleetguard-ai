@@ -61,7 +61,7 @@ def test_writer_creates_complete_versioned_run(
 
     assert {path.name for path in (tmp_path / "run").iterdir()} == expected
 
-    assert manifest["schema_version"] == "3.0"
+    assert manifest["schema_version"] == "3.1"
     assert manifest["feature_window_seconds"] == 60
 
 

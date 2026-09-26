@@ -19,6 +19,7 @@ from fleetguard.contracts import (
     ControllerTelemetry,
     JourneyPhase,
     OperatingState,
+    PowerSource,
     RailCondition,
     TelemetryEvent,
     TravelDirection,
@@ -107,12 +108,25 @@ def _generate(
         for axle in bogie.axles
     }
     previous_speed = 0.0
+    previous_elapsed_seconds = 0
+    battery_voltage = 4.2
     thermal_alpha = 1 - math.exp(-sampling_interval_seconds / 480)
     noise_scale = math.sqrt(sampling_interval_seconds / 60)
 
     for elapsed_seconds, journey_phase, state, route_progress, phase_progress in samples:
         event_time = start_time + timedelta(seconds=elapsed_seconds)
         speed = _speed(state, phase_progress, rng, cruise_speed_kph)
+        elapsed_step = elapsed_seconds - previous_elapsed_seconds
+        power_source = (
+            PowerSource.AXLE_GENERATORS if speed >= 5 else PowerSource.BATTERY
+        )
+        if power_source is PowerSource.AXLE_GENERATORS:
+            battery_voltage = min(4.2, battery_voltage + elapsed_step * 0.18 / 3600)
+        else:
+            battery_voltage = max(
+                3.0,
+                battery_voltage - elapsed_step * 1.2 / (asset.battery_standby_days * 86400),
+            )
         latitude, longitude = interpolate_route(
             route, route_progress, direction == TravelDirection.REVERSE
         )
@@ -220,6 +234,8 @@ def _generate(
             secondary_reservoir_pressure_bar=round(
                 _clamp(sr + rng.normalvariate(0, 0.01), 0, 6), 3
             ),
+            battery_voltage_v=round(battery_voltage, 4),
+            power_source=power_source,
             bogies=tuple(bogie_events),
             controller=ControllerTelemetry(
                 temperature_c=round(
@@ -232,7 +248,7 @@ def _generate(
                 ),
                 supply_voltage_v=round(
                     _clamp(
-                        25.2 - 0.0000083 * elapsed_seconds + rng.normalvariate(0, 0.015),
+                        25.2 + rng.normalvariate(0, 0.015),
                         0,
                         32,
                     ),
@@ -260,6 +276,7 @@ def _generate(
             )
         )
         previous_speed = speed
+        previous_elapsed_seconds = elapsed_seconds
     return HealthyBatch(events=tuple(events), truth=tuple(truth))
 
 
