@@ -29,7 +29,7 @@ def test_valid_asset_metadata() -> None:
     asset = AssetMetadata(**valid_asset())
 
     assert asset.asset_id == "FG-WGN-0001"
-    assert asset.schema_version == "3.1"
+    assert asset.schema_version == "3.2"
     assert 5 <= asset.battery_standby_days <= 7
 
 

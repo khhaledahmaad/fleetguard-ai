@@ -7,13 +7,14 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-SCHEMA_VERSION = "3.1"
+SCHEMA_VERSION = "3.2"
 SUPPORTED_SAMPLING_INTERVALS = (1, 10, 60)
 STANDARD_SAMPLING_INTERVAL_SECONDS = 10
 FEATURE_WINDOW_SECONDS = 60
 
 SignalName = Literal[
     "speed_kph",
+    "wheel_speed_kph",
     "latitude",
     "longitude",
     "longitudinal_acceleration_mps2",
@@ -92,6 +93,15 @@ class AnomalyType(StrEnum):
     BEARING_DEGRADATION = "bearing_degradation"
     BRAKE_PRESSURE_LEAK = "brake_pressure_leak"
     SENSOR_FAULT = "sensor_fault"
+    AXLE_SPEED_GENERATOR_FAILURE = "axle_speed_generator_failure"
+    WHEEL_SLIDE = "wheel_slide"
+    LOCKED_AXLE = "locked_axle"
+    SUSPECTED_WHEEL_FLAT = "suspected_wheel_flat"
+    PRESSURE_TRANSDUCER_FAILURE = "pressure_transducer_failure"
+    BRAKE_RELEASE_FAILURE = "brake_release_failure"
+    UNDEMANDED_BRAKE_APPLICATION = "undemanded_brake_application"
+    PREMATURE_BATTERY_DEPLETION = "premature_battery_depletion"
+    CONTROLLER_SUPPLY_FAILURE = "controller_supply_failure"
 
 
 class AnomalySeverity(StrEnum):
@@ -103,6 +113,36 @@ class AnomalySeverity(StrEnum):
 
 class ContractModel(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True, str_strip_whitespace=True)
+
+
+class SignalQuality(ContractModel):
+    status: Literal["valid", "missing", "invalid"] = "valid"
+    raw_value: float | None = None
+
+    @model_validator(mode="after")
+    def validate_raw(self) -> Self:
+        if self.status != "invalid" and self.raw_value is not None:
+            raise ValueError("raw_value is reserved for invalid device codes")
+        return self
+
+
+class QualityTelemetry(ContractModel):
+    # Only exceptions are stored. An omitted entry means a valid measurement.
+    signal_quality: dict[str, SignalQuality] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def validate_quality(self) -> Self:
+        for name, quality in self.signal_quality.items():
+            if name not in type(self).model_fields or name == "signal_quality":
+                raise ValueError(f"unknown quality signal: {name}")
+            if quality.status != "valid" and getattr(self, name) is not None:
+                raise ValueError("unavailable measurements must be null")
+        for name in type(self).model_fields:
+            if getattr(self, name) is None:
+                quality = self.signal_quality.get(name)
+                if quality is None or quality.status == "valid":
+                    raise ValueError(f"null measurement requires quality: {name}")
+        return self
 
 
 class WheelMetadata(ContractModel):
@@ -136,7 +176,7 @@ class BogieMetadata(ContractModel):
 
 
 class AssetMetadata(ContractModel):
-    schema_version: Literal["3.1"] = SCHEMA_VERSION
+    schema_version: Literal["3.2"] = SCHEMA_VERSION
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
     asset_type: Literal["freight_wagon"] = "freight_wagon"
     fleet_id: str = Field(pattern=r"^FG-[A-Z0-9]+-\d{2}$")
@@ -163,19 +203,19 @@ class WheelTelemetry(ContractModel):
     bearing_temp_c: float = Field(ge=-40, le=150)
 
 
-class AxleTelemetry(ContractModel):
+class AxleTelemetry(QualityTelemetry):
     axle_position: AxlePosition
-    rotational_speed_rpm: float = Field(ge=0, le=1000)
-    wheel_speed_kph: float = Field(ge=0, le=140)
+    rotational_speed_rpm: float | None = Field(ge=0, le=1000)
+    wheel_speed_kph: float | None = Field(ge=0, le=140)
     axle_load_tonnes: float = Field(ge=0, le=30)
     vibration_rms_g: float = Field(ge=0, le=10)
     wheels: tuple[WheelTelemetry, WheelTelemetry]
 
 
-class BogieTelemetry(ContractModel):
+class BogieTelemetry(QualityTelemetry):
     bogie_id: Literal[1, 2]
     handbrake_equipped: bool
-    brake_cylinder_pressure_bar: float = Field(ge=0, le=5)
+    brake_cylinder_pressure_bar: float | None = Field(ge=0, le=5)
     axles: tuple[AxleTelemetry, AxleTelemetry]
 
 
@@ -189,7 +229,7 @@ class ControllerTelemetry(ContractModel):
 
 
 class JourneyMetadata(ContractModel):
-    schema_version: Literal["3.1"] = SCHEMA_VERSION
+    schema_version: Literal["3.2"] = SCHEMA_VERSION
     journey_id: str = Field(pattern=r"^FG-JNY-\d{8}-\d{4}$")
     route_id: str = Field(pattern=r"^FG-RTE-[A-Z0-9-]+$")
     origin_terminal: str
@@ -209,8 +249,8 @@ class JourneyMetadata(ContractModel):
         return value
 
 
-class TelemetryEvent(ContractModel):
-    schema_version: Literal["3.1"] = SCHEMA_VERSION
+class TelemetryEvent(QualityTelemetry):
+    schema_version: Literal["3.2"] = SCHEMA_VERSION
     event_id: UUID
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
     journey_id: str = Field(pattern=r"^FG-JNY-\d{8}-\d{4}$")
@@ -231,11 +271,13 @@ class TelemetryEvent(ContractModel):
     vertical_acceleration_mps2: float = Field(ge=-10, le=10)
     rail_condition: RailCondition
     estimated_adhesion_coefficient: float = Field(ge=0, le=0.6)
-    brake_pipe_pressure_bar: float = Field(ge=0, le=6)
-    auxiliary_reservoir_pressure_bar: float = Field(ge=0, le=6)
-    secondary_reservoir_pressure_bar: float = Field(ge=0, le=6)
+    brake_pipe_pressure_bar: float | None = Field(ge=0, le=6)
+    auxiliary_reservoir_pressure_bar: float | None = Field(ge=0, le=6)
+    secondary_reservoir_pressure_bar: float | None = Field(ge=0, le=6)
     battery_voltage_v: float = Field(ge=3.0, le=4.2)
     power_source: PowerSource
+    available_axle_generators: int = Field(default=4, ge=0, le=4)
+    brake_demand: Literal["apply", "release"] = "release"
     bogies: tuple[BogieTelemetry, BogieTelemetry]
     controller: ControllerTelemetry
 
@@ -257,8 +299,8 @@ class TelemetryEvent(ContractModel):
         return self
 
 
-class ComponentObservation(ContractModel):
-    schema_version: Literal["3.1"] = SCHEMA_VERSION
+class ComponentObservation(QualityTelemetry):
+    schema_version: Literal["3.2"] = SCHEMA_VERSION
     event_id: UUID
     event_time: datetime
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
@@ -272,17 +314,17 @@ class BogieObservation(ComponentObservation):
     speed_kph: float
     rail_condition: RailCondition
     estimated_adhesion_coefficient: float
-    brake_pipe_pressure_bar: float
-    auxiliary_reservoir_pressure_bar: float
-    secondary_reservoir_pressure_bar: float
-    brake_cylinder_pressure_bar: float
+    brake_pipe_pressure_bar: float | None
+    auxiliary_reservoir_pressure_bar: float | None
+    secondary_reservoir_pressure_bar: float | None
+    brake_cylinder_pressure_bar: float | None
 
 
 class AxleObservation(ComponentObservation):
     bogie_id: Literal[1, 2]
     axle_position: AxlePosition
-    rotational_speed_rpm: float
-    wheel_speed_kph: float
+    rotational_speed_rpm: float | None
+    wheel_speed_kph: float | None
     axle_load_tonnes: float
     vibration_rms_g: float
 
@@ -296,7 +338,7 @@ class WheelObservation(ComponentObservation):
 
 
 class AnomalyTruth(ContractModel):
-    schema_version: Literal["3.1"] = SCHEMA_VERSION
+    schema_version: Literal["3.2"] = SCHEMA_VERSION
     event_id: UUID
     asset_id: str = Field(pattern=r"^FG-WGN-\d{4}$")
     true_adhesion_coefficient: float = Field(ge=0, le=0.6)
@@ -335,4 +377,44 @@ class AnomalyTruth(ContractModel):
             )
         ):
             raise ValueError("healthy records require empty anomaly fields and zero progress")
+        return self
+
+
+class MissingReportTruth(ContractModel):
+    """Synthetic truth only: an expected report that was never emitted."""
+
+    schema_version: Literal["3.2"] = SCHEMA_VERSION
+    event_id: UUID
+    asset_id: str
+    expected_at: datetime
+    scenario_id: str
+    anomaly_type: AnomalyType
+    anomaly_severity: AnomalySeverity
+
+    @field_validator("expected_at")
+    @classmethod
+    def aware_time(cls, value: datetime) -> datetime:
+        if value.utcoffset() is None:
+            raise ValueError("expected_at must be timezone-aware")
+        return value
+
+
+class OutageTruth(ContractModel):
+    """Half-open [start, end) missing-report interval within this dataset."""
+
+    schema_version: Literal["3.2"] = SCHEMA_VERSION
+    asset_id: str
+    scenario_id: str
+    anomaly_type: AnomalyType
+    start_time: datetime
+    end_time_exclusive: datetime
+    recovered: bool
+    missing_reports: int = Field(gt=0)
+
+    @model_validator(mode="after")
+    def valid_interval(self) -> Self:
+        if self.start_time.utcoffset() is None or self.end_time_exclusive.utcoffset() is None:
+            raise ValueError("outage timestamps must be timezone-aware")
+        if self.end_time_exclusive <= self.start_time:
+            raise ValueError("outage end must follow start")
         return self

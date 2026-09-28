@@ -17,7 +17,8 @@ The model is production-shaped but intentionally vendor-neutral.
 
 ## 2. Initial Fleet
 
-The default generated fleet contains 24 assets.
+The CLI defaults to 3 assets. A larger portfolio cohort will be configured
+during dataset design.
 
 Asset identifiers follow this format:
 
@@ -43,10 +44,9 @@ sensor baselines will create controlled fleet heterogeneity.
 
 ## 3. Time and Sampling
 
-The standard portfolio dataset uses:
+The standard portfolio sampling design uses:
 
-- 24 assets;
-- 14 consecutive days;
+- an explicitly configured asset cohort and journey set;
 - one telemetry event per active asset every 10 seconds;
 - timestamps stored in UTC;
 - complete route-derived journeys rather than continuous fabricated movement.
@@ -90,7 +90,7 @@ Journey phases provide operational context: `origin_dwell`, `running`,
 
 ## 5. Telemetry Signals
 
-Schema 3.1 contains wagon, bogie, axle, wheel and controller signals.
+Schema 3.2 contains wagon, bogie, axle, wheel and controller signals.
 
 | Signal | Unit | Healthy range | Purpose |
 |---|---:|---:|---|
@@ -119,8 +119,8 @@ Four axle-end generators are assumed to provide wagon power and charge one
 shared battery during movement above the synthetic 5 km/h generation threshold.
 At a standstill, the battery supplies the controller. The configured healthy
 full-to-cut-off standby duration varies from five to seven days per wagon.
-The current journey dataset covers only hours and does not model shutdown or
-message gaps during a multi-day out-of-service standstill.
+The current journey dataset covers hours. Injected battery and controller faults
+can create message gaps, but multi-day parked-duty planning is not yet implemented.
 
 ## 6. Healthy Signal Relationships
 
@@ -322,58 +322,35 @@ FleetGuard must preserve the distinction between:
 The investigation layer must not describe a sensor fault as confirmed
 mechanical failure.
 
-## 11. Anomaly Injection Rules
+## 11. Anomaly injection and evaluation
 
-- An anomaly episode belongs to one asset.
-- Every episode has a start time, optional end time and progression curve.
-- Multiple failure modes must not overlap on the same asset in the first
-  release.
-- Failure injection must be reproducible from the generator seed.
-- Healthy periods must remain available before and after anomaly episodes.
-- Some assets must remain completely healthy for held-out evaluation.
-- Failure labels must be generated separately from model input features.
-- The generator manifest must record anomaly counts and affected assets.
+The authoritative twelve-scenario catalogue is `anomaly_catalogue.md`.
+The earlier bearing/leak/sensor sections describe the three original signatures;
+the catalogue defines all current types, targets, quality and outage semantics.
 
-## 12. Initial Data Profiles
+- One scenario per asset per batch; multiple assets can have distinct scenarios.
+- Injection requires a healthy baseline and preserves it for comparisons.
+- Progressive peak effects can persist; healthy post-fault periods are not
+  guaranteed. Bounded controller outages explicitly recover.
+- Keep control assets and held-out assets for evaluation.
+- Truth never enters feature inputs.
+- The manifest records observed anomaly counts, missing counts and scenario assets.
+- Fault signatures preserve planned movement; they are not coupled rail dynamics.
 
-### Development profile
+## 12. Dataset profiles
 
-Used for rapid local tests:
+Development uses 60-second sampling; the portfolio standard uses 10 seconds;
+1-second experiments provide more detailed low-frequency motion observations.
+Feature windows are one minute. The CLI generates one route-derived journey
+per invocation for the configured fleet. Multi-day cohorts, parked duty cycles,
+train/validation/test splits and calibrated anomaly prevalence are subsequent
+work, not outputs already delivered by the CLI.
 
-- 3 assets;
-- 6 hours;
-- one event per minute;
-- at least one deterministic anomaly episode.
+## 13. Current assumptions
 
-### Standard profile
-
-Used for model development:
-
-- 24 assets;
-- 14 days;
-- one event per minute;
-- mixture of healthy assets and all three anomaly types.
-
-### Load profile
-
-Used later for performance testing:
-
-- configurable asset count and duration;
-- same data contract;
-- no change to the physical relationship rules.
-
-## 13. Current Assumptions
-
-The domain model intentionally simplifies real railway systems.
-
-It assumes:
-
-- one monitored bearing assembly per asset;
-- one aggregated braking system per asset;
-- configurable 60-second, 10-second or 1-second telemetry with one-minute features;
-- predefined operating-state transitions;
-- labelled synthetic failures for evaluation;
-- no direct safety or maintenance action from model output.
-
-Any material change to these assumptions must be recorded in an architecture or
-domain decision document.
+There are two bogies, four axles, eight wheel/bearing observations, two BCP
+transducers (one per bogie), shared BPP/AR/SR, one battery and one controller.
+Wheels share rigid wheelset rotation. Vibration is axle RMS evidence. Power
+voltage and charging are simple synthetic approximations. Coordinates follow a
+coarse UK corridor fixture. All outputs support learning and human investigation,
+not operational safety or automatic maintenance decisions.

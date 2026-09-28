@@ -11,6 +11,8 @@ from fleetguard.contracts import (
     AxleMetadata,
     AxlePosition,
     BogieMetadata,
+    MissingReportTruth,
+    OutageTruth,
     TelemetryEvent,
     WheelMetadata,
     WheelSide,
@@ -32,6 +34,9 @@ class FleetBatch:
     assets: tuple[AssetMetadata, ...]
     events: tuple[TelemetryEvent, ...]
     truth: tuple[AnomalyTruth, ...]
+    missing_reports: tuple[MissingReportTruth, ...] = ()
+    outages: tuple[OutageTruth, ...] = ()
+    scenarios: tuple[AnomalyScenario, ...] = ()
 
 
 def generate_fleet_assets(
@@ -90,9 +95,7 @@ def generate_fleet_assets(
             bearing_baseline_temp_c=bearing_baseline_temp_c,
             vibration_baseline_g=vibration_baseline_g,
             brake_pressure_baseline_bar=brake_pressure_baseline_bar,
-            battery_standby_days=round(
-                random.Random(generator_seed ^ 0xBA77).uniform(5, 7), 3
-            ),
+            battery_standby_days=round(random.Random(generator_seed ^ 0xBA77).uniform(5, 7), 3),
             bogies=bogies,
             generator_seed=generator_seed,
         )
@@ -167,6 +170,8 @@ def inject_fleet_anomaly_scenarios(
     fleet_batch: FleetBatch,
     scenarios: tuple[AnomalyScenario, ...],
 ) -> FleetBatch:
+    if fleet_batch.scenarios or fleet_batch.missing_reports:
+        raise ValueError("inject all scenarios together into a healthy baseline")
     injected_batch = inject_anomaly_scenarios(
         events=fleet_batch.events,
         truth=fleet_batch.truth,
@@ -177,4 +182,7 @@ def inject_fleet_anomaly_scenarios(
         assets=fleet_batch.assets,
         events=injected_batch.events,
         truth=injected_batch.truth,
+        missing_reports=injected_batch.missing_reports,
+        outages=injected_batch.outages,
+        scenarios=scenarios,
     )

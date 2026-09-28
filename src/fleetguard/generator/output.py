@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections import Counter
 from collections.abc import Iterable
+from dataclasses import asdict
 from importlib.metadata import version
 from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel
+from pydantic_core import to_jsonable_python
 
 from fleetguard.contracts import (
     FEATURE_WINDOW_SECONDS,
@@ -69,6 +72,18 @@ def write_generation_run(
 
     if len(fleet_batch.events) != len(fleet_batch.truth):
         raise ValueError("telemetry and truth record counts must match")
+
+    for event, truth in zip(fleet_batch.events, fleet_batch.truth, strict=True):
+        if (event.event_id, event.asset_id) != (truth.event_id, truth.asset_id):
+            raise ValueError("telemetry and truth identities must match")
+    event_ids = {event.event_id for event in fleet_batch.events}
+    missing_ids = {row.event_id for row in fleet_batch.missing_reports}
+    if len(event_ids) != len(fleet_batch.events) or len(missing_ids) != len(
+        fleet_batch.missing_reports
+    ):
+        raise ValueError("duplicate report identity")
+    if event_ids & missing_ids:
+        raise ValueError("a missing report cannot also be observed")
 
     assets_by_id = {asset.asset_id: asset for asset in fleet_batch.assets}
 
@@ -144,7 +159,22 @@ def write_generation_run(
                 wheel_output.write(row.model_dump_json() + "\n")
                 wheel_count += 1
 
+    missing_count = _write_jsonl(
+        output_dir / "missing_report_truth.jsonl", fleet_batch.missing_reports
+    )
+    outage_count = _write_jsonl(output_dir / "outage_truth.jsonl", fleet_batch.outages)
+    _write_json(
+        output_dir / "scenario_metadata.json",
+        {
+            "schema_version": SCHEMA_VERSION,
+            "scenarios": to_jsonable_python([asdict(s) for s in fleet_batch.scenarios]),
+        },
+    )
+
     record_counts = {
+        "expected_reports": telemetry_count + missing_count,
+        "missing_reports": missing_count,
+        "outages": outage_count,
         "assets": asset_count,
         "telemetry_events": telemetry_count,
         "truth_records": truth_count,
@@ -154,6 +184,9 @@ def write_generation_run(
     }
 
     file_records = {
+        "missing_report_truth.jsonl": missing_count,
+        "outage_truth.jsonl": outage_count,
+        "scenario_metadata.json": len(fleet_batch.scenarios),
         "asset_metadata.jsonl": asset_count,
         "journey_metadata.json": 1,
         "telemetry.jsonl": telemetry_count,
@@ -181,6 +214,14 @@ def write_generation_run(
         "journey_id": journey_metadata.journey_id,
         "route_id": journey_metadata.route_id,
         "counts": record_counts,
+        "anomalous_observed_reports_by_type": dict(
+            sorted(
+                Counter(
+                    row.anomaly_type.value for row in fleet_batch.truth if row.is_anomaly
+                ).items()
+            )
+        ),
+        "scenario_asset_ids": sorted({s.target.asset_id for s in fleet_batch.scenarios}),
         "files": files,
     }
 

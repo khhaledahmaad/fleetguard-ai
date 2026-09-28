@@ -117,9 +117,7 @@ def _generate(
         event_time = start_time + timedelta(seconds=elapsed_seconds)
         speed = _speed(state, phase_progress, rng, cruise_speed_kph)
         elapsed_step = elapsed_seconds - previous_elapsed_seconds
-        power_source = (
-            PowerSource.AXLE_GENERATORS if speed >= 5 else PowerSource.BATTERY
-        )
+        power_source = PowerSource.AXLE_GENERATORS if speed >= 5 else PowerSource.BATTERY
         if power_source is PowerSource.AXLE_GENERATORS:
             battery_voltage = min(4.2, battery_voltage + elapsed_step * 0.18 / 3600)
         else:
@@ -216,6 +214,7 @@ def _generate(
             sampling_interval_seconds=sampling_interval_seconds,
             travel_direction=direction,
             operating_state=state,
+            brake_demand="apply" if state == OperatingState.BRAKING else "release",
             journey_phase=journey_phase,
             route_progress=round(route_progress, 6),
             latitude=round(latitude, 6),

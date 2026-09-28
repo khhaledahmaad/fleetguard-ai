@@ -42,11 +42,13 @@ and environmental conditions.
 The platform must distinguish expected variation from potentially abnormal
 behaviour while limiting unnecessary alerts.
 
-The initial failure catalogue will include:
-
-1. Gradual axle-bearing degradation.
-2. Brake-pressure leakage.
-3. Sensor malfunction or drift.
+The frozen failure catalogue contains twelve scenarios, specified in
+`anomaly_catalogue.md`: bearing degradation, brake pressure leakage, bearing
+sensor drift, axle speed generator failure, wheel slide, locked axle, suspected
+wheel flat, pressure transducer failure, brake release failure, undemanded brake
+application, premature battery depletion and controller supply failure.
+Controller supply failure supports persistent and bounded outage modes within
+one scenario type.
 
 ## 4. Initial User Workflow
 

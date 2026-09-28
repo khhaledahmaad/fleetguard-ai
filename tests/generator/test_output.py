@@ -57,11 +57,14 @@ def test_writer_creates_complete_versioned_run(
         "axle_observations.jsonl",
         "wheel_observations.jsonl",
         "manifest.json",
+        "missing_report_truth.jsonl",
+        "outage_truth.jsonl",
+        "scenario_metadata.json",
     }
 
     assert {path.name for path in (tmp_path / "run").iterdir()} == expected
 
-    assert manifest["schema_version"] == "3.1"
+    assert manifest["schema_version"] == "3.2"
     assert manifest["feature_window_seconds"] == 60
 
 
@@ -91,9 +94,7 @@ def test_manifest_hashes_match_written_files(
 
         assert actual == details["sha256"]
 
-    stored_manifest = json.loads(
-        (output_dir / "manifest.json").read_text(encoding="utf-8")
-    )
+    stored_manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
 
     assert stored_manifest == manifest
 

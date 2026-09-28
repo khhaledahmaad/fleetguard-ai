@@ -38,6 +38,7 @@ def normalise_event(event: TelemetryEvent, asset: AssetMetadata) -> NormalisedOb
         bogie_rows.append(
             BogieObservation(
                 **common,
+                signal_quality={**event.signal_quality, **bogie.signal_quality},
                 bogie_id=bogie.bogie_id,
                 handbrake_equipped=bogie.handbrake_equipped,
                 speed_kph=event.speed_kph,
@@ -58,6 +59,7 @@ def normalise_event(event: TelemetryEvent, asset: AssetMetadata) -> NormalisedOb
                     **common,
                     bogie_id=bogie.bogie_id,
                     axle_position=axle.axle_position,
+                    signal_quality=axle.signal_quality,
                     rotational_speed_rpm=axle.rotational_speed_rpm,
                     wheel_speed_kph=axle.wheel_speed_kph,
                     axle_load_tonnes=axle.axle_load_tonnes,

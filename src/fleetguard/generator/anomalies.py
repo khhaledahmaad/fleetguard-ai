@@ -6,6 +6,8 @@ from fleetguard.contracts import (
     AnomalySeverity,
     AnomalyTruth,
     AnomalyType,
+    MissingReportTruth,
+    OutageTruth,
     TelemetryEvent,
 )
 
@@ -32,6 +34,8 @@ _SENSOR_DRIFT_EFFECTS = {
 class InjectedBatch:
     events: tuple[TelemetryEvent, ...]
     truth: tuple[AnomalyTruth, ...]
+    missing_reports: tuple[MissingReportTruth, ...] = ()
+    outages: tuple[OutageTruth, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -51,9 +55,13 @@ class AnomalyScenario:
     start_time: datetime
     end_time: datetime
     peak_severity: AnomalySeverity
+    outage_mode: Literal["persistent", "bounded"] = "persistent"
+    recovery_time: datetime | None = None
+    failure_encoding: Literal["missing", "invalid"] = "missing"
+    battery_extra_drain_v_per_hour: float = 0.1
 
     def __post_init__(self) -> None:
-        if self.start_time.tzinfo is None or self.end_time.tzinfo is None:
+        if self.start_time.utcoffset() is None or self.end_time.utcoffset() is None:
             raise ValueError("Scenario timestamps must be timezone-aware")
 
         if self.end_time <= self.start_time:
@@ -64,17 +72,14 @@ class AnomalyScenario:
             or self.target.axle_position is None
             or self.target.wheel_side is None
         ):
-            raise ValueError(
-                "Bearing degradation requires bogie, axle and wheel targeting"
-            )
+            raise ValueError("Bearing degradation requires bogie, axle and wheel targeting")
 
         if (
             self.anomaly_type is AnomalyType.BRAKE_PRESSURE_LEAK
             and self.target.signal_name != "brake_pipe_pressure_bar"
         ):
             raise ValueError(
-                "Brake-pressure leakage requires "
-                "signal_name='brake_pipe_pressure_bar'"
+                "Brake-pressure leakage requires signal_name='brake_pipe_pressure_bar'"
             )
 
         if self.anomaly_type is AnomalyType.SENSOR_FAULT and (
@@ -84,9 +89,12 @@ class AnomalyScenario:
             or self.target.wheel_side is None
         ):
             raise ValueError(
-                "Bearing-temperature sensor drift requires "
-                "bogie, axle, wheel and signal targeting"
+                "Bearing-temperature sensor drift requires bogie, axle, wheel and signal targeting"
             )
+
+        from fleetguard.generator.extended_anomalies import validate_scenario
+
+        validate_scenario(self)
 
     def is_active(self, event_time: datetime) -> bool:
         return self.start_time <= event_time <= self.end_time
@@ -115,19 +123,14 @@ def inject_bearing_degradation(
     if event.event_id != truth.event_id or event.asset_id != truth.asset_id:
         raise ValueError("event and truth identities must match")
 
-    if (
-        event.asset_id != scenario.target.asset_id
-        or event.event_time < scenario.start_time
-    ):
+    if event.asset_id != scenario.target.asset_id or event.event_time < scenario.start_time:
         return event, truth
 
     progress = scenario.progress_at(event.event_time)
     if progress == 0:
         return event, truth
 
-    maximum_temperature_rise, maximum_vibration_rise = _BEARING_EFFECTS[
-        scenario.peak_severity
-    ]
+    maximum_temperature_rise, maximum_vibration_rise = _BEARING_EFFECTS[scenario.peak_severity]
     updated_bogies = []
     target_found = False
 
@@ -141,9 +144,7 @@ def inject_bearing_degradation(
             updated_wheels = []
 
             for wheel in axle.wheels:
-                is_target_wheel = (
-                    is_target_axle and wheel.wheel_side == scenario.target.wheel_side
-                )
+                is_target_wheel = is_target_axle and wheel.wheel_side == scenario.target.wheel_side
                 if is_target_wheel:
                     target_found = True
                     updated_wheels.append(
@@ -152,8 +153,7 @@ def inject_bearing_degradation(
                                 "bearing_temp_c": round(
                                     min(
                                         150.0,
-                                        wheel.bearing_temp_c
-                                        + maximum_temperature_rise * progress,
+                                        wheel.bearing_temp_c + maximum_temperature_rise * progress,
                                     ),
                                     3,
                                 )
@@ -170,8 +170,7 @@ def inject_bearing_degradation(
                             "vibration_rms_g": round(
                                 min(
                                     10.0,
-                                    axle.vibration_rms_g
-                                    + maximum_vibration_rise * progress,
+                                    axle.vibration_rms_g + maximum_vibration_rise * progress,
                                 ),
                                 4,
                             ),
@@ -219,10 +218,7 @@ def inject_brake_pressure_leak(
     if event.event_id != truth.event_id or event.asset_id != truth.asset_id:
         raise ValueError("event and truth identities must match")
 
-    if (
-        event.asset_id != scenario.target.asset_id
-        or event.event_time < scenario.start_time
-    ):
+    if event.asset_id != scenario.target.asset_id or event.event_time < scenario.start_time:
         return event, truth
 
     progress = scenario.progress_at(event.event_time)
@@ -230,9 +226,7 @@ def inject_brake_pressure_leak(
     if progress == 0:
         return event, truth
 
-    maximum_pipe_loss, maximum_auxiliary_loss = _BRAKE_LEAK_EFFECTS[
-        scenario.peak_severity
-    ]
+    maximum_pipe_loss, maximum_auxiliary_loss = _BRAKE_LEAK_EFFECTS[scenario.peak_severity]
 
     updated_event = event.model_copy(
         update={
@@ -246,8 +240,7 @@ def inject_brake_pressure_leak(
             "auxiliary_reservoir_pressure_bar": round(
                 max(
                     0.0,
-                    event.auxiliary_reservoir_pressure_bar
-                    - maximum_auxiliary_loss * progress,
+                    event.auxiliary_reservoir_pressure_bar - maximum_auxiliary_loss * progress,
                 ),
                 3,
             ),
@@ -281,10 +274,7 @@ def inject_bearing_temperature_sensor_drift(
     if event.event_id != truth.event_id or event.asset_id != truth.asset_id:
         raise ValueError("event and truth identities must match")
 
-    if (
-        event.asset_id != scenario.target.asset_id
-        or event.event_time < scenario.start_time
-    ):
+    if event.asset_id != scenario.target.asset_id or event.event_time < scenario.start_time:
         return event, truth
 
     progress = scenario.progress_at(event.event_time)
@@ -309,9 +299,7 @@ def inject_bearing_temperature_sensor_drift(
             updated_wheels = []
 
             for wheel in axle.wheels:
-                is_target_wheel = (
-                    is_target_axle and wheel.wheel_side == scenario.target.wheel_side
-                )
+                is_target_wheel = is_target_axle and wheel.wheel_side == scenario.target.wheel_side
 
                 if is_target_wheel:
                     target_found = True
@@ -322,8 +310,7 @@ def inject_bearing_temperature_sensor_drift(
                                 "bearing_temp_c": round(
                                     min(
                                         150.0,
-                                        wheel.bearing_temp_c
-                                        + maximum_temperature_bias * progress,
+                                        wheel.bearing_temp_c + maximum_temperature_bias * progress,
                                     ),
                                     3,
                                 )
@@ -377,44 +364,6 @@ def inject_anomaly_scenarios(
     if len(events) != len(truth):
         raise ValueError("events and truth must contain the same number of records")
 
-    updated_events: list[TelemetryEvent] = []
-    updated_truth: list[AnomalyTruth] = []
+    from fleetguard.generator.extended_anomalies import inject_batch
 
-    for event, truth_record in zip(events, truth, strict=True):
-        current_event = event
-        current_truth = truth_record
-
-        for scenario in scenarios:
-            if scenario.anomaly_type is AnomalyType.BEARING_DEGRADATION:
-                current_event, current_truth = inject_bearing_degradation(
-                    current_event,
-                    current_truth,
-                    scenario,
-                )
-
-            elif scenario.anomaly_type is AnomalyType.BRAKE_PRESSURE_LEAK:
-                current_event, current_truth = inject_brake_pressure_leak(
-                    current_event,
-                    current_truth,
-                    scenario,
-                )
-
-            elif scenario.anomaly_type is AnomalyType.SENSOR_FAULT:
-                current_event, current_truth = inject_bearing_temperature_sensor_drift(
-                    current_event,
-                    current_truth,
-                    scenario,
-                )
-
-            else:
-                raise ValueError(
-                    f"unsupported anomaly type: " f"{scenario.anomaly_type}"
-                )
-
-        updated_events.append(current_event)
-        updated_truth.append(current_truth)
-
-    return InjectedBatch(
-        events=tuple(updated_events),
-        truth=tuple(updated_truth),
-    )
+    return inject_batch(events, truth, scenarios)

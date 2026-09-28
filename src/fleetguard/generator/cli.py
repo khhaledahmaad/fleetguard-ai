@@ -19,6 +19,7 @@ from fleetguard.generator.fleet import (
     inject_fleet_anomaly_scenarios,
 )
 from fleetguard.generator.output import write_generation_run
+from fleetguard.generator.profiles import NEW_PROFILES, build_demo_scenario
 from fleetguard.generator.route import (
     build_journey_metadata,
     create_random_journey_plan,
@@ -109,9 +110,7 @@ def _build_sensor_drift_demo_scenario(
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Generate a FleetGuard telemetry dataset."
-    )
+    parser = argparse.ArgumentParser(description="Generate a FleetGuard telemetry dataset.")
 
     parser.add_argument(
         "--assets",
@@ -146,7 +145,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "--anomaly-profile",
-        choices=("none", "bearing-demo", "brake-leak-demo", "sensor-drift-demo"),
+        choices=("none", "bearing-demo", "brake-leak-demo", "sensor-drift-demo", *NEW_PROFILES),
         default="none",
         help="Optional reproducible anomaly profile.",
     )
@@ -216,6 +215,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             scenarios=(scenario,),
         )
 
+    elif arguments.anomaly_profile in NEW_PROFILES:
+        scenario = build_demo_scenario(arguments.anomaly_profile, fleet_batch.events)
+        fleet_batch = inject_fleet_anomaly_scenarios(fleet_batch, (scenario,))
+
     manifest = write_generation_run(
         arguments.output_dir,
         fleet_batch,
@@ -224,10 +227,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         anomaly_profile=arguments.anomaly_profile,
     )
 
-    print(f"Journey: {journey.origin} -> " f"{journey.destination}")
+    print(f"Journey: {journey.origin} -> {journey.destination}")
     print(f"Journey ID: {journey.journey_id}")
-    print(f"Sampling: " f"{arguments.sampling_interval_seconds} seconds")
-    print(f"Telemetry events: " f"{manifest['counts']['telemetry_events']}")
+    print(f"Sampling: {arguments.sampling_interval_seconds} seconds")
+    print(f"Telemetry events: {manifest['counts']['telemetry_events']}")
+    print(f"Missing reports: {manifest['counts']['missing_reports']}")
     print(f"Output: {arguments.output_dir}")
     print(f"Anomaly Profile: {arguments.anomaly_profile}")
 

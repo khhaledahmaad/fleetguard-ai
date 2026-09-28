@@ -1,4 +1,4 @@
-# FleetGuard AI — Data Contract 3.1
+# FleetGuard AI — Data Contract 3.2
 
 ## Event grain
 
@@ -27,7 +27,7 @@ share one rigid axle and therefore one measured wheelset RPM.
 | Journey | journey ID, route ID, phase, progress |
 | Wagon | GPS, speed, ambient temperature, three-axis acceleration |
 | Pneumatics | brake pipe, auxiliary reservoir, secondary reservoir |
-| Wagon power | `battery_voltage_v`, `power_source` (`battery` or `axle_generators`) |
+| Wagon power | `battery_voltage_v`, `power_source`, `available_axle_generators` |
 | Bogie | brake-cylinder pressure |
 | Wheelset | RPM, wheel speed, axle load, two bearing temperatures, vibration RMS |
 | Controller | temperature, separate regulated `supply_voltage_v`, health, uptime, reset and communication counters |
@@ -45,16 +45,35 @@ power is unavailable the battery discharges at a configured rate corresponding
 to a full-to-cut-off standby period of 5–7 days. Charging and discharging use
 simple linear voltage approximations, not a physical state-of-charge model.
 
-This revision adds required wagon power fields, so newly generated records use
-schema 3.1. Older sample files in `data/generated/` remain schema 3.0 historical
-outputs and must not be combined with 3.1 datasets without a migration. The
-current journey generator does not simulate multi-day parked operation or the
-absence of messages after a power cut-off; those require a separate duty/parking
-timeline and an outage-level truth record.
+Schema 3.2 adds nullable failed speed/pressure readings with `signal_quality`,
+`brake_demand`, `available_axle_generators`, missing-report truth and outage truth.
+Do not mix historical 3.0/3.1 files with 3.2 without migration.
+A healthy expected timestamp emits one event. A controller power outage emits
+no event; it is represented on a separate expected-report truth timeline.
+Multi-day parking duty planning is still outside the current journey generator.
+
+## Quality and lineage
+
+An omitted `signal_quality` entry means valid. A null speed or pressure requires
+`missing` or `invalid` quality. Invalid raw device codes are retained only in
+quality metadata, never as engineering-unit measurements. BPP/AR/SR quality
+belongs to the wagon; BCP quality belongs to its bogie; speed/RPM quality belongs
+to its axle. The normalised tables preserve this information.
+
+`brake_demand` is simulated apply/release command context. `operating_state` and
+route trajectory retain the planned operating context after injection; they are
+not a re-simulation of vehicle dynamics under a brake fault.
+
+One observed event joins exactly one `anomaly_truth` row using event ID and asset
+ID. Missing-report truth is disjoint from observed events. For every run:
+`expected_reports = telemetry_events + missing_reports`.
+Each observed event still creates exactly 2 bogie, 4 axle and 8 wheel rows.
+Outage intervals use `[start_time, end_time_exclusive)`. Unrecovered intervals
+end at the dataset horizon. See `anomaly_catalogue.md` for timing and label rules.
 
 ## Raw versus derived values
 
-Schema 3.1 stores simulated sensor readings and physical metadata. Feature
+Schema 3.2 stores simulated sensor readings and physical metadata. Feature
 engineering will later derive diameter difference, wheel/ground-speed residual,
 slip ratio, bogie pressure imbalance, pressure decay/recovery rates, bearing
 temperature residuals and vibration-window statistics. Ground truth must never

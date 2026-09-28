@@ -9,3 +9,6 @@ dist/
 build/
 *.egg-info/
 .env
+
+# Generated datasets are reproducible outputs.
+/data/generated/

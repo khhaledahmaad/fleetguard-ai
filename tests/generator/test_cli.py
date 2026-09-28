@@ -32,9 +32,7 @@ def test_cli_generates_dataset(tmp_path) -> None:
 
     truth_records = [
         json.loads(line)
-        for line in (output_dir / "anomaly_truth.jsonl")
-        .read_text(encoding="utf-8")
-        .splitlines()
+        for line in (output_dir / "anomaly_truth.jsonl").read_text(encoding="utf-8").splitlines()
     ]
 
     assert all(record["is_anomaly"] is False for record in truth_records)
@@ -94,9 +92,7 @@ def test_cli_generates_reproducible_bearing_demo_dataset(
 
     truth_records = [
         json.loads(line)
-        for line in (output_dir / "anomaly_truth.jsonl")
-        .read_text(encoding="utf-8")
-        .splitlines()
+        for line in (output_dir / "anomaly_truth.jsonl").read_text(encoding="utf-8").splitlines()
     ]
 
     anomalous_records = [record for record in truth_records if record["is_anomaly"]]
@@ -107,9 +103,7 @@ def test_cli_generates_reproducible_bearing_demo_dataset(
 
     assert {record["asset_id"] for record in anomalous_records} == {"FG-WGN-0001"}
 
-    assert {record["anomaly_type"] for record in anomalous_records} == {
-        "bearing_degradation"
-    }
+    assert {record["anomaly_type"] for record in anomalous_records} == {"bearing_degradation"}
 
     assert {record["affected_component"] for record in anomalous_records} == {
         "bogie:1/axle:outer/wheel:left"
@@ -117,9 +111,7 @@ def test_cli_generates_reproducible_bearing_demo_dataset(
 
     assert max(record["anomaly_progress"] for record in anomalous_records) == 1.0
 
-    wagon_two_truth = [
-        record for record in truth_records if record["asset_id"] == "FG-WGN-0002"
-    ]
+    wagon_two_truth = [record for record in truth_records if record["asset_id"] == "FG-WGN-0002"]
 
     assert all(record["is_anomaly"] is False for record in wagon_two_truth)
 
@@ -166,9 +158,7 @@ def test_cli_generates_brake_leak_demo_dataset(
 
     truth_records = [
         json.loads(line)
-        for line in (output_dir / "anomaly_truth.jsonl")
-        .read_text(encoding="utf-8")
-        .splitlines()
+        for line in (output_dir / "anomaly_truth.jsonl").read_text(encoding="utf-8").splitlines()
     ]
 
     anomalous_records = [record for record in truth_records if record["is_anomaly"]]
@@ -179,9 +169,7 @@ def test_cli_generates_brake_leak_demo_dataset(
 
     assert {record["asset_id"] for record in anomalous_records} == {"FG-WGN-0001"}
 
-    assert {record["anomaly_type"] for record in anomalous_records} == {
-        "brake_pressure_leak"
-    }
+    assert {record["anomaly_type"] for record in anomalous_records} == {"brake_pressure_leak"}
 
     assert {record["affected_component"] for record in anomalous_records} == {
         "wagon:pneumatic_system"
@@ -189,9 +177,7 @@ def test_cli_generates_brake_leak_demo_dataset(
 
     assert max(record["anomaly_progress"] for record in anomalous_records) == 1.0
 
-    wagon_two_truth = [
-        record for record in truth_records if record["asset_id"] == "FG-WGN-0002"
-    ]
+    wagon_two_truth = [record for record in truth_records if record["asset_id"] == "FG-WGN-0002"]
 
     assert all(record["is_anomaly"] is False for record in wagon_two_truth)
 
@@ -222,9 +208,7 @@ def test_cli_generates_sensor_drift_demo_dataset(
 
     truth_records = [
         json.loads(line)
-        for line in (output_dir / "anomaly_truth.jsonl")
-        .read_text(encoding="utf-8")
-        .splitlines()
+        for line in (output_dir / "anomaly_truth.jsonl").read_text(encoding="utf-8").splitlines()
     ]
 
     anomalous_records = [record for record in truth_records if record["is_anomaly"]]
@@ -238,13 +222,57 @@ def test_cli_generates_sensor_drift_demo_dataset(
     assert {record["anomaly_type"] for record in anomalous_records} == {"sensor_fault"}
 
     assert {record["affected_component"] for record in anomalous_records} == {
-        "bogie:2/axle:inner/wheel:right/" "sensor:bearing_temp_c"
+        "bogie:2/axle:inner/wheel:right/sensor:bearing_temp_c"
     }
 
     assert max(record["anomaly_progress"] for record in anomalous_records) == 1.0
 
-    wagon_two_truth = [
-        record for record in truth_records if record["asset_id"] == "FG-WGN-0002"
-    ]
+    wagon_two_truth = [record for record in truth_records if record["asset_id"] == "FG-WGN-0002"]
 
     assert all(record["is_anomaly"] is False for record in wagon_two_truth)
+
+
+@pytest.mark.parametrize(
+    "profile",
+    [
+        "axle-generator-demo",
+        "wheel-slide-demo",
+        "locked-axle-demo",
+        "wheel-flat-demo",
+        "pressure-transducer-demo",
+        "brake-release-demo",
+        "undemanded-brake-demo",
+        "battery-depletion-demo",
+        "controller-persistent-demo",
+        "controller-bounded-demo",
+    ],
+)
+def test_cli_extended_profile_writes_effect_and_lineage(tmp_path, profile):
+    output = tmp_path / profile
+    assert (
+        main(
+            [
+                "--assets",
+                "2",
+                "--seed",
+                "42",
+                "--start-time",
+                "2026-01-01T06:00:00+00:00",
+                "--sampling-interval-seconds",
+                "60",
+                "--anomaly-profile",
+                profile,
+                "--output-dir",
+                str(output),
+            ]
+        )
+        == 0
+    )
+    manifest = json.loads((output / "manifest.json").read_text())
+    assert manifest["schema_version"] == "3.2"
+    assert manifest["anomaly_profile"] == profile
+    assert manifest["counts"]["expected_reports"] == 660
+    assert manifest["anomalous_observed_reports_by_type"] or manifest["counts"]["missing_reports"]
+    assert manifest["scenario_asset_ids"] == ["FG-WGN-0001"]
+    assert (output / "scenario_metadata.json").is_file()
+    assert (output / "outage_truth.jsonl").is_file()

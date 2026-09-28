@@ -4,7 +4,7 @@ FleetGuard AI is a production-shaped MLOps platform for anomaly detection on
 synthetic freight-wagon telemetry. It is a portfolio and learning system, not a
 safety-critical railway product.
 
-Schema 3.1 models two bogies, four axles/wheelsets and eight wheels per wagon,
+Schema 3.2 models two bogies, four axles/wheelsets and eight wheels per wagon,
 shared pneumatic signals, controller diagnostics, rail condition, estimated
 adhesion, a shared wagon battery supplied by four axle-end generators, and
 journey-aware motion along a synthetic UK freight corridor.
@@ -19,7 +19,7 @@ second for high-resolution experiments. Model features use one-minute windows.
 Avonmouth, Cardiff and Swansea terminal-to-terminal duties and may reverse its
 direction. `create_journey_plan(...)` builds a specific duty.
 
-## Generate the standard portfolio dataset
+## Generate a healthy portfolio smoke dataset
 
 The standard profile uses three wagons, reproducible seed `42`, 10-second
 sampling and route-derived journey durations:
@@ -37,9 +37,12 @@ The output directory must be empty before generation. A successful run writes:
 - `axle_observations.jsonl` — four axle records per telemetry event;
 - `wheel_observations.jsonl` — eight wheel records per telemetry event;
 - `anomaly_truth.jsonl` — injected-anomaly ground truth for evaluation;
+- `missing_report_truth.jsonl` — expected but unreported samples during outages;
+- `outage_truth.jsonl` — contiguous missing-report intervals;
+- `scenario_metadata.json` — exact injected scenario configuration;
 - `manifest.json` — dataset metadata, row counts and SHA-256 file hashes.
 
-For the 330-minute London-to-Avonmouth duty, each wagon produces 1,980
+For the healthy 330-minute London-to-Avonmouth duty, each wagon produces 1,980
 telemetry events. With three wagons, the expected normalised record counts are:
 
 | Dataset | Expected records |
@@ -58,6 +61,24 @@ type data\generated\portfolio-demo\manifest.json
 
 The 10-second events remain the auditable source observations. Downstream model
 features aggregate them into leakage-safe one-minute windows.
+
+## Twelve anomaly scenarios
+
+All twelve signatures are implemented. See `docs/anomaly_catalogue.md` for the
+full catalogue, CLI profiles, targets and modelling limits. Nullable readings
+carry quality flags. Controller/battery blackouts produce missing-report truth
+instead of fabricated telemetry. The generator is version 0.2.0, schema 3.2.
+
+```cmd
+python -m fleetguard.generator --assets 2 --seed 42 --start-time 2026-01-01T06:00:00+00:00 --sampling-interval-seconds 60 --anomaly-profile controller-bounded-demo --output-dir data\generated\controller-bounded-smoke-01
+```
+
+Each demo targets wagon 1 and leaves other wagons healthy. One scenario per
+asset per batch is enforced. The battery smoke profile intentionally accelerates
+discharge; it is not an endurance estimate. Portfolio cohort generation, data
+validation and one-minute features are the next milestones.
+
+For this implementation session, follow `docs/session_twelve_anomalies.md`.
 
 ## Local verification (Windows CMD)
 
