@@ -342,9 +342,10 @@ the catalogue defines all current types, targets, quality and outage semantics.
 Development uses 60-second sampling; the portfolio standard uses 10 seconds;
 1-second experiments provide more detailed low-frequency motion observations.
 Feature windows are one minute. The CLI generates one route-derived journey
-per invocation for the configured fleet. Multi-day cohorts, parked duty cycles,
-train/validation/test splits and calibrated anomaly prevalence are subsequent
-work, not outputs already delivered by the CLI.
+per invocation for the configured fleet. The portfolio CLI now assigns asset-disjoint train/validation/test splits and
+generates one journey per wagon with randomised eligible targets. Multi-day
+cohorts, parked duty cycles and calibrated anomaly prevalence remain subsequent
+work. See `portfolio_dataset.md`.
 
 ## 13. Current assumptions
 

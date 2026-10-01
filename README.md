@@ -67,7 +67,7 @@ features aggregate them into leakage-safe one-minute windows.
 All twelve signatures are implemented. See `docs/anomaly_catalogue.md` for the
 full catalogue, CLI profiles, targets and modelling limits. Nullable readings
 carry quality flags. Controller/battery blackouts produce missing-report truth
-instead of fabricated telemetry. The generator is version 0.2.0, schema 3.2.
+instead of fabricated telemetry. The generator is version 0.3.0, schema 3.2.
 
 ```cmd
 python -m fleetguard.generator --assets 2 --seed 42 --start-time 2026-01-01T06:00:00+00:00 --sampling-interval-seconds 60 --anomaly-profile controller-bounded-demo --output-dir data\generated\controller-bounded-smoke-01
@@ -75,8 +75,8 @@ python -m fleetguard.generator --assets 2 --seed 42 --start-time 2026-01-01T06:0
 
 Each demo targets wagon 1 and leaves other wagons healthy. One scenario per
 asset per batch is enforced. The battery smoke profile intentionally accelerates
-discharge; it is not an endurance estimate. Portfolio cohort generation, data
-validation and one-minute features are the next milestones.
+discharge; it is not an endurance estimate. Seeded portfolio cohort generation and saved-file validation are available.
+One-minute feature engineering is the next milestone.
 
 For this implementation session, follow `docs/session_twelve_anomalies.md`.
 
@@ -90,3 +90,20 @@ python -m pytest -v
 
 See `docs/product_contract.md`, `docs/domain_specification.md` and
 `docs/data_contract.md` for scope and modelling decisions.
+
+
+## Seeded portfolio cohort
+
+The new planner varies wagon assignments, eligible components, onset times and
+severity while keeping asset-disjoint train/validation/test splits. The default
+48-wagon coverage cohort includes all twelve fault types, both controller modes
+and healthy controls in each split. It is a pipeline exercise, not real fault
+prevalence or a model-performance result.
+
+```cmd
+python -m fleetguard.portfolio generate --seed 42 --start-time 2026-01-01T06:00:00+00:00 --sampling-interval-seconds 10 --output-dir data\generated\portfolio-v1
+python -m fleetguard.portfolio validate --input-dir data\generated\portfolio-v1
+```
+
+See `docs/session_portfolio_dataset.md` for the guided session and
+`docs/portfolio_dataset.md` for design, randomness, file relationships and limits.

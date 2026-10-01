@@ -102,3 +102,11 @@ from wheel, motion and braking information. Internal physical truth retains the
 true adhesion coefficient and does not expose it to model inputs.
 
 Each raw event normalises into two bogie, four axle and eight wheel observations.
+
+
+## Portfolio cohort layer
+
+Generator 0.3.0 retains schema 3.2 and adds cohort planning and saved-file
+validation. `cohort_plan.json` maps each unique asset to one split and run.
+Each run uses the existing event/component/truth contracts. Cohort metadata is
+administrative/evaluation context, not feature input. See `portfolio_dataset.md`.
