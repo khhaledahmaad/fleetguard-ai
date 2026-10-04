@@ -1,0 +1,579 @@
+{
+  "description": "One component at each level from the same observed minute. Preparation smoke source uses 60-second sampling; your standard source uses 10 seconds.",
+  "rows": [
+    {
+      "feature_schema_version": "2.0",
+      "source_schema_version": "3.2",
+      "level": "wagon",
+      "split": "train",
+      "asset_id": "FG-WGN-0033",
+      "journey_id": "FG-JNY-20260101-0033",
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "bogie_id": null,
+      "axle_position": null,
+      "wheel_side": null,
+      "window_start": "2026-01-01T06:00:00Z",
+      "window_end": "2026-01-01T06:01:00Z",
+      "sampling_interval_seconds": 60,
+      "expected_reports": 1,
+      "received_reports": 1,
+      "report_completeness": 1.0,
+      "source_event_ids": [
+        "a069ab7c-4027-569f-8cee-61ea7b89f4db"
+      ],
+      "event_time_first": "2026-01-01T06:00:00Z",
+      "event_time_last": "2026-01-01T06:00:00Z",
+      "generated_at_first": "2026-01-01T06:00:00Z",
+      "generated_at_last": "2026-01-01T06:00:00Z",
+      "numeric": {
+        "route_progress": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "speed_kph": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "ambient_temp_c": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 13.94,
+          "minimum": 13.94,
+          "maximum": 13.94,
+          "first": 13.94,
+          "last": 13.94,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "longitudinal_acceleration_mps2": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "lateral_acceleration_mps2": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "vertical_acceleration_mps2": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.01665,
+          "minimum": 0.01665,
+          "maximum": 0.01665,
+          "first": 0.01665,
+          "last": 0.01665,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "estimated_adhesion_coefficient": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.3085,
+          "minimum": 0.3085,
+          "maximum": 0.3085,
+          "first": 0.3085,
+          "last": 0.3085,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "brake_pipe_pressure_bar": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 5.235,
+          "minimum": 5.235,
+          "maximum": 5.235,
+          "first": 5.235,
+          "last": 5.235,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "auxiliary_reservoir_pressure_bar": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 4.753,
+          "minimum": 4.753,
+          "maximum": 4.753,
+          "first": 4.753,
+          "last": 4.753,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "secondary_reservoir_pressure_bar": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 4.881,
+          "minimum": 4.881,
+          "maximum": 4.881,
+          "first": 4.881,
+          "last": 4.881,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "battery_voltage_v": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 4.2,
+          "minimum": 4.2,
+          "maximum": 4.2,
+          "first": 4.2,
+          "last": 4.2,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "available_axle_generators": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 4.0,
+          "minimum": 4.0,
+          "maximum": 4.0,
+          "first": 4.0,
+          "last": 4.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "controller_temperature_c": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 22.164,
+          "minimum": 22.164,
+          "maximum": 22.164,
+          "first": 22.164,
+          "last": 22.164,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "controller_supply_voltage_v": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 25.194,
+          "minimum": 25.194,
+          "maximum": 25.194,
+          "first": 25.194,
+          "last": 25.194,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "controller_uptime_seconds": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": 0.0,
+          "decrease_count": 0
+        },
+        "controller_reset_count": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": 0.0,
+          "decrease_count": 0
+        },
+        "controller_sensor_communication_error_count": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": 0.0,
+          "decrease_count": 0
+        }
+      },
+      "categorical": {
+        "travel_direction": {
+          "last": "forward",
+          "counts": {
+            "forward": 1
+          },
+          "fractions": {
+            "forward": 1.0
+          },
+          "transition_count": 0
+        },
+        "operating_state": {
+          "last": "stationary",
+          "counts": {
+            "stationary": 1
+          },
+          "fractions": {
+            "stationary": 1.0
+          },
+          "transition_count": 0
+        },
+        "journey_phase": {
+          "last": "origin_dwell",
+          "counts": {
+            "origin_dwell": 1
+          },
+          "fractions": {
+            "origin_dwell": 1.0
+          },
+          "transition_count": 0
+        },
+        "rail_condition": {
+          "last": "dry",
+          "counts": {
+            "dry": 1
+          },
+          "fractions": {
+            "dry": 1.0
+          },
+          "transition_count": 0
+        },
+        "power_source": {
+          "last": "battery",
+          "counts": {
+            "battery": 1
+          },
+          "fractions": {
+            "battery": 1.0
+          },
+          "transition_count": 0
+        },
+        "brake_demand": {
+          "last": "release",
+          "counts": {
+            "release": 1
+          },
+          "fractions": {
+            "release": 1.0
+          },
+          "transition_count": 0
+        },
+        "controller_health_status": {
+          "last": "healthy",
+          "counts": {
+            "healthy": 1
+          },
+          "fractions": {
+            "healthy": 1.0
+          },
+          "transition_count": 0
+        }
+      },
+      "static_attributes": {},
+      "location": {
+        "latitude_last": 51.5007,
+        "longitude_last": -2.6992,
+        "observed_at": "2026-01-01T06:00:00Z"
+      }
+    },
+    {
+      "feature_schema_version": "2.0",
+      "source_schema_version": "3.2",
+      "level": "bogie",
+      "split": "train",
+      "asset_id": "FG-WGN-0033",
+      "journey_id": "FG-JNY-20260101-0033",
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "bogie_id": 1,
+      "axle_position": null,
+      "wheel_side": null,
+      "window_start": "2026-01-01T06:00:00Z",
+      "window_end": "2026-01-01T06:01:00Z",
+      "sampling_interval_seconds": 60,
+      "expected_reports": 1,
+      "received_reports": 1,
+      "report_completeness": 1.0,
+      "source_event_ids": [
+        "a069ab7c-4027-569f-8cee-61ea7b89f4db"
+      ],
+      "event_time_first": "2026-01-01T06:00:00Z",
+      "event_time_last": "2026-01-01T06:00:00Z",
+      "generated_at_first": "2026-01-01T06:00:00Z",
+      "generated_at_last": "2026-01-01T06:00:00Z",
+      "numeric": {
+        "speed_kph": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "estimated_adhesion_coefficient": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.3085,
+          "minimum": 0.3085,
+          "maximum": 0.3085,
+          "first": 0.3085,
+          "last": 0.3085,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "brake_pipe_pressure_bar": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 5.235,
+          "minimum": 5.235,
+          "maximum": 5.235,
+          "first": 5.235,
+          "last": 5.235,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "auxiliary_reservoir_pressure_bar": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 4.753,
+          "minimum": 4.753,
+          "maximum": 4.753,
+          "first": 4.753,
+          "last": 4.753,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "secondary_reservoir_pressure_bar": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 4.881,
+          "minimum": 4.881,
+          "maximum": 4.881,
+          "first": 4.881,
+          "last": 4.881,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "brake_cylinder_pressure_bar": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.083,
+          "minimum": 0.083,
+          "maximum": 0.083,
+          "first": 0.083,
+          "last": 0.083,
+          "observed_positive_change": null,
+          "decrease_count": null
+        }
+      },
+      "categorical": {
+        "rail_condition": {
+          "last": "dry",
+          "counts": {
+            "dry": 1
+          },
+          "fractions": {
+            "dry": 1.0
+          },
+          "transition_count": 0
+        }
+      },
+      "static_attributes": {
+        "handbrake_equipped": true
+      },
+      "location": null
+    },
+    {
+      "feature_schema_version": "2.0",
+      "source_schema_version": "3.2",
+      "level": "axle",
+      "split": "train",
+      "asset_id": "FG-WGN-0033",
+      "journey_id": "FG-JNY-20260101-0033",
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "bogie_id": 1,
+      "axle_position": "inner",
+      "wheel_side": null,
+      "window_start": "2026-01-01T06:00:00Z",
+      "window_end": "2026-01-01T06:01:00Z",
+      "sampling_interval_seconds": 60,
+      "expected_reports": 1,
+      "received_reports": 1,
+      "report_completeness": 1.0,
+      "source_event_ids": [
+        "a069ab7c-4027-569f-8cee-61ea7b89f4db"
+      ],
+      "event_time_first": "2026-01-01T06:00:00Z",
+      "event_time_last": "2026-01-01T06:00:00Z",
+      "generated_at_first": "2026-01-01T06:00:00Z",
+      "generated_at_last": "2026-01-01T06:00:00Z",
+      "numeric": {
+        "rotational_speed_rpm": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "wheel_speed_kph": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0,
+          "first": 0.0,
+          "last": 0.0,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "axle_load_tonnes": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 14.632,
+          "minimum": 14.632,
+          "maximum": 14.632,
+          "first": 14.632,
+          "last": 14.632,
+          "observed_positive_change": null,
+          "decrease_count": null
+        },
+        "vibration_rms_g": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 0.2281,
+          "minimum": 0.2281,
+          "maximum": 0.2281,
+          "first": 0.2281,
+          "last": 0.2281,
+          "observed_positive_change": null,
+          "decrease_count": null
+        }
+      },
+      "categorical": {},
+      "static_attributes": {},
+      "location": null
+    },
+    {
+      "feature_schema_version": "2.0",
+      "source_schema_version": "3.2",
+      "level": "wheel",
+      "split": "train",
+      "asset_id": "FG-WGN-0033",
+      "journey_id": "FG-JNY-20260101-0033",
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "bogie_id": 1,
+      "axle_position": "inner",
+      "wheel_side": "left",
+      "window_start": "2026-01-01T06:00:00Z",
+      "window_end": "2026-01-01T06:01:00Z",
+      "sampling_interval_seconds": 60,
+      "expected_reports": 1,
+      "received_reports": 1,
+      "report_completeness": 1.0,
+      "source_event_ids": [
+        "a069ab7c-4027-569f-8cee-61ea7b89f4db"
+      ],
+      "event_time_first": "2026-01-01T06:00:00Z",
+      "event_time_last": "2026-01-01T06:00:00Z",
+      "generated_at_first": "2026-01-01T06:00:00Z",
+      "generated_at_last": "2026-01-01T06:00:00Z",
+      "numeric": {
+        "bearing_temp_c": {
+          "valid_count": 1,
+          "missing_count": 0,
+          "invalid_count": 0,
+          "invalid_raw_value_counts": {},
+          "mean": 38.703,
+          "minimum": 38.703,
+          "maximum": 38.703,
+          "first": 38.703,
+          "last": 38.703,
+          "observed_positive_change": null,
+          "decrease_count": null
+        }
+      },
+      "categorical": {},
+      "static_attributes": {
+        "diameter_mm": 954.29
+      },
+      "location": null
+    }
+  ]
+}

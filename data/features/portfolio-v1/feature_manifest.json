@@ -1,0 +1,6925 @@
+{
+  "feature_schema_version": "2.0",
+  "files": {
+    "test_axle_features.jsonl": {
+      "records": 15368,
+      "sha256": "2abaae21b2ea004982d7c2bcdd9d6780a4c25178f684273d94c8c06ebca0dbcb"
+    },
+    "test_bogie_features.jsonl": {
+      "records": 7684,
+      "sha256": "6898a3066eeb87816eb76401f0df3ab31abe838d94f9ccbff831455f157d1e97"
+    },
+    "test_wagon_features.jsonl": {
+      "records": 3842,
+      "sha256": "cf4ed166f751c746be24a95bf8597f2f8db6b3fbfb2be8ab3f2b6e80b40f7a0f"
+    },
+    "test_wheel_features.jsonl": {
+      "records": 30736,
+      "sha256": "f8a9467c58395a268e4a776de98fae4dbf8a404779581d3d8d527e240c8e683c"
+    },
+    "train_axle_features.jsonl": {
+      "records": 16676,
+      "sha256": "685adad102080e3b099a40084a9e5a8102bcf6ed42cd6db9d205995350a0c7c5"
+    },
+    "train_bogie_features.jsonl": {
+      "records": 8338,
+      "sha256": "90e684de85a2ba5a592873502916826ae6e7a3c4e978b8ca6c4783d5290622a3"
+    },
+    "train_wagon_features.jsonl": {
+      "records": 4169,
+      "sha256": "118d661a35fac269aa8f275c5bc6b1712e319e27391d6f9ac9565ea1f3addb2e"
+    },
+    "train_wheel_features.jsonl": {
+      "records": 33352,
+      "sha256": "f21575531dedc298ea4cb3cc82e8d6c82cb67ee7e9a0fc1efa23dac9025f9e94"
+    },
+    "validation_axle_features.jsonl": {
+      "records": 18992,
+      "sha256": "102b0d304ce6376d792b4340afd0780beef32f92a2ceae1f3afd359e75df2dcc"
+    },
+    "validation_bogie_features.jsonl": {
+      "records": 9496,
+      "sha256": "4b6c4881bdd343eced2d36d8829d4f0bb4417f1bd053c2c5f8b4ec6da7e460c0"
+    },
+    "validation_wagon_features.jsonl": {
+      "records": 4748,
+      "sha256": "9a9eff53b8cfc64314559034da2eb98ec3c2d8d06520b5921ba88dfadc586924"
+    },
+    "validation_wheel_features.jsonl": {
+      "records": 37984,
+      "sha256": "eadc8d5481289a6314455e7b4f7ea9ab43bc59ed7d81ea43c3ddbea89760895f"
+    }
+  },
+  "journeys": [
+    {
+      "asset_id": "FG-WGN-0033",
+      "complete_windows": 142,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 954.29
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 954.42
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.41
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.28
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.94
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.74
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.73
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 942.3
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0033",
+      "partial_windows": 0,
+      "received_reports_used": 852,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "8a2405449b4d5d1df5f54e6b0d6a69ef9306922e42714c5cfbe2ebf4413e0d00",
+      "split": "train",
+      "window_count": 142,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0012",
+      "complete_windows": 146,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.28
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.55
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.58
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 950.89
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.13
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.24
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.85
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.27
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0012",
+      "partial_windows": 0,
+      "received_reports_used": 876,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "890ebb0b3b87fc02b8cc82932281ddf24a2e8230a2edfe713fea57116b8aee56",
+      "split": "train",
+      "window_count": 146,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0004",
+      "complete_windows": 39,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 927.2
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 927.74
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.99
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.8
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.21
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.53
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 909.76
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 909.53
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0004",
+      "partial_windows": 2,
+      "received_reports_used": 242,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 125,
+      "source_run_manifest_sha256": "f181c7d0ce806504e047e09afb00c2b9dd04640cf9ec0464c4a20732b9a64bd1",
+      "split": "train",
+      "window_count": 166,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0021",
+      "complete_windows": 406,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 942.34
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 942.44
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 909.69
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 909.6
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.46
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.9
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 906.71
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.42
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0021",
+      "partial_windows": 0,
+      "received_reports_used": 2436,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 54,
+      "source_run_manifest_sha256": "ed76199e3786a08d132bbb63cc4b2b8c9014946ad11f7a074c955c1bcfb3dc3c",
+      "split": "train",
+      "window_count": 460,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0039",
+      "complete_windows": 284,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 906.33
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.07
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 950.97
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.49
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 942.44
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 942.34
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 938.14
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 938.66
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0039",
+      "partial_windows": 2,
+      "received_reports_used": 1710,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 11,
+      "source_run_manifest_sha256": "d4ea1277e0304c16f628487d418855d9bb40411062a51885caced4b4389648b2",
+      "split": "train",
+      "window_count": 297,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0009",
+      "complete_windows": 313,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 957.21
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 957.89
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 922.43
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 921.89
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 929.32
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 928.7
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 955.11
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 955.27
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0009",
+      "partial_windows": 0,
+      "received_reports_used": 1878,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "ecf82e9b9ebe3159455c96485feb48b5837dcf81aef204bcbcd4dc9a41af63cd",
+      "split": "train",
+      "window_count": 313,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0048",
+      "complete_windows": 350,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.5
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.76
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 955.43
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 955.9
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 932.67
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 932.91
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.02
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 955.9
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0048",
+      "partial_windows": 0,
+      "received_reports_used": 2100,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "43ab9d7bb7a486a754da8beb4fff06ef967f68576cabddf57e5d3a6b227b8f5d",
+      "split": "train",
+      "window_count": 350,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0035",
+      "complete_windows": 147,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 927.7
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.98
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 938.56
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.98
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.61
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 920.03
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 922.75
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 922.28
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0035",
+      "partial_windows": 0,
+      "received_reports_used": 882,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "67e1b9202e567238dc7869d3be455a81719e0d452924bf7abca9bceb5a199a17",
+      "split": "train",
+      "window_count": 147,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0017",
+      "complete_windows": 516,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.77
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.92
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.19
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.82
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.02
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.06
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.16
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.03
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0017",
+      "partial_windows": 0,
+      "received_reports_used": 3096,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "bbc71482bc4578499b16aad5222c9f3e1aa75ef7f8127b2a69494c94fa78b959",
+      "split": "train",
+      "window_count": 516,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0025",
+      "complete_windows": 496,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 934.84
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.61
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 952.62
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 952.24
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 920.74
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 921.2
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 902.3
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 902.45
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0025",
+      "partial_windows": 0,
+      "received_reports_used": 2976,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "b7cf9525d8aeee9e8957d56b079e9e365965ce83fbd63718971d84de77fd67c2",
+      "split": "train",
+      "window_count": 496,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0016",
+      "complete_windows": 354,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.88
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.17
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 934.75
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 934.82
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.16
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 950.62
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.05
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.06
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0016",
+      "partial_windows": 0,
+      "received_reports_used": 2124,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "c8c2a41b3d0b786274c6fef10a87edb5f28d1d62aa136fe61d9fe167fc6966e1",
+      "split": "train",
+      "window_count": 354,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0015",
+      "complete_windows": 168,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.13
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 899.95
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 954.15
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 953.61
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 917.11
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 917.43
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 955.59
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.05
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0015",
+      "partial_windows": 0,
+      "received_reports_used": 1008,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "67ccd6a9211737ed297f67a1c0ddba830fed6e351fd746270c3eafab4c0d997e",
+      "split": "train",
+      "window_count": 168,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0018",
+      "complete_windows": 145,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 904.35
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 904.29
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 918.97
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.37
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 904.4
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 903.94
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 959.91
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 960.7
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0018",
+      "partial_windows": 0,
+      "received_reports_used": 870,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "d348ed91af4f7379f25bfcace8a92057a315311d8f8d228c68131329e2b99159",
+      "split": "train",
+      "window_count": 145,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0002",
+      "complete_windows": 155,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 952.16
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 952.57
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.95
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.6
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.67
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.22
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 909.58
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 909.46
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0002",
+      "partial_windows": 0,
+      "received_reports_used": 930,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "d54d5e5f3b08668d2cb442f818962078d54f051bfef41203db7c11e460995d1d",
+      "split": "train",
+      "window_count": 155,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0031",
+      "complete_windows": 143,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 936.76
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.11
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 957.0
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 957.63
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 932.87
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.51
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 930.29
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 930.82
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0031",
+      "partial_windows": 0,
+      "received_reports_used": 858,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "99d496ef98853bbdf325e6962ae3b7d13cc5106bd2702c17e4197b5bb9a0d904",
+      "split": "train",
+      "window_count": 143,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0013",
+      "complete_windows": 171,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 943.74
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.02
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 925.41
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 925.36
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 924.16
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 923.9
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 959.05
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 958.41
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0013",
+      "partial_windows": 0,
+      "received_reports_used": 1026,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "964194184abd2c9bbb9651db4782e4e10de1e05900272e5475be672a33375b25",
+      "split": "train",
+      "window_count": 171,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0032",
+      "complete_windows": 142,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 917.14
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.78
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.48
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 915.8
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 908.3
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.87
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.18
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.25
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0032",
+      "partial_windows": 0,
+      "received_reports_used": 852,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "fba2cc4319e3795f29e60573029f6fd7c95ccd7b89670ba7da0773e43b22cf3f",
+      "split": "validation",
+      "window_count": 142,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0023",
+      "complete_windows": 447,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.94
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.8
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 910.76
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.44
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.89
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.34
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.19
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.57
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0023",
+      "partial_windows": 0,
+      "received_reports_used": 2682,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "236ea6ae54b9355d8f25cfc579089cc9658a21ad67c125d7136f07492dc02a21",
+      "split": "validation",
+      "window_count": 447,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0014",
+      "complete_windows": 484,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.59
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 927.17
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.99
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 915.67
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 959.96
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 960.49
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.02
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 932.3
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0014",
+      "partial_windows": 0,
+      "received_reports_used": 2904,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "ab700dceaf3c7afe960b34ecb5a44290e58ab796117af5ff79e639419e27676f",
+      "split": "validation",
+      "window_count": 484,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0038",
+      "complete_windows": 348,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.63
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.0
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 904.56
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 904.86
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 936.02
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.42
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.35
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.91
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0038",
+      "partial_windows": 0,
+      "received_reports_used": 2088,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "62e79157e8e55c38decb600965b557ad404adcc2b6ac99c9cea124d9b649f2a0",
+      "split": "validation",
+      "window_count": 348,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0028",
+      "complete_windows": 129,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.33
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.24
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 947.15
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 947.32
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 947.62
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 948.36
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.54
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.56
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0028",
+      "partial_windows": 0,
+      "received_reports_used": 774,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "a3cd4eb8e60dca23172bb4d91cc32d2541b4105ed703917b1e685eacd52caa6d",
+      "split": "validation",
+      "window_count": 129,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0003",
+      "complete_windows": 519,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 958.39
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 958.19
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 943.78
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 943.84
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.11
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.69
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.12
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.65
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0003",
+      "partial_windows": 0,
+      "received_reports_used": 3114,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "5cf7382ceb393d0cc2f3aa38a7639ff3629df0605bd4a4b8c43620554734b04a",
+      "split": "validation",
+      "window_count": 519,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0040",
+      "complete_windows": 26,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.1
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.67
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.13
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.5
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 952.9
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 952.49
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 949.84
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 949.18
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0040",
+      "partial_windows": 2,
+      "received_reports_used": 161,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 121,
+      "source_run_manifest_sha256": "b98e642e7fba32b94ad111f037ece1e7d2fefe136d9672e7e3a59ee5de94405c",
+      "split": "validation",
+      "window_count": 149,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0006",
+      "complete_windows": 168,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 954.87
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 954.81
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.33
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.16
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.68
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.3
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 915.89
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 915.49
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0006",
+      "partial_windows": 0,
+      "received_reports_used": 1008,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "c8abcd33c508643c39f439fb3720dab78deb99bec71c8fe0ddcab9f566b49fad",
+      "split": "validation",
+      "window_count": 168,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0029",
+      "complete_windows": 321,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.95
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.19
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.37
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.93
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 950.98
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 950.3
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.69
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.65
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0029",
+      "partial_windows": 0,
+      "received_reports_used": 1926,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "9156589f044ba77f9bced4e07ffc31f560e181a29b0398ff449d3a80dd236ddf",
+      "split": "validation",
+      "window_count": 321,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0047",
+      "complete_windows": 160,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 904.87
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 904.46
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.53
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.15
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 924.51
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 924.81
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.12
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 932.57
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0047",
+      "partial_windows": 0,
+      "received_reports_used": 960,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "d9eef4713bcdaf197d40578621a0077e78541ca9b3bb2abe8334d8d5b15f9fd9",
+      "split": "validation",
+      "window_count": 160,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0041",
+      "complete_windows": 142,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 920.42
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 921.03
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.73
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.2
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.61
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 901.33
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 942.07
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.71
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0041",
+      "partial_windows": 1,
+      "received_reports_used": 853,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 40,
+      "source_run_manifest_sha256": "19554e2d214f5900ad72cf6d10fa55195c96903b9e8adb6695002bd61e298c38",
+      "split": "validation",
+      "window_count": 183,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0030",
+      "complete_windows": 460,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.06
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.49
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.36
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 938.57
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 910.55
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.29
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 906.4
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 906.28
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0030",
+      "partial_windows": 2,
+      "received_reports_used": 2766,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 7,
+      "source_run_manifest_sha256": "964a78338327508dc1661e361f133a633e364e6882e079e46fbfc7d325f707f8",
+      "split": "validation",
+      "window_count": 469,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0007",
+      "complete_windows": 473,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 909.17
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 908.63
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.35
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.92
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 923.09
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 923.24
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.83
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.98
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0007",
+      "partial_windows": 0,
+      "received_reports_used": 2838,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "006b05406cfd5f5ea85deabd08547d18d770c72c7bd4961e8255b610669a0f43",
+      "split": "validation",
+      "window_count": 473,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0020",
+      "complete_windows": 301,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 920.57
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 920.87
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.91
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.44
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 915.07
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 915.72
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.17
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.18
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0020",
+      "partial_windows": 0,
+      "received_reports_used": 1806,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "62e68abccacaf8c72b4e115c4663dffe2ae76cb3c45453d22d668e04c5b11423",
+      "split": "validation",
+      "window_count": 301,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0011",
+      "complete_windows": 144,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 922.41
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 923.04
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 923.94
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 924.21
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 903.84
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 903.08
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 927.09
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.69
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0011",
+      "partial_windows": 0,
+      "received_reports_used": 864,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "84bfc3fd234dd7e0fa1744597a90eb06fe1a195d15d0a79973e8e91f7453e2a0",
+      "split": "validation",
+      "window_count": 144,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0005",
+      "complete_windows": 311,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.29
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.84
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.2
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.88
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 903.36
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 903.87
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.46
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 919.89
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0005",
+      "partial_windows": 0,
+      "received_reports_used": 1866,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "a22ddb1a6ef881e6ee0e456e30627842630a59f8f680aa4fbdb87deba636427b",
+      "split": "validation",
+      "window_count": 311,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0034",
+      "complete_windows": 297,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 929.14
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 928.96
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 929.29
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 928.93
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 943.45
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.0
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.13
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.61
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0034",
+      "partial_windows": 0,
+      "received_reports_used": 1782,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "468f813ca99a5406451142454c0da829c6cf7cb6b68fa1649e4226860052a18d",
+      "split": "test",
+      "window_count": 297,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0027",
+      "complete_windows": 153,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.83
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.92
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.01
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.74
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 922.75
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 923.15
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.51
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.77
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0027",
+      "partial_windows": 0,
+      "received_reports_used": 918,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "0db92c89c13cee1fff74b59746eb6d46d905bd571ad49a8f9f94ea1bb8d522dc",
+      "split": "test",
+      "window_count": 153,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0037",
+      "complete_windows": 136,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 910.07
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 910.24
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.97
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 942.39
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 949.16
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 949.9
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.88
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.26
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0037",
+      "partial_windows": 0,
+      "received_reports_used": 816,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "e7c855fed1ef87590c152e1c0c796bdaf296f8c0071999e5efa400b50df78d63",
+      "split": "test",
+      "window_count": 136,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0008",
+      "complete_windows": 148,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 917.61
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 917.06
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.12
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.86
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 943.18
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 943.94
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.19
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.55
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0008",
+      "partial_windows": 0,
+      "received_reports_used": 888,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "6b1b7b2b49028de33bf65b0d4bec4aeed73ea0465f762c00f102b281e76b2e37",
+      "split": "test",
+      "window_count": 148,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0001",
+      "complete_windows": 497,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.39
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.77
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 901.5
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 901.14
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 905.22
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 905.09
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 940.6
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 941.23
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0001",
+      "partial_windows": 0,
+      "received_reports_used": 2982,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "392d972cbdbea340c630c874723ef3315c0b01291a2c2833badf59f8d02262f0",
+      "split": "test",
+      "window_count": 497,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0045",
+      "complete_windows": 20,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 903.08
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 903.79
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 926.43
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 925.92
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 924.04
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 923.36
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 928.66
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 929.18
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0045",
+      "partial_windows": 3,
+      "received_reports_used": 131,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 121,
+      "source_run_manifest_sha256": "53987fcd745e889dc0a8d4ece9e6f8c59726dec756df352783085b9fbf8503c3",
+      "split": "test",
+      "window_count": 144,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0019",
+      "complete_windows": 147,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 936.7
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 937.48
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 950.02
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 950.35
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 949.03
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 948.71
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.24
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 938.45
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0019",
+      "partial_windows": 0,
+      "received_reports_used": 882,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "57f6a65cc8e5e12c5e52626bed6f5d72dc4d0c9c82433973d682ecba9dc5ca6f",
+      "split": "test",
+      "window_count": 147,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0044",
+      "complete_windows": 172,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.85
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.9
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.65
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.14
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.2
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.52
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 916.46
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 917.22
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0044",
+      "partial_windows": 0,
+      "received_reports_used": 1032,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "626baee4f4647be788a7fe08c33069f6cc2b030a75b88740fd8d63de5d03e854",
+      "split": "test",
+      "window_count": 172,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0043",
+      "complete_windows": 449,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.17
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.23
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.24
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 906.75
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.98
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.96
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.73
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 945.23
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0043",
+      "partial_windows": 0,
+      "received_reports_used": 2694,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "78ed4a64c47e56c9dd51a8334869cd75b8583727d6e343175e82061d0f2de1db",
+      "split": "test",
+      "window_count": 449,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0042",
+      "complete_windows": 144,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.3
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.6
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 947.58
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.92
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 928.4
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 928.45
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 918.37
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 918.5
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0042",
+      "partial_windows": 0,
+      "received_reports_used": 864,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "4de83b7af8284438571bebbfb1d82e1b2c97ae02c0e71349181cb192af956d98",
+      "split": "test",
+      "window_count": 144,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0036",
+      "complete_windows": 290,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.01
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.46
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 959.99
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 959.75
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.98
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.5
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.11
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 939.51
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0036",
+      "partial_windows": 2,
+      "received_reports_used": 1746,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 8,
+      "source_run_manifest_sha256": "a973dbc532aa9c036c127e680248b30ff76ff9e64f196dc6d4d023062cd33323",
+      "split": "test",
+      "window_count": 300,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0010",
+      "complete_windows": 154,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 958.68
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 958.73
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 943.91
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.42
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.81
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 956.28
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.55
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 907.8
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0010",
+      "partial_windows": 0,
+      "received_reports_used": 924,
+      "route_id": "FG-RTE-CARDIFF-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "40ba15751a028319f5f339cfad4cf7c3a2a866db5741fb56fc9780c920b0e86b",
+      "split": "test",
+      "window_count": 154,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0022",
+      "complete_windows": 48,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.97
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 914.34
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 953.94
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 953.47
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 924.38
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 924.58
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.81
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 947.42
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0022",
+      "partial_windows": 1,
+      "received_reports_used": 293,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 78,
+      "source_run_manifest_sha256": "e9e86b900f5b683e9575e1df87ef2f14cd203fcfc186bfaa51821e3251624738",
+      "split": "test",
+      "window_count": 127,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0026",
+      "complete_windows": 145,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 932.31
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 932.66
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.1
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 900.78
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 921.85
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 921.17
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.52
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 944.79
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0026",
+      "partial_windows": 0,
+      "received_reports_used": 870,
+      "route_id": "FG-RTE-AVONMOUTH-CARDIFF",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "34ec99c68fda034232261c244efabf1645ccd31e15ea41f88c18fe8e724a7987",
+      "split": "test",
+      "window_count": 145,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0046",
+      "complete_windows": 316,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.77
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 935.96
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.48
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 933.35
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 954.51
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 954.19
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.54
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 946.35
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0046",
+      "partial_windows": 0,
+      "received_reports_used": 1896,
+      "route_id": "FG-RTE-LONDON-AVONMOUTH",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "6e01072f9bb6a5a9267d7cce2393823af440717e03c3c2ff1477c024a12cd396",
+      "split": "test",
+      "window_count": 316,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    },
+    {
+      "asset_id": "FG-WGN-0024",
+      "complete_windows": 513,
+      "components": [
+        {
+          "axle_position": null,
+          "bogie_id": null,
+          "level": "wagon",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 1,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": false
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 913.66
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 912.89
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 918.31
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 1,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 918.78
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": null,
+          "bogie_id": 2,
+          "level": "bogie",
+          "static_attributes": {
+            "handbrake_equipped": true
+          },
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 951.86
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "inner",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 952.61
+          },
+          "wheel_side": "right"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "axle",
+          "static_attributes": {},
+          "wheel_side": null
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.59
+          },
+          "wheel_side": "left"
+        },
+        {
+          "axle_position": "outer",
+          "bogie_id": 2,
+          "level": "wheel",
+          "static_attributes": {
+            "diameter_mm": 911.31
+          },
+          "wheel_side": "right"
+        }
+      ],
+      "excluded_tail_reports": 0,
+      "excluded_tail_seconds": 0,
+      "journey_id": "FG-JNY-20260101-0024",
+      "partial_windows": 0,
+      "received_reports_used": 3078,
+      "route_id": "FG-RTE-LONDON-SWANSEA",
+      "sampling_interval_seconds": 10,
+      "silent_windows": 0,
+      "source_run_manifest_sha256": "c4fe5a278282edaf75518911fe80b245edf15e2eedcba6625c759f9ea65f59a8",
+      "split": "test",
+      "window_count": 513,
+      "window_start": "2026-01-01T06:00:00+00:00"
+    }
+  ],
+  "source_manifest_sha256": "de0c10a94b42652c2fb7dba71eeb8675edfbd9cf0ecf18ba6b5f55f9f3dc6765",
+  "source_plan_sha256": "4d54e3018352490c5ca7573179b393a8b24085510e4ffbf9dec25e7ff1834a1c",
+  "source_schema_version": "3.2",
+  "tail_policy": "exclude incomplete minute",
+  "window_boundary": "[start, end)",
+  "window_seconds": 60
+}
