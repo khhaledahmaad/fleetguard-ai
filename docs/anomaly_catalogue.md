@@ -123,7 +123,8 @@ will be a separate expected-report monitor, not a model scoring nonexistent rows
 
 ## Sampling and evaluation limits
 
-Use 10-second sampling for portfolio datasets and 60-second feature windows.
+Use 10-second sampling for the standard portfolio source. Additional 60-second
+summaries exist at each component level; granular modelling remains available.
 A 60-second smoke test may contain only two slide samples. A one-minute feature
 window at that frequency contains one sample, which is insufficient for useful
 within-window variance. One-second experiments still do not resolve raw
@@ -132,5 +133,6 @@ it does not synthesize impact waveforms or prove an individual wheel is flat.
 
 Keep all three truth outputs and scenario configuration out of model inputs.
 Split evaluation by held-out assets; report mechanical detection, sensor-quality
-detection and outage detection separately. Dataset splits, window labels,
-feature code, trained models and runtime monitoring are subsequent milestones.
+detection and outage detection separately. Seeded dataset splits and hierarchical minute summaries are implemented.
+Model feature selection, evaluation labels, trained models and runtime monitoring
+remain subsequent milestones.

@@ -1,0 +1,11 @@
+{
+  "routes": 24,
+  "mobile_routes": 24,
+  "source_cards": 7,
+  "generation_steps": 4,
+  "feature_levels": 4,
+  "feature_numeric_fields": 28,
+  "persistent_labels": "passed",
+  "js_errors": [],
+  "offline": true
+}

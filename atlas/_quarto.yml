@@ -1,0 +1,8 @@
+project:
+  type: website
+  render: [index.qmd]
+  output-dir: _site
+  resources:
+    - assets/
+website:
+  title: "FleetGuard AI Engineering Atlas"

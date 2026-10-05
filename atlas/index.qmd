@@ -1,0 +1,21 @@
+---
+title: "FleetGuard AI � Engineering Atlas"
+format:
+  html:
+    theme: none
+    css: assets/atlas.css
+    toc: false
+    include-after-body: _scripts.html
+page-layout: custom
+title-block-style: none
+---
+
+```{=html}
+<a class="skip" href="#content">Skip to content</a>
+<header class="topbar"><a class="brand" href="#overview"><img src="assets/fleetguard-logo.svg" alt="FleetGuard AI"><span class="brand-divider"></span><span class="atlas-label">ENGINEERING ATLAS</span></a><div class="topmeta"><span class="live-dot"></span>SYNTHETIC SYSTEM · EDITION 04<button id="menu-toggle" aria-label="Toggle navigation">☰</button></div></header>
+<aside class="sidebar" aria-label="Atlas navigation"><div class="nav-caption">SYSTEM → DATA → FEATURES</div><nav id="navigation"></nav><div class="side-note"><span class="side-note-label">BUILD STATUS</span><strong>Generator + features</strong><span>Models and deployment are planned.</span><a href="#roadmap">View implementation boundary ↗</a></div><div class="side-version">Telemetry 3.2 / Features 2.0</div></aside>
+<main id="content" tabindex="-1"></main>
+<footer>FLEETGUARD AI <span>Product concept · Synthetic demonstrator · Human review</span><a href="#references">Source register ↗</a></footer>
+<div id="modal" class="modal" hidden><div class="modal-card"><button id="modal-close" class="modal-close" aria-label="Close detail">×</button><div id="modal-content"></div></div></div>
+
+```

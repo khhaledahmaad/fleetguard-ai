@@ -1,8 +1,11 @@
 # FleetGuard AI
 
-FleetGuard AI is a production-shaped MLOps platform for anomaly detection on
-synthetic freight-wagon telemetry. It is a portfolio and learning system, not a
-safety-critical railway product.
+FleetGuard AI is a rail-fleet condition intelligence product concept and
+technical demonstrator. Its current implementation generates and validates
+synthetic freight-wagon telemetry and modelling features. Model services,
+operational dashboards and deployment form the next platform milestones.
+Commercial potential requires validation with real fleet data, verified hardware
+interfaces and customer evaluation. It is not a safety-critical railway product.
 
 Schema 3.2 models two bogies, four axles/wheelsets and eight wheels per wagon,
 shared pneumatic signals, controller diagnostics, rail condition, estimated
@@ -13,7 +16,8 @@ uses route-derived journey durations with terminal and intermediate dwell.
 
 Operational journeys default to 10-second sampling. Supported profiles are 60
 seconds for development, 10 seconds for the standard portfolio dataset and 1
-second for high-resolution experiments. Model features use one-minute windows.
+second for high-resolution experiments. Granular reports remain available for modelling. Additional one-minute summaries
+preserve wagon, bogie, axle and wheel identities.
 
 `create_random_journey_plan(seed)` reproducibly selects one of several London,
 Avonmouth, Cardiff and Swansea terminal-to-terminal duties and may reverse its
@@ -59,8 +63,8 @@ Inspect the generated manifest from Windows CMD:
 type data\generated\portfolio-demo\manifest.json
 ```
 
-The 10-second events remain the auditable source observations. Downstream model
-features aggregate them into leakage-safe one-minute windows.
+The 10-second events remain the auditable source observations. Additional component-level summaries aggregate them into one-minute windows;
+these are not the sole modelling representation.
 
 ## Twelve anomaly scenarios
 
@@ -76,7 +80,8 @@ python -m fleetguard.generator --assets 2 --seed 42 --start-time 2026-01-01T06:0
 Each demo targets wagon 1 and leaves other wagons healthy. One scenario per
 asset per batch is enforced. The battery smoke profile intentionally accelerates
 discharge; it is not an endurance estimate. Seeded portfolio cohort generation and saved-file validation are available.
-One-minute feature engineering is the next milestone.
+Hierarchical feature schema 2.0 is implemented. Model feature selection, labels
+and evaluation remain subsequent milestones.
 
 For this implementation session, follow `docs/session_twelve_anomalies.md`.
 
@@ -107,3 +112,34 @@ python -m fleetguard.portfolio validate --input-dir data\generated\portfolio-v1
 
 See `docs/session_portfolio_dataset.md` for the guided session and
 `docs/portfolio_dataset.md` for design, randomness, file relationships and limits.
+
+## Engineering atlas
+
+Open `atlas\_site\index.html` for the self-contained interactive atlas. It includes
+the wagon architecture, actual seeded generator traces, all twelve anomaly
+scenarios, portfolio planning, hierarchical feature examples and source references.
+It works offline after extracting the full folder.
+
+Rebuild its fixtures and ready-to-open site from Windows CMD:
+
+```cmd
+python scripts\build_fleetguard_atlas.py
+```
+
+Optional Quarto rendering (if Quarto is installed):
+
+```cmd
+quarto render atlas
+```
+
+See `atlas/README.md` for sharing and editing instructions.
+
+## Hierarchical feature dataset
+
+```cmd
+python -m fleetguard.features build --input-dir data\generated\portfolio-v1 --output-dir data\features\portfolio-v1
+python -m fleetguard.features validate --input-dir data\features\portfolio-v1
+```
+
+This writes four component tables per split and a manifest. Use a fresh or empty
+output directory. Generated datasets and rendered atlas output stay outside Git.

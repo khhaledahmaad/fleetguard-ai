@@ -13,3 +13,5 @@ build/
 # Generated datasets are reproducible outputs.
 /data/generated/
 /data/features/
+
+/atlas/_site/
