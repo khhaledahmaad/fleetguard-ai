@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "AnomalySeverity": {
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "AnomalySeverity",
+      "type": "string"
+    },
+    "AnomalyType": {
+      "enum": [
+        "none",
+        "bearing_degradation",
+        "brake_pressure_leak",
+        "sensor_fault",
+        "axle_speed_generator_failure",
+        "wheel_slide",
+        "locked_axle",
+        "suspected_wheel_flat",
+        "pressure_transducer_failure",
+        "brake_release_failure",
+        "undemanded_brake_application",
+        "premature_battery_depletion",
+        "controller_supply_failure"
+      ],
+      "title": "AnomalyType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Synthetic truth only: an expected report that was never emitted.",
+  "properties": {
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "expected_at": {
+      "format": "date-time",
+      "title": "Expected At",
+      "type": "string"
+    },
+    "scenario_id": {
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "anomaly_type": {
+      "$ref": "#/$defs/AnomalyType"
+    },
+    "anomaly_severity": {
+      "$ref": "#/$defs/AnomalySeverity"
+    }
+  },
+  "required": [
+    "event_id",
+    "asset_id",
+    "expected_at",
+    "scenario_id",
+    "anomaly_type",
+    "anomaly_severity"
+  ],
+  "title": "MissingReportTruth",
+  "type": "object"
+}

@@ -73,11 +73,12 @@ end at the dataset horizon. See `anomaly_catalogue.md` for timing and label rule
 
 ## Raw versus derived values
 
-Schema 3.2 stores simulated sensor readings and physical metadata. Feature
-engineering will later derive diameter difference, wheel/ground-speed residual,
-slip ratio, bogie pressure imbalance, pressure decay/recovery rates, bearing
-temperature residuals and vibration-window statistics. Ground truth must never
-enter model features.
+Schema 3.2 stores simulated sensor readings and physical metadata. Feature schema 2.0 now adds valid-value mean/minimum/maximum/first/last summaries
+separately at wagon, bogie, axle and wheel levels, with categorical, location,
+counter and quality policies. It retains raw observations. Diameter differences,
+slip ratios, pressure decay rates and other engineered residuals are not currently
+implemented fields and remain potential model-development additions. Ground truth
+must never enter model features. See [hierarchical feature rules](hierarchical_feature_rules.md).
 
 ## Route limitations
 
@@ -110,3 +111,29 @@ Generator 0.3.0 retains schema 3.2 and adds cohort planning and saved-file
 validation. `cohort_plan.json` maps each unique asset to one split and run.
 Each run uses the existing event/component/truth contracts. Cohort metadata is
 administrative/evaluation context, not feature input. See `portfolio_dataset.md`.
+
+## Contract reference and cross-file validation
+
+The [signal catalogue](signal_catalogue.md) lists readable meanings, units and
+contract bounds. [JSON Schema snapshots](contracts/README.md) cover the raw,
+metadata, normalised, truth and component-window records. Extra fields are
+forbidden by the Pydantic models; timestamps requiring offsets are checked in
+Python. JSON Schema alone does not execute those custom validators.
+
+Event identity is a UUID. Asset identity is `FG-WGN-` plus four digits. Bogie
+identity is 1/2, axle identity inner/outer, and wheel identity left/right. A
+component key includes its parents; axle `inner` is not unique across the wagon.
+`event_time` is the source observation time; `generated_at` cannot precede it.
+
+The generator emits the fixed two/four/eight component topology. Saved-file
+validation checks projected component rows against their parent event and asset
+metadata, alongside expected-grid, truth and hash consistency. The generation
+guide provides [the executable workflow](dataset_generation_guide.md).
+
+Feature windows use `[window_start, window_end)` and span 60 seconds on minute
+boundaries. They expect 60/interval reports and retain component identity, split,
+source event IDs, measurement quality and report completeness. Schema 2.0 numeric
+summaries require all five values when valid readings exist and none when they
+do not. Feature validation uses the prescribed field sets for each level.
+
+Do not interpret schema boundaries as alert thresholds or operating limits.

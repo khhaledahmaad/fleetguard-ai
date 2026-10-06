@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "AxlePosition": {
+      "enum": [
+        "inner",
+        "outer"
+      ],
+      "title": "AxlePosition",
+      "type": "string"
+    },
+    "SignalQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "valid",
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "raw_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw Value"
+        }
+      },
+      "title": "SignalQuality",
+      "type": "object"
+    },
+    "WheelSide": {
+      "enum": [
+        "left",
+        "right"
+      ],
+      "title": "WheelSide",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "signal_quality": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SignalQuality"
+      },
+      "title": "Signal Quality",
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_time": {
+      "format": "date-time",
+      "title": "Event Time",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^FG-WGN-\\d{4}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "journey_id": {
+      "pattern": "^FG-JNY-\\d{8}-\\d{4}$",
+      "title": "Journey Id",
+      "type": "string"
+    },
+    "route_id": {
+      "pattern": "^FG-RTE-[A-Z0-9-]+$",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "bogie_id": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Bogie Id",
+      "type": "integer"
+    },
+    "axle_position": {
+      "$ref": "#/$defs/AxlePosition"
+    },
+    "wheel_side": {
+      "$ref": "#/$defs/WheelSide"
+    },
+    "diameter_mm": {
+      "title": "Diameter Mm",
+      "type": "number"
+    },
+    "bearing_temp_c": {
+      "title": "Bearing Temp C",
+      "type": "number"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_time",
+    "asset_id",
+    "journey_id",
+    "route_id",
+    "bogie_id",
+    "axle_position",
+    "wheel_side",
+    "diameter_mm",
+    "bearing_temp_c"
+  ],
+  "title": "WheelObservation",
+  "type": "object"
+}

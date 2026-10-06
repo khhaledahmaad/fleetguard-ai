@@ -1,0 +1,169 @@
+{
+  "$defs": {
+    "RailCondition": {
+      "enum": [
+        "dry",
+        "wet",
+        "leaf_contaminated",
+        "icy"
+      ],
+      "title": "RailCondition",
+      "type": "string"
+    },
+    "SignalQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "valid",
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "raw_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw Value"
+        }
+      },
+      "title": "SignalQuality",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "signal_quality": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SignalQuality"
+      },
+      "title": "Signal Quality",
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_time": {
+      "format": "date-time",
+      "title": "Event Time",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^FG-WGN-\\d{4}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "journey_id": {
+      "pattern": "^FG-JNY-\\d{8}-\\d{4}$",
+      "title": "Journey Id",
+      "type": "string"
+    },
+    "route_id": {
+      "pattern": "^FG-RTE-[A-Z0-9-]+$",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "bogie_id": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Bogie Id",
+      "type": "integer"
+    },
+    "handbrake_equipped": {
+      "title": "Handbrake Equipped",
+      "type": "boolean"
+    },
+    "speed_kph": {
+      "title": "Speed Kph",
+      "type": "number"
+    },
+    "rail_condition": {
+      "$ref": "#/$defs/RailCondition"
+    },
+    "estimated_adhesion_coefficient": {
+      "title": "Estimated Adhesion Coefficient",
+      "type": "number"
+    },
+    "brake_pipe_pressure_bar": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Brake Pipe Pressure Bar"
+    },
+    "auxiliary_reservoir_pressure_bar": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Auxiliary Reservoir Pressure Bar"
+    },
+    "secondary_reservoir_pressure_bar": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Secondary Reservoir Pressure Bar"
+    },
+    "brake_cylinder_pressure_bar": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Brake Cylinder Pressure Bar"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_time",
+    "asset_id",
+    "journey_id",
+    "route_id",
+    "bogie_id",
+    "handbrake_equipped",
+    "speed_kph",
+    "rail_condition",
+    "estimated_adhesion_coefficient",
+    "brake_pipe_pressure_bar",
+    "auxiliary_reservoir_pressure_bar",
+    "secondary_reservoir_pressure_bar",
+    "brake_cylinder_pressure_bar"
+  ],
+  "title": "BogieObservation",
+  "type": "object"
+}

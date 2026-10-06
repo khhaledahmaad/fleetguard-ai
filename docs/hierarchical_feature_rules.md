@@ -122,3 +122,8 @@ Saved-file validation checks checksums, schemas, component catalogues, split
 isolation, counts, consecutive per-component windows and common source-event
 lineage across levels. It does not recalculate all statistics from original
 telemetry. Checksums are accidental-corruption checks, not signatures.
+
+## Connected references
+
+See the [documentation guide](README.md), [signal catalogue](signal_catalogue.md),
+[data contract](data_contract.md) and [dataset generation guide](dataset_generation_guide.md).

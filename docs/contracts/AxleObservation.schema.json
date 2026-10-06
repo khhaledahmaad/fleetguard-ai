@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "AxlePosition": {
+      "enum": [
+        "inner",
+        "outer"
+      ],
+      "title": "AxlePosition",
+      "type": "string"
+    },
+    "SignalQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "valid",
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "raw_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw Value"
+        }
+      },
+      "title": "SignalQuality",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "signal_quality": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SignalQuality"
+      },
+      "title": "Signal Quality",
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_time": {
+      "format": "date-time",
+      "title": "Event Time",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^FG-WGN-\\d{4}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "journey_id": {
+      "pattern": "^FG-JNY-\\d{8}-\\d{4}$",
+      "title": "Journey Id",
+      "type": "string"
+    },
+    "route_id": {
+      "pattern": "^FG-RTE-[A-Z0-9-]+$",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "bogie_id": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Bogie Id",
+      "type": "integer"
+    },
+    "axle_position": {
+      "$ref": "#/$defs/AxlePosition"
+    },
+    "rotational_speed_rpm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Rotational Speed Rpm"
+    },
+    "wheel_speed_kph": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Wheel Speed Kph"
+    },
+    "axle_load_tonnes": {
+      "title": "Axle Load Tonnes",
+      "type": "number"
+    },
+    "vibration_rms_g": {
+      "title": "Vibration Rms G",
+      "type": "number"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_time",
+    "asset_id",
+    "journey_id",
+    "route_id",
+    "bogie_id",
+    "axle_position",
+    "rotational_speed_rpm",
+    "wheel_speed_kph",
+    "axle_load_tonnes",
+    "vibration_rms_g"
+  ],
+  "title": "AxleObservation",
+  "type": "object"
+}

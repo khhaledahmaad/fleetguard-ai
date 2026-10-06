@@ -136,3 +136,8 @@ Split evaluation by held-out assets; report mechanical detection, sensor-quality
 detection and outage detection separately. Seeded dataset splits and hierarchical minute summaries are implemented.
 Model feature selection, evaluation labels, trained models and runtime monitoring
 remain subsequent milestones.
+
+## Connected references
+
+See the [documentation guide](README.md), [signal catalogue](signal_catalogue.md),
+[data contract](data_contract.md) and [dataset generation guide](dataset_generation_guide.md).

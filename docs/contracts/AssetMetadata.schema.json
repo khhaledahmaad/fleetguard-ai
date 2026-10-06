@@ -1,0 +1,200 @@
+{
+  "$defs": {
+    "AxleMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "axle_position": {
+          "$ref": "#/$defs/AxlePosition"
+        },
+        "wheels": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/WheelMetadata"
+            },
+            {
+              "$ref": "#/$defs/WheelMetadata"
+            }
+          ],
+          "title": "Wheels",
+          "type": "array"
+        }
+      },
+      "required": [
+        "axle_position",
+        "wheels"
+      ],
+      "title": "AxleMetadata",
+      "type": "object"
+    },
+    "AxlePosition": {
+      "enum": [
+        "inner",
+        "outer"
+      ],
+      "title": "AxlePosition",
+      "type": "string"
+    },
+    "BogieMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "bogie_id": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Bogie Id",
+          "type": "integer"
+        },
+        "handbrake_equipped": {
+          "title": "Handbrake Equipped",
+          "type": "boolean"
+        },
+        "axles": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/AxleMetadata"
+            },
+            {
+              "$ref": "#/$defs/AxleMetadata"
+            }
+          ],
+          "title": "Axles",
+          "type": "array"
+        }
+      },
+      "required": [
+        "bogie_id",
+        "handbrake_equipped",
+        "axles"
+      ],
+      "title": "BogieMetadata",
+      "type": "object"
+    },
+    "WheelMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "wheel_side": {
+          "$ref": "#/$defs/WheelSide"
+        },
+        "diameter_mm": {
+          "maximum": 1100,
+          "minimum": 800,
+          "title": "Diameter Mm",
+          "type": "number"
+        }
+      },
+      "required": [
+        "wheel_side",
+        "diameter_mm"
+      ],
+      "title": "WheelMetadata",
+      "type": "object"
+    },
+    "WheelSide": {
+      "enum": [
+        "left",
+        "right"
+      ],
+      "title": "WheelSide",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^FG-WGN-\\d{4}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "asset_type": {
+      "const": "freight_wagon",
+      "default": "freight_wagon",
+      "title": "Asset Type",
+      "type": "string"
+    },
+    "fleet_id": {
+      "pattern": "^FG-[A-Z0-9]+-\\d{2}$",
+      "title": "Fleet Id",
+      "type": "string"
+    },
+    "commissioning_age_years": {
+      "maximum": 50,
+      "minimum": 0,
+      "title": "Commissioning Age Years",
+      "type": "number"
+    },
+    "nominal_load_tonnes": {
+      "maximum": 100,
+      "minimum": 10,
+      "title": "Nominal Load Tonnes",
+      "type": "number"
+    },
+    "bearing_baseline_temp_c": {
+      "maximum": 85,
+      "minimum": -10,
+      "title": "Bearing Baseline Temp C",
+      "type": "number"
+    },
+    "vibration_baseline_g": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Vibration Baseline G",
+      "type": "number"
+    },
+    "brake_pressure_baseline_bar": {
+      "maximum": 6,
+      "minimum": 3,
+      "title": "Brake Pressure Baseline Bar",
+      "type": "number"
+    },
+    "battery_standby_days": {
+      "maximum": 7,
+      "minimum": 5,
+      "title": "Battery Standby Days",
+      "type": "number"
+    },
+    "bogies": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/BogieMetadata"
+        },
+        {
+          "$ref": "#/$defs/BogieMetadata"
+        }
+      ],
+      "title": "Bogies",
+      "type": "array"
+    },
+    "generator_seed": {
+      "minimum": 0,
+      "title": "Generator Seed",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "asset_id",
+    "fleet_id",
+    "commissioning_age_years",
+    "nominal_load_tonnes",
+    "bearing_baseline_temp_c",
+    "vibration_baseline_g",
+    "brake_pressure_baseline_bar",
+    "battery_standby_days",
+    "bogies",
+    "generator_seed"
+  ],
+  "title": "AssetMetadata",
+  "type": "object"
+}

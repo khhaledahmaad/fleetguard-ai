@@ -1,0 +1,144 @@
+{
+  "$defs": {
+    "AnomalySeverity": {
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "AnomalySeverity",
+      "type": "string"
+    },
+    "AnomalyType": {
+      "enum": [
+        "none",
+        "bearing_degradation",
+        "brake_pressure_leak",
+        "sensor_fault",
+        "axle_speed_generator_failure",
+        "wheel_slide",
+        "locked_axle",
+        "suspected_wheel_flat",
+        "pressure_transducer_failure",
+        "brake_release_failure",
+        "undemanded_brake_application",
+        "premature_battery_depletion",
+        "controller_supply_failure"
+      ],
+      "title": "AnomalyType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^FG-WGN-\\d{4}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "true_adhesion_coefficient": {
+      "maximum": 0.6,
+      "minimum": 0,
+      "title": "True Adhesion Coefficient",
+      "type": "number"
+    },
+    "is_anomaly": {
+      "title": "Is Anomaly",
+      "type": "boolean"
+    },
+    "anomaly_type": {
+      "$ref": "#/$defs/AnomalyType"
+    },
+    "anomaly_severity": {
+      "$ref": "#/$defs/AnomalySeverity"
+    },
+    "affected_component": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Affected Component"
+    },
+    "affected_signal": {
+      "anyOf": [
+        {
+          "enum": [
+            "speed_kph",
+            "wheel_speed_kph",
+            "latitude",
+            "longitude",
+            "longitudinal_acceleration_mps2",
+            "lateral_acceleration_mps2",
+            "vertical_acceleration_mps2",
+            "axle_load_tonnes",
+            "rotational_speed_rpm",
+            "bearing_temp_c",
+            "vibration_rms_g",
+            "brake_pipe_pressure_bar",
+            "auxiliary_reservoir_pressure_bar",
+            "secondary_reservoir_pressure_bar",
+            "brake_cylinder_pressure_bar",
+            "estimated_adhesion_coefficient",
+            "controller_temperature_c",
+            "controller_supply_voltage_v",
+            "controller_health_status",
+            "battery_voltage_v"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Affected Signal"
+    },
+    "anomaly_start_time": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Anomaly Start Time"
+    },
+    "anomaly_progress": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Anomaly Progress",
+      "type": "number"
+    }
+  },
+  "required": [
+    "event_id",
+    "asset_id",
+    "true_adhesion_coefficient",
+    "is_anomaly",
+    "anomaly_type",
+    "anomaly_severity",
+    "affected_signal",
+    "anomaly_start_time",
+    "anomaly_progress"
+  ],
+  "title": "AnomalyTruth",
+  "type": "object"
+}

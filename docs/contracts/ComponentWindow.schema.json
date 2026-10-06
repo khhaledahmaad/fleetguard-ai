@@ -1,0 +1,465 @@
+{
+  "$defs": {
+    "CategoricalSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "last": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last"
+        },
+        "counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Counts",
+          "type": "object"
+        },
+        "fractions": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Fractions",
+          "type": "object"
+        },
+        "transition_count": {
+          "minimum": 0,
+          "title": "Transition Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "last",
+        "counts",
+        "fractions",
+        "transition_count"
+      ],
+      "title": "CategoricalSummary",
+      "type": "object"
+    },
+    "LocationSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "latitude_last": {
+          "anyOf": [
+            {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Latitude Last"
+        },
+        "longitude_last": {
+          "anyOf": [
+            {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Longitude Last"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed At"
+        }
+      },
+      "required": [
+        "latitude_last",
+        "longitude_last",
+        "observed_at"
+      ],
+      "title": "LocationSummary",
+      "type": "object"
+    },
+    "NumericSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "valid_count": {
+          "minimum": 0,
+          "title": "Valid Count",
+          "type": "integer"
+        },
+        "missing_count": {
+          "minimum": 0,
+          "title": "Missing Count",
+          "type": "integer"
+        },
+        "invalid_count": {
+          "minimum": 0,
+          "title": "Invalid Count",
+          "type": "integer"
+        },
+        "invalid_raw_value_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Invalid Raw Value Counts",
+          "type": "object"
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "first": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First"
+        },
+        "last": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last"
+        },
+        "observed_positive_change": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed Positive Change"
+        },
+        "decrease_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decrease Count"
+        }
+      },
+      "required": [
+        "valid_count",
+        "missing_count",
+        "invalid_count"
+      ],
+      "title": "NumericSummary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "feature_schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Feature Schema Version",
+      "type": "string"
+    },
+    "source_schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Source Schema Version",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "wagon",
+        "bogie",
+        "axle",
+        "wheel"
+      ],
+      "title": "Level",
+      "type": "string"
+    },
+    "split": {
+      "enum": [
+        "train",
+        "validation",
+        "test"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^FG-WGN-\\d{4}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "journey_id": {
+      "pattern": "^FG-JNY-\\d{8}-\\d{4}$",
+      "title": "Journey Id",
+      "type": "string"
+    },
+    "route_id": {
+      "title": "Route Id",
+      "type": "string"
+    },
+    "bogie_id": {
+      "anyOf": [
+        {
+          "enum": [
+            1,
+            2
+          ],
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bogie Id"
+    },
+    "axle_position": {
+      "anyOf": [
+        {
+          "enum": [
+            "inner",
+            "outer"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Axle Position"
+    },
+    "wheel_side": {
+      "anyOf": [
+        {
+          "enum": [
+            "left",
+            "right"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Wheel Side"
+    },
+    "window_start": {
+      "format": "date-time",
+      "title": "Window Start",
+      "type": "string"
+    },
+    "window_end": {
+      "format": "date-time",
+      "title": "Window End",
+      "type": "string"
+    },
+    "sampling_interval_seconds": {
+      "enum": [
+        1,
+        10,
+        60
+      ],
+      "title": "Sampling Interval Seconds",
+      "type": "integer"
+    },
+    "expected_reports": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Reports",
+      "type": "integer"
+    },
+    "received_reports": {
+      "minimum": 0,
+      "title": "Received Reports",
+      "type": "integer"
+    },
+    "report_completeness": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Report Completeness",
+      "type": "number"
+    },
+    "source_event_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Source Event Ids",
+      "type": "array"
+    },
+    "event_time_first": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Event Time First"
+    },
+    "event_time_last": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Event Time Last"
+    },
+    "generated_at_first": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Generated At First"
+    },
+    "generated_at_last": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Generated At Last"
+    },
+    "numeric": {
+      "additionalProperties": {
+        "$ref": "#/$defs/NumericSummary"
+      },
+      "title": "Numeric",
+      "type": "object"
+    },
+    "categorical": {
+      "additionalProperties": {
+        "$ref": "#/$defs/CategoricalSummary"
+      },
+      "title": "Categorical",
+      "type": "object"
+    },
+    "static_attributes": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "title": "Static Attributes",
+      "type": "object"
+    },
+    "location": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LocationSummary"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "level",
+    "split",
+    "asset_id",
+    "journey_id",
+    "route_id",
+    "window_start",
+    "window_end",
+    "sampling_interval_seconds",
+    "expected_reports",
+    "received_reports",
+    "report_completeness",
+    "source_event_ids",
+    "event_time_first",
+    "event_time_last",
+    "generated_at_first",
+    "generated_at_last",
+    "numeric",
+    "categorical",
+    "static_attributes"
+  ],
+  "title": "ComponentWindow",
+  "type": "object"
+}

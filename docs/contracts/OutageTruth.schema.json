@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "AnomalyType": {
+      "enum": [
+        "none",
+        "bearing_degradation",
+        "brake_pressure_leak",
+        "sensor_fault",
+        "axle_speed_generator_failure",
+        "wheel_slide",
+        "locked_axle",
+        "suspected_wheel_flat",
+        "pressure_transducer_failure",
+        "brake_release_failure",
+        "undemanded_brake_application",
+        "premature_battery_depletion",
+        "controller_supply_failure"
+      ],
+      "title": "AnomalyType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Half-open [start, end) missing-report interval within this dataset.",
+  "properties": {
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "asset_id": {
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "anomaly_type": {
+      "$ref": "#/$defs/AnomalyType"
+    },
+    "start_time": {
+      "format": "date-time",
+      "title": "Start Time",
+      "type": "string"
+    },
+    "end_time_exclusive": {
+      "format": "date-time",
+      "title": "End Time Exclusive",
+      "type": "string"
+    },
+    "recovered": {
+      "title": "Recovered",
+      "type": "boolean"
+    },
+    "missing_reports": {
+      "exclusiveMinimum": 0,
+      "title": "Missing Reports",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "asset_id",
+    "scenario_id",
+    "anomaly_type",
+    "start_time",
+    "end_time_exclusive",
+    "recovered",
+    "missing_reports"
+  ],
+  "title": "OutageTruth",
+  "type": "object"
+}

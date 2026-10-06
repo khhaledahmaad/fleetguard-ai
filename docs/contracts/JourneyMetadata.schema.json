@@ -1,0 +1,95 @@
+{
+  "$defs": {
+    "LoadState": {
+      "enum": [
+        "loaded",
+        "empty"
+      ],
+      "title": "LoadState",
+      "type": "string"
+    },
+    "TravelDirection": {
+      "enum": [
+        "forward",
+        "reverse"
+      ],
+      "title": "TravelDirection",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "journey_id": {
+      "pattern": "^FG-JNY-\\d{8}-\\d{4}$",
+      "title": "Journey Id",
+      "type": "string"
+    },
+    "route_id": {
+      "pattern": "^FG-RTE-[A-Z0-9-]+$",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "origin_terminal": {
+      "title": "Origin Terminal",
+      "type": "string"
+    },
+    "destination_terminal": {
+      "title": "Destination Terminal",
+      "type": "string"
+    },
+    "travel_direction": {
+      "$ref": "#/$defs/TravelDirection"
+    },
+    "scheduled_start_time": {
+      "format": "date-time",
+      "title": "Scheduled Start Time",
+      "type": "string"
+    },
+    "estimated_duration_seconds": {
+      "exclusiveMinimum": 0,
+      "title": "Estimated Duration Seconds",
+      "type": "integer"
+    },
+    "sampling_interval_seconds": {
+      "enum": [
+        1,
+        10,
+        60
+      ],
+      "title": "Sampling Interval Seconds",
+      "type": "integer"
+    },
+    "load_state": {
+      "$ref": "#/$defs/LoadState"
+    },
+    "cargo_type": {
+      "enum": [
+        "aggregates",
+        "mixed_materials",
+        "none"
+      ],
+      "title": "Cargo Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "journey_id",
+    "route_id",
+    "origin_terminal",
+    "destination_terminal",
+    "travel_direction",
+    "scheduled_start_time",
+    "estimated_duration_seconds",
+    "sampling_interval_seconds",
+    "load_state",
+    "cargo_type"
+  ],
+  "title": "JourneyMetadata",
+  "type": "object"
+}

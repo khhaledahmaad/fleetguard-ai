@@ -1,0 +1,538 @@
+{
+  "$defs": {
+    "AxlePosition": {
+      "enum": [
+        "inner",
+        "outer"
+      ],
+      "title": "AxlePosition",
+      "type": "string"
+    },
+    "AxleTelemetry": {
+      "additionalProperties": false,
+      "properties": {
+        "signal_quality": {
+          "additionalProperties": {
+            "$ref": "#/$defs/SignalQuality"
+          },
+          "title": "Signal Quality",
+          "type": "object"
+        },
+        "axle_position": {
+          "$ref": "#/$defs/AxlePosition"
+        },
+        "rotational_speed_rpm": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Rotational Speed Rpm"
+        },
+        "wheel_speed_kph": {
+          "anyOf": [
+            {
+              "maximum": 140,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Wheel Speed Kph"
+        },
+        "axle_load_tonnes": {
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Axle Load Tonnes",
+          "type": "number"
+        },
+        "vibration_rms_g": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Vibration Rms G",
+          "type": "number"
+        },
+        "wheels": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/WheelTelemetry"
+            },
+            {
+              "$ref": "#/$defs/WheelTelemetry"
+            }
+          ],
+          "title": "Wheels",
+          "type": "array"
+        }
+      },
+      "required": [
+        "axle_position",
+        "rotational_speed_rpm",
+        "wheel_speed_kph",
+        "axle_load_tonnes",
+        "vibration_rms_g",
+        "wheels"
+      ],
+      "title": "AxleTelemetry",
+      "type": "object"
+    },
+    "BogieTelemetry": {
+      "additionalProperties": false,
+      "properties": {
+        "signal_quality": {
+          "additionalProperties": {
+            "$ref": "#/$defs/SignalQuality"
+          },
+          "title": "Signal Quality",
+          "type": "object"
+        },
+        "bogie_id": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Bogie Id",
+          "type": "integer"
+        },
+        "handbrake_equipped": {
+          "title": "Handbrake Equipped",
+          "type": "boolean"
+        },
+        "brake_cylinder_pressure_bar": {
+          "anyOf": [
+            {
+              "maximum": 5,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Brake Cylinder Pressure Bar"
+        },
+        "axles": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/AxleTelemetry"
+            },
+            {
+              "$ref": "#/$defs/AxleTelemetry"
+            }
+          ],
+          "title": "Axles",
+          "type": "array"
+        }
+      },
+      "required": [
+        "bogie_id",
+        "handbrake_equipped",
+        "brake_cylinder_pressure_bar",
+        "axles"
+      ],
+      "title": "BogieTelemetry",
+      "type": "object"
+    },
+    "ControllerHealthStatus": {
+      "enum": [
+        "healthy",
+        "degraded",
+        "fault",
+        "offline"
+      ],
+      "title": "ControllerHealthStatus",
+      "type": "string"
+    },
+    "ControllerTelemetry": {
+      "additionalProperties": false,
+      "properties": {
+        "temperature_c": {
+          "maximum": 100,
+          "minimum": -40,
+          "title": "Temperature C",
+          "type": "number"
+        },
+        "supply_voltage_v": {
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Supply Voltage V",
+          "type": "number"
+        },
+        "health_status": {
+          "$ref": "#/$defs/ControllerHealthStatus"
+        },
+        "uptime_seconds": {
+          "minimum": 0,
+          "title": "Uptime Seconds",
+          "type": "integer"
+        },
+        "reset_count": {
+          "minimum": 0,
+          "title": "Reset Count",
+          "type": "integer"
+        },
+        "sensor_communication_error_count": {
+          "minimum": 0,
+          "title": "Sensor Communication Error Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "temperature_c",
+        "supply_voltage_v",
+        "health_status",
+        "uptime_seconds",
+        "reset_count",
+        "sensor_communication_error_count"
+      ],
+      "title": "ControllerTelemetry",
+      "type": "object"
+    },
+    "JourneyPhase": {
+      "enum": [
+        "origin_dwell",
+        "running",
+        "intermediate_dwell",
+        "destination_dwell"
+      ],
+      "title": "JourneyPhase",
+      "type": "string"
+    },
+    "OperatingState": {
+      "enum": [
+        "stationary",
+        "moving",
+        "braking"
+      ],
+      "title": "OperatingState",
+      "type": "string"
+    },
+    "PowerSource": {
+      "enum": [
+        "axle_generators",
+        "battery"
+      ],
+      "title": "PowerSource",
+      "type": "string"
+    },
+    "RailCondition": {
+      "enum": [
+        "dry",
+        "wet",
+        "leaf_contaminated",
+        "icy"
+      ],
+      "title": "RailCondition",
+      "type": "string"
+    },
+    "SignalQuality": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "valid",
+          "enum": [
+            "valid",
+            "missing",
+            "invalid"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "raw_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw Value"
+        }
+      },
+      "title": "SignalQuality",
+      "type": "object"
+    },
+    "TravelDirection": {
+      "enum": [
+        "forward",
+        "reverse"
+      ],
+      "title": "TravelDirection",
+      "type": "string"
+    },
+    "WheelSide": {
+      "enum": [
+        "left",
+        "right"
+      ],
+      "title": "WheelSide",
+      "type": "string"
+    },
+    "WheelTelemetry": {
+      "additionalProperties": false,
+      "properties": {
+        "wheel_side": {
+          "$ref": "#/$defs/WheelSide"
+        },
+        "bearing_temp_c": {
+          "maximum": 150,
+          "minimum": -40,
+          "title": "Bearing Temp C",
+          "type": "number"
+        }
+      },
+      "required": [
+        "wheel_side",
+        "bearing_temp_c"
+      ],
+      "title": "WheelTelemetry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "signal_quality": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SignalQuality"
+      },
+      "title": "Signal Quality",
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "3.2",
+      "default": "3.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "asset_id": {
+      "pattern": "^FG-WGN-\\d{4}$",
+      "title": "Asset Id",
+      "type": "string"
+    },
+    "journey_id": {
+      "pattern": "^FG-JNY-\\d{8}-\\d{4}$",
+      "title": "Journey Id",
+      "type": "string"
+    },
+    "route_id": {
+      "pattern": "^FG-RTE-[A-Z0-9-]+$",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "event_time": {
+      "format": "date-time",
+      "title": "Event Time",
+      "type": "string"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "sampling_interval_seconds": {
+      "enum": [
+        1,
+        10,
+        60
+      ],
+      "title": "Sampling Interval Seconds",
+      "type": "integer"
+    },
+    "travel_direction": {
+      "$ref": "#/$defs/TravelDirection"
+    },
+    "operating_state": {
+      "$ref": "#/$defs/OperatingState"
+    },
+    "journey_phase": {
+      "$ref": "#/$defs/JourneyPhase"
+    },
+    "route_progress": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Route Progress",
+      "type": "number"
+    },
+    "latitude": {
+      "maximum": 90,
+      "minimum": -90,
+      "title": "Latitude",
+      "type": "number"
+    },
+    "longitude": {
+      "maximum": 180,
+      "minimum": -180,
+      "title": "Longitude",
+      "type": "number"
+    },
+    "speed_kph": {
+      "maximum": 120,
+      "minimum": 0,
+      "title": "Speed Kph",
+      "type": "number"
+    },
+    "ambient_temp_c": {
+      "maximum": 50,
+      "minimum": -40,
+      "title": "Ambient Temp C",
+      "type": "number"
+    },
+    "longitudinal_acceleration_mps2": {
+      "maximum": 5,
+      "minimum": -5,
+      "title": "Longitudinal Acceleration Mps2",
+      "type": "number"
+    },
+    "lateral_acceleration_mps2": {
+      "maximum": 5,
+      "minimum": -5,
+      "title": "Lateral Acceleration Mps2",
+      "type": "number"
+    },
+    "vertical_acceleration_mps2": {
+      "maximum": 10,
+      "minimum": -10,
+      "title": "Vertical Acceleration Mps2",
+      "type": "number"
+    },
+    "rail_condition": {
+      "$ref": "#/$defs/RailCondition"
+    },
+    "estimated_adhesion_coefficient": {
+      "maximum": 0.6,
+      "minimum": 0,
+      "title": "Estimated Adhesion Coefficient",
+      "type": "number"
+    },
+    "brake_pipe_pressure_bar": {
+      "anyOf": [
+        {
+          "maximum": 6,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Brake Pipe Pressure Bar"
+    },
+    "auxiliary_reservoir_pressure_bar": {
+      "anyOf": [
+        {
+          "maximum": 6,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Auxiliary Reservoir Pressure Bar"
+    },
+    "secondary_reservoir_pressure_bar": {
+      "anyOf": [
+        {
+          "maximum": 6,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Secondary Reservoir Pressure Bar"
+    },
+    "battery_voltage_v": {
+      "maximum": 4.2,
+      "minimum": 3.0,
+      "title": "Battery Voltage V",
+      "type": "number"
+    },
+    "power_source": {
+      "$ref": "#/$defs/PowerSource"
+    },
+    "available_axle_generators": {
+      "default": 4,
+      "maximum": 4,
+      "minimum": 0,
+      "title": "Available Axle Generators",
+      "type": "integer"
+    },
+    "brake_demand": {
+      "default": "release",
+      "enum": [
+        "apply",
+        "release"
+      ],
+      "title": "Brake Demand",
+      "type": "string"
+    },
+    "bogies": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/BogieTelemetry"
+        },
+        {
+          "$ref": "#/$defs/BogieTelemetry"
+        }
+      ],
+      "title": "Bogies",
+      "type": "array"
+    },
+    "controller": {
+      "$ref": "#/$defs/ControllerTelemetry"
+    }
+  },
+  "required": [
+    "event_id",
+    "asset_id",
+    "journey_id",
+    "route_id",
+    "event_time",
+    "generated_at",
+    "sampling_interval_seconds",
+    "travel_direction",
+    "operating_state",
+    "journey_phase",
+    "route_progress",
+    "latitude",
+    "longitude",
+    "speed_kph",
+    "ambient_temp_c",
+    "longitudinal_acceleration_mps2",
+    "lateral_acceleration_mps2",
+    "vertical_acceleration_mps2",
+    "rail_condition",
+    "estimated_adhesion_coefficient",
+    "brake_pipe_pressure_bar",
+    "auxiliary_reservoir_pressure_bar",
+    "secondary_reservoir_pressure_bar",
+    "battery_voltage_v",
+    "power_source",
+    "bogies",
+    "controller"
+  ],
+  "title": "TelemetryEvent",
+  "type": "object"
+}

@@ -137,6 +137,9 @@ python -m fleetguard.portfolio validate --input-dir data\generated\portfolio-v1
 ```
 
 For a faster development cohort, use 60-second sampling and a different output
-directory. Model features remain planned as one-minute windows over the standard
-10-second observations. The old fixed-target smoke demos remain available for
+directory. Feature schema 2.0 implements one-minute summaries at wagon, bogie, axle and
+wheel levels over the standard 10-second observations; raw data remains available. The old fixed-target smoke demos remain available for
 regression checks.
+
+For setup, sizing, all generated files, feature commands and troubleshooting,
+use the [dataset generation guide](dataset_generation_guide.md).
