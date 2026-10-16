@@ -1,0 +1,29 @@
+{
+  "notebooks": 3,
+  "source_fixture": {
+    "assets": 48,
+    "sampling_interval_seconds": 60,
+    "seed": 42
+  },
+  "notebook_cells": "All three executed sequentially in-process on fixture",
+  "helper_tests_passed": 6,
+  "lint": "passed",
+  "callbacks": "All four levels, numerical signals and 13 assigned fault variants exercised",
+  "visual_check": "Plotly gallery, healthy/fault explorers, linked HoloViews view, raw/minute and outage charts inspected",
+  "limits": [
+    "Live Jupyter socket execution blocked in QA environment",
+    "Esri basemap delivery requires local internet/browser",
+    "User 10-second portfolio not uploaded or executed here"
+  ],
+  "python_tested": "3.12",
+  "packages": {
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "plotly": "6.9.0",
+    "folium": "0.20.0",
+    "panel": "1.9.4",
+    "holoviews": "1.23.2",
+    "scipy": "1.17.0",
+    "nbformat": "5.11.1"
+  }
+}

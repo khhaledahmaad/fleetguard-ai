@@ -8,6 +8,7 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+.ipynb_checkpoints/
 .env
 
 # Generated datasets are reproducible outputs.
