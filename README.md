@@ -10,7 +10,7 @@ interfaces and customer evaluation. It is not a safety-critical railway product.
 Schema 3.2 models two bogies, four axles/wheelsets and eight wheels per wagon,
 shared pneumatic signals, controller diagnostics, rail condition, estimated
 adhesion, a shared wagon battery supplied by four axle-end generators, and
-journey-aware motion along a synthetic UK freight corridor.
+journey-aware motion along mapped UK railway geometry with simulated operations.
 Development batches can use a fixed period count; production-shaped generation
 uses route-derived journey durations with terminal and intermediate dwell.
 
@@ -46,16 +46,11 @@ The output directory must be empty before generation. A successful run writes:
 - `scenario_metadata.json` — exact injected scenario configuration;
 - `manifest.json` — dataset metadata, row counts and SHA-256 file hashes.
 
-For the healthy 330-minute London-to-Avonmouth duty, each wagon produces 1,980
-telemetry events. With three wagons, the expected normalised record counts are:
+Journey duration follows mapped distance and simulated acceleration, running, braking
+and dwell. Report counts depend on the selected duty, sampling and outages; consult
+the generated manifests rather than a fixed-duration example.
 
-| Dataset | Expected records |
-| --- | ---: |
-| Telemetry events | 5,940 |
-| Anomaly-truth records | 5,940 |
-| Bogie observations | 11,880 |
-| Axle observations | 23,760 |
-| Wheel observations | 47,520 |
+Each received wagon event yields 2 bogie, 4 axle and 8 wheel observations.
 
 Inspect the generated manifest from Windows CMD:
 
@@ -71,7 +66,7 @@ these are not the sole modelling representation.
 All twelve signatures are implemented. See `docs/anomaly_catalogue.md` for the
 full catalogue, CLI profiles, targets and modelling limits. Nullable readings
 carry quality flags. Controller/battery blackouts produce missing-report truth
-instead of fabricated telemetry. The generator is version 0.3.0, schema 3.2.
+instead of fabricated telemetry. The generator is version 0.4.0, schema 3.2.
 
 ```cmd
 python -m fleetguard.generator --assets 2 --seed 42 --start-time 2026-01-01T06:00:00+00:00 --sampling-interval-seconds 60 --anomaly-profile controller-bounded-demo --output-dir data\generated\controller-bounded-smoke-01
@@ -83,7 +78,7 @@ discharge; it is not an endurance estimate. Seeded portfolio cohort generation a
 Hierarchical feature schema 2.0 is implemented. Model feature selection, labels
 and evaluation remain subsequent milestones.
 
-For this implementation session, follow `docs/session_twelve_anomalies.md`.
+Follow `docs/data_workflow.md` for the current runnable workflow.
 
 ## Local verification (Windows CMD)
 
@@ -99,7 +94,7 @@ See `docs/product_contract.md`, `docs/domain_specification.md` and
 
 ## Seeded portfolio cohort
 
-The new planner varies wagon assignments, eligible components, onset times and
+The portfolio planner varies wagon assignments, eligible components, onset times and
 severity while keeping asset-disjoint train/validation/test splits. The default
 48-wagon coverage cohort includes all twelve fault types, both controller modes
 and healthy controls in each split. It is a pipeline exercise, not real fault
@@ -110,8 +105,7 @@ python -m fleetguard.portfolio generate --seed 42 --start-time 2026-01-01T06:00:
 python -m fleetguard.portfolio validate --input-dir data\generated\portfolio-v1
 ```
 
-See `docs/session_portfolio_dataset.md` for the guided session and
-`docs/portfolio_dataset.md` for design, randomness, file relationships and limits.
+See `docs/portfolio_dataset.md` for design, randomness, file relationships and limits.
 
 ## Engineering atlas
 
@@ -143,3 +137,11 @@ python -m fleetguard.features validate --input-dir data\features\portfolio-v1
 
 This writes four component tables per split and a manifest. Use a fresh or empty
 output directory. Generated datasets and rendered atlas output stay outside Git.
+
+## Current development workflow
+
+Use `portfolio-v1` for the current generated source data and minute features.
+Follow [the data workflow](docs/data_workflow.md) for generation, validation,
+feature building and audit, then open `nbs/01_dataset_overview.ipynb`.
+Route source and limitations: [mapped railway geometry](docs/route_data.md).
+The atlas bundles Mermaid locally and can be opened offline at `atlas/_site/index.html`.

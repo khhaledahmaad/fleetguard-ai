@@ -1,6 +1,6 @@
 # FleetGuard AI — Signal catalogue
 
-Source schema **3.2**, generator **0.3.0**, feature schema **2.0**.
+Source schema **3.2**, generator **0.4.0**, feature schema **2.0**.
 
 Read alongside the [system definition](domain_specification.md), [data contract](data_contract.md),
 [anomaly catalogue](anomaly_catalogue.md) and [feature rules](hierarchical_feature_rules.md).
@@ -30,7 +30,7 @@ Nested source path: `event root`.
 | `operating_state` | state | `stationary`, `moving`, `braking` | Stationary, moving or braking. Planned operating context, preserved through fault injection. |
 | `journey_phase` | state | `origin_dwell`, `running`, `intermediate_dwell`, `destination_dwell` | Origin dwell, running, intermediate dwell or destination dwell. Journey schedule. |
 | `route_progress` | fraction | 0 to 1 | Progress along the planned duty; includes dwell. Journey progression, not a distance sensor. |
-| `latitude` | degrees | -90 to 90 | North/south position. Interpolated on the coarse route; holds during dwell. |
+| `latitude` | degrees | -90 to 90 | North/south position. Interpolated on mapped railway geometry; holds during dwell. |
 | `longitude` | degrees | -180 to 180 | East/west position. Interpolated with latitude as one coordinate pair. |
 | `speed_kph` | km/h | 0 to 120 | Wagon motion speed. Planned acceleration, running, braking and dwell. |
 | `ambient_temp_c` | °C | -40 to 50 | Outside temperature. Time-dependent baseline with seeded variation. |

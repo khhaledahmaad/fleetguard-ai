@@ -101,3 +101,11 @@ is removed. Each pressure remains individually inspectable.
 Detailed trace, field inspector, file validation and source code are optional
 under Technical detail. Functional generation diagrams are illustrative; the
 feature example values are computed by the existing aggregation implementation.
+
+## Offline diagrams and route geography
+
+Mermaid 10.9.3 is bundled locally under `assets/vendor` with its MIT licence.
+Mermaid fences in the reference shelf and document dialogs render as diagrams,
+including after changing the selected document. No CDN is needed at viewing time.
+The route trace follows the bundled Network Rail geometry; named waypoints are
+labels, not straight-line route shortcuts. Duty times remain simulated.

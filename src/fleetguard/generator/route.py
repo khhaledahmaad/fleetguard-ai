@@ -1,9 +1,14 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 import random
+from bisect import bisect_right
 from dataclasses import dataclass
 from datetime import date, datetime
+from functools import cached_property
+from importlib.resources import files
 
 from fleetguard.contracts import (
     STANDARD_SAMPLING_INTERVAL_SECONDS,
@@ -29,12 +34,16 @@ class RailRoute:
     points: tuple[RoutePoint, ...]
     intermediate_stop_indices: tuple[int, ...] = ()
 
+    @cached_property
+    def cumulative_km(self) -> tuple[float, ...]:
+        distances = [0.0]
+        for first, second in zip(self.points, self.points[1:], strict=False):
+            distances.append(distances[-1] + _haversine_km(first, second))
+        return tuple(distances)
+
     @property
     def distance_km(self) -> float:
-        return sum(
-            _haversine_km(first, second)
-            for first, second in zip(self.points, self.points[1:], strict=False)
-        )
+        return self.cumulative_km[-1]
 
 
 @dataclass(frozen=True)
@@ -44,6 +53,8 @@ class JourneySegment:
     duration_seconds: int
     start_progress: float
     end_progress: float
+    start_speed_kph: float = 0.0
+    end_speed_kph: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -77,61 +88,38 @@ class JourneyPlan:
         return self.route.points[0 if self.reverse else -1].name
 
 
-# A deliberately compact, non-navigation-grade polyline following the public Great
-# Western/South Wales rail corridor. Commercial terminals and operations are fictional.
-LONDON_SWANSEA_FREIGHT_ROUTE = RailRoute(
-    route_id="FG-RTE-LONDON-SWANSEA",
-    name="London–Swansea synthetic freight corridor",
-    points=(
-        RoutePoint("London Aggregate Terminal", 51.5174, -0.2672),
-        RoutePoint("Southall", 51.5061, -0.3786),
-        RoutePoint("Hayes", 51.5031, -0.4207),
-        RoutePoint("Reading", 51.4590, -0.9722),
-        RoutePoint("Didcot", 51.6111, -1.2425),
-        RoutePoint("Swindon", 51.5656, -1.7859),
-        RoutePoint("Chippenham", 51.4625, -2.1154),
-        RoutePoint("Bath", 51.3777, -2.3570),
-        RoutePoint("Bristol Temple Meads", 51.4491, -2.5813),
-        RoutePoint("Avonmouth Freight Terminal", 51.5007, -2.6992),
-        RoutePoint("Filton", 51.5080, -2.5760),
-        RoutePoint("Patchway", 51.5259, -2.5627),
-        RoutePoint("Severn Tunnel Junction", 51.5848, -2.7772),
-        RoutePoint("Newport", 51.5888, -2.9990),
-        RoutePoint("Cardiff", 51.4760, -3.1791),
-        RoutePoint("Bridgend", 51.5069, -3.5750),
-        RoutePoint("Port Talbot", 51.5917, -3.7811),
-        RoutePoint("Swansea Materials Terminal", 51.6251, -3.9416),
-    ),
-    intermediate_stop_indices=(5, 9, 13, 14),
-)
+# Bundled Network Rail track-level geometry; no network calls during generation.
+GEOMETRY_VERSION = "2.0"
 
-LONDON_AVONMOUTH_FREIGHT_ROUTE = RailRoute(
-    route_id="FG-RTE-LONDON-AVONMOUTH",
-    name="London–Avonmouth synthetic aggregates duty",
-    points=LONDON_SWANSEA_FREIGHT_ROUTE.points[:10],
-    intermediate_stop_indices=(5,),
-)
 
-AVONMOUTH_CARDIFF_FREIGHT_ROUTE = RailRoute(
-    route_id="FG-RTE-AVONMOUTH-CARDIFF",
-    name="Avonmouth–Cardiff synthetic materials duty",
-    points=LONDON_SWANSEA_FREIGHT_ROUTE.points[9:15],
-    intermediate_stop_indices=(4,),
-)
+def _load_routes() -> tuple[RailRoute, ...]:
+    source = files("fleetguard.generator").joinpath("data/uk_rail_routes.geojson")
+    payload = json.loads(source.read_text(encoding="utf-8"))
+    result = []
+    for feature in payload["features"]:
+        props = feature["properties"]
+        names = props["named_points"]
+        points = tuple(
+            RoutePoint(names.get(str(i), f"Track vertex {i}"), lat, lon)
+            for i, (lon, lat) in enumerate(feature["geometry"]["coordinates"])
+        )
+        result.append(
+            RailRoute(
+                props["route_id"],
+                props["origin"] + "–" + props["destination"],
+                points,
+                tuple(props["intermediate_stop_indices"]),
+            )
+        )
+    return tuple(result)
 
-CARDIFF_SWANSEA_FREIGHT_ROUTE = RailRoute(
-    route_id="FG-RTE-CARDIFF-SWANSEA",
-    name="Cardiff–Swansea synthetic materials duty",
-    points=LONDON_SWANSEA_FREIGHT_ROUTE.points[14:],
-    intermediate_stop_indices=(2,),
-)
 
-DEFAULT_ROUTES = (
+(
     LONDON_AVONMOUTH_FREIGHT_ROUTE,
     AVONMOUTH_CARDIFF_FREIGHT_ROUTE,
     CARDIFF_SWANSEA_FREIGHT_ROUTE,
     LONDON_SWANSEA_FREIGHT_ROUTE,
-)
+) = DEFAULT_ROUTES = _load_routes()
 
 
 def _haversine_km(first: RoutePoint, second: RoutePoint) -> float:
@@ -153,23 +141,15 @@ def interpolate_route(
     if reverse:
         progress = 1 - progress
 
-    lengths = [
-        _haversine_km(first, second)
-        for first, second in zip(route.points, route.points[1:], strict=False)
-    ]
-    target = progress * sum(lengths)
-    travelled = 0.0
-    for index, length in enumerate(lengths):
-        if travelled + length >= target:
-            local = 0.0 if length == 0 else (target - travelled) / length
-            first, second = route.points[index], route.points[index + 1]
-            return (
-                first.latitude + local * (second.latitude - first.latitude),
-                first.longitude + local * (second.longitude - first.longitude),
-            )
-        travelled += length
-    final = route.points[-1]
-    return final.latitude, final.longitude
+    target = progress * route.distance_km
+    index = min(max(0, bisect_right(route.cumulative_km, target) - 1), len(route.points) - 2)
+    first, second = route.points[index : index + 2]
+    length = route.cumulative_km[index + 1] - route.cumulative_km[index]
+    local = (target - route.cumulative_km[index]) / length if length else 0.0
+    return (
+        first.latitude + local * (second.latitude - first.latitude),
+        first.longitude + local * (second.longitude - first.longitude),
+    )
 
 
 def create_journey_plan(
@@ -182,42 +162,59 @@ def create_journey_plan(
     rng = random.Random(seed)
     reverse = allow_reverse and bool(rng.randrange(2))
     nominal_speed = rng.uniform(48, 62)
-    # Straight-line waypoint distance understates curved rail mileage, so apply a
-    # modest geometry/operational factor before converting distance to running time.
-    moving_minutes = max(1, round(route.distance_km * 1.12 / nominal_speed * 60))
-    stop_progresses = [index / (len(route.points) - 1) for index in route.intermediate_stop_indices]
+    stop_progresses = [
+        route.cumulative_km[index] / route.distance_km for index in route.intermediate_stop_indices
+    ]
     if reverse:
         stop_progresses = sorted(1 - progress for progress in stop_progresses)
-
-    segments: list[JourneySegment] = [
+    segments = [
         JourneySegment(
-            JourneyPhase.ORIGIN_DWELL,
-            OperatingState.STATIONARY,
-            rng.randint(20, 45) * 60,
-            0.0,
-            0.0,
+            JourneyPhase.ORIGIN_DWELL, OperatingState.STATIONARY, rng.randint(20, 45) * 60, 0.0, 0.0
         )
     ]
     boundaries = [0.0, *stop_progresses, 1.0]
+    ramp_seconds = 120
     for index, (start, end) in enumerate(zip(boundaries, boundaries[1:], strict=False)):
-        section_minutes = max(6, round(moving_minutes * (end - start)))
-        braking_minutes = min(5, max(2, section_minutes // 8))
+        distance = (end - start) * route.distance_km
+        # A trapezoid with two 120-second ramps. Round total running time upward
+        # to whole minutes, then solve the cruise speed for the exact distance.
+        duration = max(
+            2 * ramp_seconds, math.ceil((distance * 3600 / nominal_speed + ramp_seconds) / 60) * 60
+        )
+        speed = distance * 3600 / (duration - ramp_seconds)
+        ramp_progress = 0.5 * speed * ramp_seconds / 3600 / route.distance_km
         segments.append(
             JourneySegment(
                 JourneyPhase.RUNNING,
                 OperatingState.MOVING,
-                (section_minutes - braking_minutes) * 60,
+                ramp_seconds,
                 start,
-                end - (end - start) * braking_minutes / section_minutes,
+                start + ramp_progress,
+                0,
+                speed,
             )
         )
+        if duration > 2 * ramp_seconds:
+            segments.append(
+                JourneySegment(
+                    JourneyPhase.RUNNING,
+                    OperatingState.MOVING,
+                    duration - 2 * ramp_seconds,
+                    start + ramp_progress,
+                    end - ramp_progress,
+                    speed,
+                    speed,
+                )
+            )
         segments.append(
             JourneySegment(
                 JourneyPhase.RUNNING,
                 OperatingState.BRAKING,
-                braking_minutes * 60,
-                segments[-1].end_progress,
+                ramp_seconds,
+                end - ramp_progress,
                 end,
+                speed,
+                0,
             )
         )
         if index < len(stop_progresses):
@@ -295,10 +292,39 @@ def journey_state_at(
     elapsed = 0
     for segment in plan.segments:
         if elapsed_seconds < elapsed + segment.duration_seconds:
-            local = (elapsed_seconds - elapsed) / max(segment.duration_seconds - 1, 1)
-            progress = segment.start_progress + local * (
+            local = (elapsed_seconds - elapsed) / segment.duration_seconds
+            if segment.state == OperatingState.STATIONARY:
+                fraction = 0.0
+            else:
+                v0, v1 = segment.start_speed_kph, segment.end_speed_kph
+                fraction = (v0 * local + 0.5 * (v1 - v0) * local**2) / (0.5 * (v0 + v1))
+            progress = segment.start_progress + fraction * (
                 segment.end_progress - segment.start_progress
             )
             return segment.phase, segment.state, progress, local
         elapsed += segment.duration_seconds
     raise RuntimeError("journey timeline is incomplete")
+
+
+def journey_speed_at(plan: JourneyPlan, elapsed_seconds: int) -> float:
+    """Instantaneous speed from the same integral used for along-track position."""
+    if not 0 <= elapsed_seconds < plan.duration_seconds:
+        raise ValueError("elapsed_seconds is outside the journey")
+    start = 0
+    for segment in plan.segments:
+        if elapsed_seconds < start + segment.duration_seconds:
+            fraction = (elapsed_seconds - start) / segment.duration_seconds
+            return segment.start_speed_kph + fraction * (
+                segment.end_speed_kph - segment.start_speed_kph
+            )
+        start += segment.duration_seconds
+    raise RuntimeError("journey timeline is incomplete")
+
+
+def route_provenance() -> dict[str, str]:
+    payload = files("fleetguard.generator").joinpath("data/uk_rail_routes.geojson").read_bytes()
+    return {
+        "route_geometry_version": GEOMETRY_VERSION,
+        "route_geometry_sha256": hashlib.sha256(payload).hexdigest(),
+        "motion_model_version": "2.0",
+    }

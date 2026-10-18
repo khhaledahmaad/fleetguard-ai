@@ -9,6 +9,7 @@ Understand the system, reproduce the data, then inspect the summaries.
 | Which component produces each signal? | [Signal catalogue](signal_catalogue.md) |
 | What do the terms and abbreviations mean? | [Glossary](glossary.md) |
 | What must a valid record contain? | [Data contract](data_contract.md) and [JSON Schemas](contracts/README.md) |
+| How do I generate, validate and audit data? | [Six-part quick guide](data_workflow.md) |
 | How do healthy journeys and faults become data? | [Generation guide](dataset_generation_guide.md) and [anomaly catalogue](anomaly_catalogue.md) |
 | How are wagons assigned to datasets? | [Portfolio dataset design](portfolio_dataset.md) |
 | How are readings summarised for modelling? | [Hierarchical feature rules](hierarchical_feature_rules.md) |
@@ -40,7 +41,7 @@ flowchart TD
 
 ## Current implementation
 
-- Generator package: 0.3.0; source contracts: 3.2; portfolio plan: 1.0.
+- Generator package: 0.4.0; source contracts: 3.2; portfolio plan: 1.0.
 - Feature contracts: 2.0; separate 60-second component summaries.
 - Twelve anomaly types; thirteen fault variants because controller failure has
   persistent and bounded modes.
@@ -52,7 +53,7 @@ flowchart TD
 ## Reading and maintenance
 
 Start with the atlas and this index, then use the catalogues as reference and the
-generation guide as the runnable workflow. Historical `session_*.md` files record
+generation guide as the runnable workflow. Historical `history/session_*.md` files record
 implementation sessions; they are not the primary operating instructions.
 
 The Python contracts and implementations are authoritative. When behaviour

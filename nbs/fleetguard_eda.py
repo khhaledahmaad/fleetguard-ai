@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import base64
 import html
 import json
 import os
@@ -15,11 +14,12 @@ import pandas as pd
 import panel as pn
 import plotly.express as px
 import plotly.graph_objects as go
-from fleetguard.features.hierarchical_aggregation import CATEGORICAL, NUMERIC
-from fleetguard.portfolio.validation import sha256
 from folium.plugins import HeatMap, HeatMapWithTime, MarkerCluster
 from scipy.cluster.hierarchy import leaves_list, linkage
 from scipy.spatial.distance import squareform
+
+from fleetguard.features.hierarchical_aggregation import CATEGORICAL, NUMERIC
+from fleetguard.portfolio.validation import sha256
 
 COLOURS = {
     "Healthy control": "#087c79",
@@ -55,7 +55,9 @@ LABELS = {
     "rotational_speed_rpm": "Axle rotation",
 }
 ESRI_STREET = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-ESRI_AERIAL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+ESRI_AERIAL = (
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+)
 ESRI_ATTR = "Tiles © Esri — Esri, HERE, Garmin, USGS and imagery providers"
 
 
@@ -111,21 +113,7 @@ def project_root():
     for p in (Path.cwd(), *Path.cwd().parents):
         if (p / "src/fleetguard/contracts/models.py").exists():
             return p
-    raise FileNotFoundError(
-        "Open Jupyter from your FleetGuard repository root or nbs folder."
-    )
-
-
-def banner(title, subtitle):
-    logo = Path(__file__).parent / "assets/fleetguard-logo.svg"
-    uri = "data:image/svg+xml;base64," + base64.b64encode(logo.read_bytes()).decode()
-    return pn.pane.HTML(
-        f'<div style="background:#f7f7f3;padding:18px 24px;border-left:5px solid '
-        f'#087c79;font-family:Segoe UI,Arial"><img src="{uri}" width="300">'
-        f'<h2 style="color:#243b48;margin:12px 0 6px">{html.escape(title)}</h2>'
-        f'<div style="color:#657880">{html.escape(subtitle)}</div></div>',
-        sizing_mode="stretch_width",
-    )
+    raise FileNotFoundError("Open Jupyter from your FleetGuard repository root or nbs folder.")
 
 
 def figure(fig, title=None):
@@ -143,9 +131,7 @@ def figure(fig, title=None):
 
 
 def pane(fig):
-    return pn.pane.Plotly(
-        fig, sizing_mode="stretch_width", config={"displaylogo": False}
-    )
+    return pn.pane.Plotly(fig, sizing_mode="stretch_width", config={"displaylogo": False})
 
 
 def table(frame):
@@ -175,13 +161,9 @@ class Workspace:
         plan = read_json(self.source / "cohort_plan.json")
         self.plan = plan
         self.manifest = read_json(self.features / "feature_manifest.json")
-        if self.manifest["source_plan_sha256"] != sha256(
-            self.source / "cohort_plan.json"
-        ):
+        if self.manifest["source_plan_sha256"] != sha256(self.source / "cohort_plan.json"):
             raise ValueError("Feature plan does not match supplied source.")
-        if self.manifest["source_manifest_sha256"] != sha256(
-            self.source / "cohort_manifest.json"
-        ):
+        if self.manifest["source_manifest_sha256"] != sha256(self.source / "cohort_manifest.json"):
             raise ValueError("Feature source hash does not match supplied source.")
         if self.manifest["feature_schema_version"] != "2.0":
             raise ValueError("These notebooks require feature schema 2.0.")
@@ -218,9 +200,7 @@ class Workspace:
 
     def select(self, split="train", variants=None, assets=None):
         if split not in ("train", "validation"):
-            raise ValueError(
-                "Exploration is limited to train/validation. Test: inventory only."
-            )
+            raise ValueError("Exploration is limited to train/validation. Test: inventory only.")
         selected = self.assignments[self.assignments.split == split]
         if variants is not None:
             selected = selected[selected.variant.isin(variants)]
@@ -233,9 +213,7 @@ class Workspace:
         for run in self.select(split, variants, assets):
             folder = self.source / run["relative_directory"]
             truth = {r["event_id"]: r for r in rows(folder / "anomaly_truth.jsonl")}
-            filename = (
-                "telemetry.jsonl" if level == "wagon" else f"{level}_observations.jsonl"
-            )
+            filename = "telemetry.jsonl" if level == "wagon" else f"{level}_observations.jsonl"
             for item in rows(folder / filename):
                 if level == "wagon":
                     item.pop("bogies")
@@ -249,9 +227,7 @@ class Workspace:
                     }
                 )
                 item.update({"split": split, "variant": run["variant"]})
-                item["sampling_interval_seconds"] = self.plan["config"][
-                    "sampling_interval_seconds"
-                ]
+                item["sampling_interval_seconds"] = self.plan["config"]["sampling_interval_seconds"]
                 target = (run.get("scenario") or {}).get("target", {})
                 item.update(
                     {
@@ -309,11 +285,7 @@ class Workspace:
             }
             for name, summary in item["numeric"].items():
                 result.update(
-                    {
-                        name + "__" + k: v
-                        for k, v in summary.items()
-                        if not isinstance(v, dict)
-                    }
+                    {name + "__" + k: v for k, v in summary.items() if not isinstance(v, dict)}
                 )
             for name, summary in item["categorical"].items():
                 result[name] = summary["last"]
@@ -421,9 +393,7 @@ def overview_views(ws):
     )
     identities = []
     for run in ws.plan["runs"]:
-        asset = next(
-            rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl")
-        )
+        asset = next(rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl"))
         for bogie in asset["bogies"]:
             for axle in bogie["axles"]:
                 for wheel in axle["wheels"]:
@@ -433,8 +403,7 @@ def overview_views(ws):
                             "asset": asset["asset_id"],
                             "bogie": f"{asset['asset_id']}/B{bogie['bogie_id']}",
                             "axle": (
-                                f"{asset['asset_id']}/B{bogie['bogie_id']}"
-                                f"/{axle['axle_position']}"
+                                f"{asset['asset_id']}/B{bogie['bogie_id']}/{axle['axle_position']}"
                             ),
                             "wheel": (
                                 f"{asset['asset_id']}/B{bogie['bogie_id']}"
@@ -457,9 +426,7 @@ def overview_views(ws):
 
 def completeness_view(ws, split="train"):
     data = ws.summaries("wagon", split)
-    grid = data.pivot(
-        index="asset_id", columns="window_start", values="report_completeness"
-    )
+    grid = data.pivot(index="asset_id", columns="window_start", values="report_completeness")
     fig = px.imshow(
         grid,
         aspect="auto",
@@ -526,9 +493,7 @@ def distribution_gallery(ws, level="wagon", split="train"):
             middle = text.rfind(" ", 0, 38)
             text = text[:middle] + "<br>" + text[middle + 1 :]
         annotation.text = text
-    fig = figure(
-        fig, f"{split.title()} healthy controls — every {level} numerical signal"
-    )
+    fig = figure(fig, f"{split.title()} healthy controls — every {level} numerical signal")
     fig.update_layout(height=max(440, 260 * int(np.ceil(len(numeric) / 3))))
     return fig
 
@@ -541,10 +506,7 @@ def state_gallery(ws, level="wagon", split="train"):
     parts = []
     for name in names:
         counts = (
-            data[name]
-            .value_counts(dropna=False)
-            .rename_axis("State")
-            .reset_index(name="Reports")
+            data[name].value_counts(dropna=False).rename_axis("State").reset_index(name="Reports")
         )
         counts["Signal"] = label(name)
         parts.append(counts)
@@ -599,9 +561,7 @@ def healthy_explorer(ws, level="wagon", split="train"):
     signal = pn.widgets.Select(
         name="Signal", options={label(n) + f" ({unit(n)})": n for n in NUMERIC[level]}
     )
-    asset = pn.widgets.Select(
-        name="Wagon", options=["All", *sorted(data.asset_id.unique())]
-    )
+    asset = pn.widgets.Select(name="Wagon", options=["All", *sorted(data.asset_id.unique())])
     component = pn.widgets.Select(
         name="Component", options=["All", *sorted(data.component.unique())]
     )
@@ -641,9 +601,7 @@ def healthy_explorer(ws, level="wagon", split="train"):
                 else "Component"
                 if f is box
                 else "Observation time (UTC)",
-                yaxis_title="Density"
-                if f is distribution
-                else f"{label(name)} ({unit(name)})",
+                yaxis_title="Density" if f is distribution else f"{label(name)} ({unit(name)})",
             )
         return pn.Tabs(
             (
@@ -687,9 +645,7 @@ def linked_relationship(ws, level="axle", split="train"):
     data = data.reset_index(drop=True).dropna(subset=[x, y])
     if len(data) > 12000:
         data = data.iloc[np.linspace(0, len(data) - 1, 12000).astype(int)]
-    points = hv.Points(
-        data, kdims=[x, y], vdims=["asset_id", "component", "event_time"]
-    ).opts(
+    points = hv.Points(data, kdims=[x, y], vdims=["asset_id", "component", "event_time"]).opts(
         width=560,
         height=350,
         tools=["hover", "box_select", "lasso_select"],
@@ -700,9 +656,7 @@ def linked_relationship(ws, level="axle", split="train"):
         alpha=0.35,
         title="Brush a region: selection links both plots",
     )
-    time = hv.Points(
-        data, kdims=["event_time", y], vdims=["asset_id", "component", x]
-    ).opts(
+    time = hv.Points(data, kdims=["event_time", y], vdims=["asset_id", "component", x]).opts(
         width=560,
         height=350,
         tools=["hover", "box_select"],
@@ -721,15 +675,11 @@ def correlation_view(ws, level="wagon", split="train", clustered=False):
     corr = data[names].corr(method="spearman")
     corr = corr.dropna(how="all").dropna(axis=1, how="all")
     if len(corr) < 2:
-        return pane(
-            figure(go.Figure(), "Not enough varying signals for a correlation matrix")
-        )
+        return pane(figure(go.Figure(), "Not enough varying signals for a correlation matrix"))
     if clustered:
         distance = (1 - corr.abs()).fillna(1).clip(0, 1)
         np.fill_diagonal(distance.values, 0)
-        order = leaves_list(
-            linkage(squareform(distance.values, checks=False), method="average")
-        )
+        order = leaves_list(linkage(squareform(distance.values, checks=False), method="average"))
         corr = corr.iloc[order, order]
     corr.index = [f"{label(n)} ({unit(n)})" for n in corr.index]
     corr.columns = list(corr.index)
@@ -761,33 +711,27 @@ def folium_map(data, faults=False):
         control_scale=True,
     )
     folium.TileLayer(ESRI_STREET, attr=ESRI_ATTR, name="Esri street").add_to(base)
-    folium.TileLayer(
-        ESRI_AERIAL, attr=ESRI_ATTR, name="Esri aerial", show=False
-    ).add_to(base)
+    folium.TileLayer(ESRI_AERIAL, attr=ESRI_ATTR, name="Esri aerial", show=False).add_to(base)
     folium.TileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
         attr=ESRI_ATTR,
         name="Esri terrain / topographic",
         show=False,
     ).add_to(base)
-    cluster = MarkerCluster(
-        name="Sampled wagon reports (maximum 600 markers)", show=False
-    ).add_to(base)
+    cluster = MarkerCluster(name="Sampled wagon reports (maximum 600 markers)", show=False).add_to(
+        base
+    )
     sample = data.sort_values(["asset_id", "event_time"])
-    sample = sample.iloc[
-        np.linspace(0, len(sample) - 1, min(600, len(sample))).astype(int)
-    ]
+    sample = sample.iloc[np.linspace(0, len(sample) - 1, min(600, len(sample))).astype(int)]
     for asset, group in data.groupby("asset_id"):
-        coords = group.sort_values("event_time")[
-            ["latitude", "longitude"]
-        ].values.tolist()
+        coords = group.sort_values("event_time")[["latitude", "longitude"]].values.tolist()
         step = max(1, len(coords) // 800)
         folium.PolyLine(
             coords[::step],
             weight=2,
             opacity=0.5,
             color="#087c79",
-            tooltip=f"{asset} — simulated route, not surveyed track",
+            tooltip=f"{asset} — mapped railway geometry; simulated duty",
         ).add_to(base)
     for row in sample.itertuples():
         text = f"{row.asset_id} | {row.event_time} | {row.speed_kph:.1f} km/h"
@@ -811,16 +755,12 @@ def folium_map(data, faults=False):
             for i, r in enumerate(cells.itertuples())
             if intensity.iloc[i] > 0
         ],
-        name="Observed anomalous-report density"
-        if faults
-        else "Received-report density",
+        name="Observed anomalous-report density" if faults else "Received-report density",
         show=False,
         radius=18,
     ).add_to(base)
     if faults:
-        share = folium.FeatureGroup(
-            name="Observed anomaly share per rounded cell", show=True
-        )
+        share = folium.FeatureGroup(name="Observed anomaly share per rounded cell", show=True)
         for row in cells.itertuples():
             if row.anomalies:
                 folium.CircleMarker(
@@ -838,10 +778,7 @@ def folium_map(data, faults=False):
     for when, group in buckets.groupby("bucket"):
         grid = group.groupby([group.latitude.round(2), group.longitude.round(2)]).size()
         frames.append(
-            [
-                [lat, lon, min(1, count / denominator)]
-                for (lat, lon), count in grid.items()
-            ]
+            [[lat, lon, min(1, count / denominator)] for (lat, lon), count in grid.items()]
         )
         times.append(when.strftime("%H:%M UTC"))
     HeatMapWithTime(
@@ -856,41 +793,11 @@ def folium_map(data, faults=False):
     return base
 
 
-def plotly_map(data):
-    sample = data.iloc[np.linspace(0, len(data) - 1, min(len(data), 2500)).astype(int)]
-    fig = px.scatter_map(
-        sample,
-        lat="latitude",
-        lon="longitude",
-        color="asset_id",
-        hover_data=["event_time", "speed_kph", "route_id"],
-        zoom=6,
-        center={
-            "lat": float(sample.latitude.mean()),
-            "lon": float(sample.longitude.mean()),
-        },
-    )
-    fig.update_layout(
-        map_style="white-bg",
-        map_layers=[
-            {
-                "below": "traces",
-                "sourcetype": "raster",
-                "sourceattribution": ESRI_ATTR,
-                "source": [ESRI_STREET],
-            }
-        ],
-    )
-    return figure(fig, "Sampled wagon positions — Esri street; not a fault-risk map")
-
-
 def fault_evidence(ws, variant, level="axle", signal="wheel_speed_kph", split="train"):
     data = ws.load(level, split, variants=["healthy", variant])
     # Operating state belongs to wagon; join observed context using event identity.
     wagon = ws.load("wagon", split, variants=["healthy", variant])
-    context = wagon[
-        ["event_id", "asset_id", "speed_kph", "brake_demand", "operating_state"]
-    ]
+    context = wagon[["event_id", "asset_id", "speed_kph", "brake_demand", "operating_state"]]
     if level != "wagon":
         data = data.merge(
             context.rename(columns={"speed_kph": "wagon_speed_kph"}),
@@ -905,17 +812,13 @@ def fault_evidence(ws, variant, level="axle", signal="wheel_speed_kph", split="t
         [-1, 1, 20, 60, 121],
         labels=["Stationary", "1–20", "20–60", "60–120"],
     )
-    data["condition"] = (
-        data.brake_demand.astype(str) + " · " + data.speed_band.astype(str)
-    )
+    data["condition"] = data.brake_demand.astype(str) + " · " + data.speed_band.astype(str)
     return data
 
 
 def anomaly_explorer(ws, split="train"):
     variants = sorted(
-        ws.assignments.query(
-            "split == @split and variant != 'healthy'"
-        ).variant.unique()
+        ws.assignments.query("split == @split and variant != 'healthy'").variant.unique()
     )
     variant = pn.widgets.Select(name="Assigned fault", options=variants)
     level = pn.widgets.Select(name="Component level", options=list(NUMERIC))
@@ -980,9 +883,7 @@ def anomaly_explorer(ws, split="train"):
         )
         for f in [distributions, boxes, trace]:
             f.update_yaxes(
-                title="Density"
-                if f is distributions
-                else f"{label(name)} ({unit(name)})"
+                title="Density" if f is distributions else f"{label(name)} ({unit(name)})"
             )
         return pn.Tabs(
             (
@@ -996,9 +897,7 @@ def anomaly_explorer(ws, split="train"):
             ),
             (
                 "Component comparison",
-                pane(
-                    figure(boxes, "EDA localisation groups, not final training labels")
-                ),
+                pane(figure(boxes, "EDA localisation groups, not final training labels")),
             ),
             (
                 "Fault wagon replay",
@@ -1112,9 +1011,7 @@ def artefact_views(ws, split="train"):
         if run["scenario"] is None:
             continue
         s = run["scenario"]
-        journey = read_json(
-            ws.source / run["relative_directory"] / "journey_metadata.json"
-        )
+        journey = read_json(ws.source / run["relative_directory"] / "journey_metadata.json")
         start = pd.Timestamp(journey["scheduled_start_time"])
         onset = (pd.Timestamp(s["start_time"]) - start).total_seconds()
         records.append(
@@ -1171,11 +1068,7 @@ def identity_frequency(ws, split="train"):
     frames = []
     for level in NUMERIC:
         data = ws.load(level, split)
-        counts = (
-            data.groupby(["asset_id", "component"])
-            .size()
-            .reset_index(name="Received reports")
-        )
+        counts = data.groupby(["asset_id", "component"]).size().reset_index(name="Received reports")
         counts["Level"] = level
         frames.append(counts)
     return table(pd.concat(frames, ignore_index=True))
@@ -1228,15 +1121,11 @@ def engineering_relationships(ws, split="train"):
     return pn.Tabs(
         (
             "Brake demand and response",
-            pane(
-                figure(brake_chart, "Healthy braking — demand is independent context")
-            ),
+            pane(figure(brake_chart, "Healthy braking — demand is independent context")),
         ),
         (
             "Thermal context",
-            pane(
-                figure(heat_chart, "Healthy bearing heat — speed, load and thermal lag")
-            ),
+            pane(figure(heat_chart, "Healthy bearing heat — speed, load and thermal lag")),
         ),
     )
 
@@ -1244,12 +1133,8 @@ def engineering_relationships(ws, split="train"):
 def static_properties(ws, split="train"):
     assets, bogies, wheels = [], [], []
     for run in ws.select(split, variants=["healthy"]):
-        asset = next(
-            rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl")
-        )
-        assets.append(
-            {k: v for k, v in asset.items() if k not in ("bogies", "generator_seed")}
-        )
+        asset = next(rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl"))
+        assets.append({k: v for k, v in asset.items() if k not in ("bogies", "generator_seed")})
         for bogie in asset["bogies"]:
             bogies.append(
                 {
@@ -1282,8 +1167,6 @@ def static_properties(ws, split="train"):
         ("Handbrake position", table(pd.DataFrame(bogies))),
         (
             "Wheel diameters",
-            pane(
-                figure(diameter, "One value per known wheel, not weighted by reports")
-            ),
+            pane(figure(diameter, "One value per known wheel, not weighted by reports")),
         ),
     )

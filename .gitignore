@@ -16,3 +16,6 @@ build/
 /data/features/
 
 /atlas/_site/
+
+# Optional source GIS downloads (the reviewed derived fixture is packaged).
+/data/rail-source/

@@ -7,6 +7,214 @@ within one journey.
 It contains wagon-level readings plus nested telemetry for exactly two bogies,
 two axles/wheelsets per bogie and one monitoring controller.
 
+## One reporting snapshot: wagon → bogies → axles → wheels
+
+At the standard **10-second sampling interval**, each wagon that is reporting
+emits **one nested JSON event at each scheduled timestamp**. This is one
+snapshot containing measurements for **1 wagon, 2 bogies, 4 axles and 8 wheels**,
+plus its controller. The nested components belong to the same parent event and
+timestamp; they are not separate times in the journey.
+
+```mermaid
+flowchart TD
+    W["One wagon event · one timestamp"]
+    W --> B1["Bogie 1 · brake-cylinder pressure"]
+    W --> B2["Bogie 2 · brake-cylinder pressure"]
+    B1 --> A1["Outer axle · speed, RPM, load, vibration"]
+    B1 --> A2["Inner axle · speed, RPM, load, vibration"]
+    B2 --> A3["Inner axle · speed, RPM, load, vibration"]
+    B2 --> A4["Outer axle · speed, RPM, load, vibration"]
+    A1 --> P1["Left wheel + right wheel · bearing temperatures"]
+    A2 --> P2["Left wheel + right wheel · bearing temperatures"]
+    A3 --> P3["Left wheel + right wheel · bearing temperatures"]
+    A4 --> P4["Left wheel + right wheel · bearing temperatures"]
+```
+
+Wagon-level speed, location, shared brake-pipe/reservoir pressures and power
+context sit at the event root. Controller diagnostics sit in `controller`.
+`bogies` contains two objects; each has two `axles`; each axle has two `wheels`.
+Inner/outer identifies position within a bogie; left/right identifies the wheel
+within its axle. Always retain the parent identities when identifying a component.
+
+### The same snapshot in the output files
+
+The generator keeps the nested event and also writes normalised component rows.
+These are **different representations of the same observations**, not extra
+measurements taken later.
+
+```mermaid
+flowchart TD
+    E["One received wagon snapshot"] --> T["telemetry.jsonl · 1 nested event"]
+    E --> N["Normalise the component hierarchy"]
+    N --> B["bogie_observations.jsonl · 2 rows"]
+    N --> A["axle_observations.jsonl · 4 rows"]
+    N --> W["wheel_observations.jsonl · 8 rows"]
+```
+
+| Output | Rows per received snapshot | Identity needed |
+| --- | ---: | --- |
+| `telemetry.jsonl` | 1 | Event ID + wagon ID |
+| `bogie_observations.jsonl` | 2 | Parent event + wagon + bogie |
+| `axle_observations.jsonl` | 4 | Parent event + wagon + bogie + axle position |
+| `wheel_observations.jsonl` | 8 | Parent event + wagon + bogie + axle position + wheel side |
+
+This is **15 observation rows across the four files: 1 + 2 + 4 + 8**. The first
+row already contains the nested component readings, so do not sum these files
+as independent wagon reports. The controller is included in the wagon event,
+not a fifth observation file. Physical properties such as wheel diameter are
+stored in asset metadata and carried into the appropriate normalised output;
+they are not a new measurement at every timestamp.
+
+Ten seconds later, the next received event repeats this hierarchy with updated
+readings. One healthy reporting wagon therefore normally emits **6 wagon events,
+12 bogie rows, 24 axle rows and 48 wheel rows per full minute**. Sampling can also
+be configured to 1 or 60 seconds.
+
+A reporting outage emits **none of these observation rows** for its missing
+scheduled snapshot. Missing-report and outage truth record the absence separately.
+A failed individual sensor is different: the event can still arrive with an
+unavailable measurement and its quality flag. Anomaly truth, outage truth and
+asset metadata are separate from the 15 observation-row count above.
+
+### Complete nested event example
+
+The following is one actual healthy event produced by generator 0.4.0 with
+telemetry schema 3.2. All two bogies, four axles and eight wheels are present.
+Field requirements and units are detailed in the sections below and the JSON
+Schemas in [contracts](contracts/README.md).
+
+```json
+{
+  "signal_quality": {},
+  "schema_version": "3.2",
+  "event_id": "7206e51f-0444-5a03-a966-78ff7c4348e5",
+  "asset_id": "FG-WGN-0002",
+  "journey_id": "FG-JNY-20260101-0002",
+  "route_id": "FG-RTE-CARDIFF-SWANSEA",
+  "event_time": "2026-01-01T06:21:50Z",
+  "generated_at": "2026-01-01T06:21:50Z",
+  "sampling_interval_seconds": 10,
+  "travel_direction": "reverse",
+  "operating_state": "moving",
+  "journey_phase": "running",
+  "route_progress": 0.002214,
+  "latitude": 51.626553,
+  "longitude": -3.939594,
+  "speed_kph": 23.413,
+  "ambient_temp_c": 14.64,
+  "longitudinal_acceleration_mps2": 0.13007,
+  "lateral_acceleration_mps2": 0.00273,
+  "vertical_acceleration_mps2": -0.02278,
+  "rail_condition": "dry",
+  "estimated_adhesion_coefficient": 0.2889,
+  "brake_pipe_pressure_bar": 4.988,
+  "auxiliary_reservoir_pressure_bar": 4.968,
+  "secondary_reservoir_pressure_bar": 5.002,
+  "battery_voltage_v": 4.199,
+  "power_source": "axle_generators",
+  "available_axle_generators": 4,
+  "brake_demand": "release",
+  "bogies": [
+    {
+      "signal_quality": {},
+      "bogie_id": 1,
+      "handbrake_equipped": true,
+      "brake_cylinder_pressure_bar": 0.041,
+      "axles": [
+        {
+          "signal_quality": {},
+          "axle_position": "outer",
+          "rotational_speed_rpm": 134.025,
+          "wheel_speed_kph": 23.413,
+          "axle_load_tonnes": 12.028,
+          "vibration_rms_g": 0.2569,
+          "wheels": [
+            {
+              "wheel_side": "left",
+              "bearing_temp_c": 41.33
+            },
+            {
+              "wheel_side": "right",
+              "bearing_temp_c": 41.091
+            }
+          ]
+        },
+        {
+          "signal_quality": {},
+          "axle_position": "inner",
+          "rotational_speed_rpm": 130.424,
+          "wheel_speed_kph": 23.413,
+          "axle_load_tonnes": 12.085,
+          "vibration_rms_g": 0.2564,
+          "wheels": [
+            {
+              "wheel_side": "left",
+              "bearing_temp_c": 41.189
+            },
+            {
+              "wheel_side": "right",
+              "bearing_temp_c": 41.322
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "signal_quality": {},
+      "bogie_id": 2,
+      "handbrake_equipped": false,
+      "brake_cylinder_pressure_bar": 0.031,
+      "axles": [
+        {
+          "signal_quality": {},
+          "axle_position": "outer",
+          "rotational_speed_rpm": 136.568,
+          "wheel_speed_kph": 23.413,
+          "axle_load_tonnes": 12.263,
+          "vibration_rms_g": 0.2595,
+          "wheels": [
+            {
+              "wheel_side": "left",
+              "bearing_temp_c": 41.115
+            },
+            {
+              "wheel_side": "right",
+              "bearing_temp_c": 41.103
+            }
+          ]
+        },
+        {
+          "signal_quality": {},
+          "axle_position": "inner",
+          "rotational_speed_rpm": 135.536,
+          "wheel_speed_kph": 23.413,
+          "axle_load_tonnes": 12.247,
+          "vibration_rms_g": 0.2595,
+          "wheels": [
+            {
+              "wheel_side": "left",
+              "bearing_temp_c": 41.391
+            },
+            {
+              "wheel_side": "right",
+              "bearing_temp_c": 40.958
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "controller": {
+    "temperature_c": 23.157,
+    "supply_voltage_v": 25.186,
+    "health_status": "healthy",
+    "uptime_seconds": 1310,
+    "reset_count": 0,
+    "sensor_communication_error_count": 0
+  }
+}
+```
+
 ## Physical metadata
 
 | Scope | Fields | Character |
@@ -82,14 +290,16 @@ must never enter model features. See [hierarchical feature rules](hierarchical_f
 
 ## Route limitations
 
-The London–Swansea fixture follows real UK corridor locations but is deliberately
-coarse. It is deterministic, offline and suitable for synthetic analytics—not
-navigation, infrastructure inspection, train control or claims about actual
-Tarmac operations. Commercial terminals and schedules are fictional.
+Generator 0.4.0 uses a bundled historical Network Rail track-level geometry
+snapshot. Existing route IDs and terminal names remain; former illustrative
+coordinates are snapped to mapped track vertices. Position and instantaneous
+speed share an integrated, distance-based motion profile. Duration includes
+simulated acceleration, cruise, braking and dwell, not a verified service timetable.
 
-Random journey planning chooses reproducibly among London–Avonmouth,
-Avonmouth–Cardiff, Cardiff–Swansea and full London–Swansea duties, including
-reverse movements. Journey duration is derived rather than fixed.
+See [route source and limitations](route_data.md) and the
+[current data workflow](data_workflow.md). This geometry is not
+current operating authority, and the fictional terminal names do not establish
+actual freight terminal access or customer operations.
 
 ## Sampling and feature windows
 
@@ -107,8 +317,8 @@ Each raw event normalises into two bogie, four axle and eight wheel observations
 
 ## Portfolio cohort layer
 
-Generator 0.3.0 retains schema 3.2 and adds cohort planning and saved-file
-validation. `cohort_plan.json` maps each unique asset to one split and run.
+Generator 0.4.0 retains schema 3.2 and existing cohort planning and saved-file
+validation; feature schema remains 2.0. `cohort_plan.json` maps each unique asset to one split and run.
 Each run uses the existing event/component/truth contracts. Cohort metadata is
 administrative/evaluation context, not feature input. See `portfolio_dataset.md`.
 

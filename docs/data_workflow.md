@@ -31,10 +31,16 @@ The real-data path above is an illustration, not an implemented connector.
 
 **Start time is an input. End time is determined by the selected journey.**
 The supported routes are London–Avonmouth, Avonmouth–Cardiff, Cardiff–Swansea
-and London–Swansea, including reverse direction.
+and London–Swansea, including reverse direction. Coordinates follow bundled mapped
+railway links. Distances drive simulated acceleration, cruising, braking and dwell;
+these are not booked train schedules. See [route data](route_data.md).
 
 Run commands in Windows CMD from your project folder with `.venv` activated.
-New output directories must be empty. Use fresh names if the examples already exist.
+New output directories must be empty. The current-development source and feature
+dataset is named `portfolio-v1`. Generate it using the current code, then validate,
+build summaries and audit it. Reuse validated outputs rather than regenerating on
+every notebook run. If replacing local development data, remove the old source,
+feature and audit directories together before running the workflow again.
 
 ## 1. Healthy demo
 
@@ -240,3 +246,16 @@ asset IDs and split names stay out of predictive values.
 For deeper detail only when needed: [signal catalogue](signal_catalogue.md),
 [anomaly catalogue](anomaly_catalogue.md), [feature rules](hierarchical_feature_rules.md)
 and [full command guide](dataset_generation_guide.md).
+
+## Run the standard workflow together
+
+After installing the project, this CMD script runs portfolio generation, source
+validation, feature generation, feature validation and audit in order. It stops
+at the first failed command and never removes existing data:
+
+```cmd
+scripts\generate_portfolio.cmd
+```
+
+Use the individual commands above to change the seed, start time, sampling or
+cohort size. Notebook paths already point to `portfolio-v1`.

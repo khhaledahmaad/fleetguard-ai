@@ -1,29 +1,41 @@
 {
-  "notebooks": 3,
+  "notebooks": [
+    {
+      "notebook": "01_dataset_overview.ipynb",
+      "status": "passed",
+      "seconds": 40.1,
+      "cells": 16,
+      "method": "IPython in-process; live Jupyter TCP blocked"
+    },
+    {
+      "notebook": "02_healthy_signal_behaviour.ipynb",
+      "status": "passed",
+      "seconds": 11.1,
+      "cells": 24,
+      "method": "IPython in-process; live Jupyter TCP blocked"
+    },
+    {
+      "notebook": "03_anomaly_signal_behaviour.ipynb",
+      "status": "passed",
+      "seconds": 14.6,
+      "cells": 17,
+      "method": "IPython in-process; live Jupyter TCP blocked"
+    }
+  ],
   "source_fixture": {
     "assets": 48,
-    "sampling_interval_seconds": 60,
-    "seed": 42
+    "sampling_interval_seconds": 10,
+    "seed": 42,
+    "generator_version": "0.4.0",
+    "expected_wagon_reports": 78954,
+    "received_wagon_reports": 75277,
+    "missing_wagon_reports": 3677
   },
-  "notebook_cells": "All three executed sequentially in-process on fixture",
-  "helper_tests_passed": 6,
-  "lint": "passed",
-  "callbacks": "All four levels, numerical signals and 13 assigned fault variants exercised",
-  "visual_check": "Plotly gallery, healthy/fault explorers, linked HoloViews view, raw/minute and outage charts inspected",
+  "logo": "First Markdown cell, centred image only, visually inspected in HTML export",
+  "mapping": "Folium only; Plotly retained for non-geographic charts",
+  "saved_outputs": "cleared for guided sessions; executed QA copies are separate",
   "limits": [
-    "Live Jupyter socket execution blocked in QA environment",
-    "Esri basemap delivery requires local internet/browser",
-    "User 10-second portfolio not uploaded or executed here"
-  ],
-  "python_tested": "3.12",
-  "packages": {
-    "pandas": "2.2.3",
-    "numpy": "2.3.5",
-    "plotly": "6.9.0",
-    "folium": "0.20.0",
-    "panel": "1.9.4",
-    "holoviews": "1.23.2",
-    "scipy": "1.17.0",
-    "nbformat": "5.11.1"
-  }
+    "Notebook cells executed top-to-bottom through IPython in-process. Live Jupyter kernel startup blocked by TCP socket permissions in this environment.",
+    "Interactive Panel callbacks and Esri tile/network delivery should be checked in local Jupyter."
+  ]
 }

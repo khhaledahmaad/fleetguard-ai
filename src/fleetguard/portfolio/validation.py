@@ -109,6 +109,13 @@ def expected_label(scenario: AnomalyScenario) -> tuple[str, str]:
 def validate_run(folder: Path, assignment, config: PortfolioConfig, entry: dict) -> dict:
     manifest = read_json(folder / "manifest.json")
     require(manifest["schema_version"] == SCHEMA_VERSION, "wrong schema version")
+    from fleetguard.generator.route import route_provenance
+
+    for key, value in route_provenance().items():
+        require(
+            manifest.get(key) == value,
+            "route/motion version differs; regenerate with this generator into a new directory",
+        )
     require(manifest["seed"] == config.seed, "wrong run seed")
     require(manifest["anomaly_profile"] == assignment.variant, "run variant differs from plan")
     require(set(manifest["files"]) == RUN_FILES, "missing or unexpected run files")

@@ -1,6 +1,6 @@
 # FleetGuard AI — Dataset generation and validation guide
 
-This is the primary repeatable workflow for generator 0.3.0, source schema 3.2,
+This is the primary repeatable workflow for generator 0.4.0, source schema 3.2,
 portfolio plan 1.0 and feature schema 2.0. Commands use **Windows CMD** from the
 repository root. Read the [signal catalogue](signal_catalogue.md),
 [anomaly catalogue](anomaly_catalogue.md) and [feature rules](hierarchical_feature_rules.md)
@@ -32,7 +32,7 @@ Each portfolio wagon has its own seeded duty, but routes can repeat. Generation
 uses synthetic London–Avonmouth, Avonmouth–Cardiff, Cardiff–Swansea and
 London–Swansea corridors, including reverse travel. Journey duration follows
 planned running and dwell rather than a fixed one-hour run. Coordinates are
-coarse interpolations; terminal operations are fictional.
+interpolations along mapped railway geometry; duties and terminal operations are simulated.
 
 ## 2. Prepare and verify the environment
 
@@ -69,10 +69,8 @@ is `none`. Sampling every 60 seconds is useful for quick verification, not the
 standard modelling dataset. Each received event contains the full component tree.
 It also yields two bogie, four axle and eight wheel rows, not eight wagon events.
 
-The seed-42 demonstration duty has historically been London → Avonmouth,
-330 minutes. For that exact healthy duty, two wagons at 60 seconds produce
-660 wagon events. Read the manifest for the actual selected route and counts;
-other seeds/routes do not have to produce that duration.
+The selected route and simulated dwell determine duration and report counts.
+Read each journey metadata file and manifest; do not assume a fixed journey length.
 
 ## 4. Optional targeted fault smoke dataset
 
@@ -100,9 +98,8 @@ Generator CLI parameters:
 
 ## 5. Generate the standard portfolio cohort
 
-Use an empty directory. If `portfolio-v1` already exists with generated data,
-validate it first or choose a fresh name such as `portfolio-v2`; do not delete
-an existing dataset merely to make a command succeed.
+Use an empty directory. `portfolio-v1` is the canonical current-development dataset.
+Generate it with the current code and bundled track geometry before building features.
 
 ```cmd
 python -m fleetguard.portfolio generate --seed 42 --start-time 2026-01-01T06:00:00+00:00 --sampling-interval-seconds 10 --output-dir data\generated\portfolio-v1

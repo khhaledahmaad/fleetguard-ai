@@ -1,7 +1,7 @@
 # FleetGuard AI — Portfolio coverage dataset v1
 
 The `fleetguard.portfolio` runner adds reproducible cohort planning and saved-file
-validation on top of the twelve-scenario generator. Generator version is 0.3.0;
+validation on top of the twelve-scenario generator. Generator version is 0.4.0;
 telemetry remains schema 3.2. There is no new anomaly or telemetry field.
 
 ## Purpose and size

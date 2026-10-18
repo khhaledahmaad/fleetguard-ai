@@ -295,15 +295,11 @@ def signal(event, scenario, name):
     if hasattr(bogie, name):
         return getattr(bogie, name)
     axle = next(
-        a
-        for a in bogie.axles
-        if a.axle_position == (scenario.target.axle_position or "outer")
+        a for a in bogie.axles if a.axle_position == (scenario.target.axle_position or "outer")
     )
     if hasattr(axle, name):
         return getattr(axle, name)
-    wheel = next(
-        w for w in axle.wheels if w.wheel_side == (scenario.target.wheel_side or "left")
-    )
+    wheel = next(w for w in axle.wheels if w.wheel_side == (scenario.target.wheel_side or "left"))
     return getattr(wheel, name)
 
 
@@ -339,27 +335,21 @@ def main():
             scenario = build_demo_scenario(profile, healthy.events)
         variants = [scenario]
         if number == 12:
-            variants.append(
-                build_demo_scenario("controller-bounded-demo", healthy.events)
-            )
+            variants.append(build_demo_scenario("controller-bounded-demo", healthy.events))
         modes = []
         for current in variants:
             injected = inject_fleet_anomaly_scenarios(healthy, (current,))
             observed = {e.event_time: e for e in injected.events}
             left = max(START, current.start_time - timedelta(minutes=3))
             horizon = (
-                current.recovery_time
-                if current.outage_mode == "bounded"
-                else current.end_time
+                current.recovery_time if current.outage_mode == "bounded" else current.end_time
             )
             right = min(
                 START + timedelta(seconds=journey.duration_seconds),
                 horizon + timedelta(minutes=6),
             )
             if number == 11:
-                recovered = [
-                    o.end_time_exclusive for o in injected.outages if o.recovered
-                ]
+                recovered = [o.end_time_exclusive for o in injected.outages if o.recovered]
                 if recovered:
                     right = min(
                         START + timedelta(seconds=journey.duration_seconds),
@@ -466,9 +456,7 @@ def main():
             }
         )
     first_minute = tuple(
-        e
-        for e in healthy.events
-        if START <= e.event_time < START + timedelta(minutes=1)
+        e for e in healthy.events if START <= e.event_time < START + timedelta(minutes=1)
     )
     rows = aggregate_components(
         first_minute,
@@ -498,9 +486,7 @@ def main():
     )
     cohorts = {}
     for seed in (42, 43):
-        config = PortfolioConfig(
-            seed=seed, start_time=START, sampling_interval_seconds=10
-        )
+        config = PortfolioConfig(seed=seed, start_time=START, sampling_interval_seconds=10)
         cohorts[str(seed)] = [
             {
                 "asset_id": a.asset.asset_id,
@@ -529,7 +515,7 @@ def main():
         },
     )
     code = [
-        {"path": str(p.relative_to(ROOT)), "text": p.read_text()}
+        {"path": p.relative_to(ROOT).as_posix(), "text": p.read_text(encoding="utf-8")}
         for p in sorted((ROOT / "src/fleetguard").rglob("*.py"))
     ]
     data = {
@@ -542,9 +528,11 @@ def main():
             "destination": journey.destination,
             "duration_minutes": journey.duration_minutes,
             "route_id": journey.route.route_id,
+            "track": [[p.latitude, p.longitude] for p in journey.route.points],
             "points": [
                 {"name": p.name, "latitude": p.latitude, "longitude": p.longitude}
                 for p in journey.route.points
+                if not p.name.startswith("Track vertex ")
             ],
         },
         "asset": asset.model_dump(mode="json"),
@@ -559,9 +547,7 @@ def main():
     }
     folder = ROOT / "atlas"
     (folder / "assets/data.js").write_text(
-        "window.FG_DATA="
-        + json.dumps(data, ensure_ascii=False).replace("<", "\\u003c")
-        + ";\n",
+        "window.FG_DATA=" + json.dumps(data, ensure_ascii=False).replace("<", "\\u003c") + ";\n",
         encoding="utf-8",
     )
     # Atlas animations are native SVG/HTML; independent root assets stay separate.
@@ -569,10 +555,8 @@ def main():
         file.unlink()
     for file in (folder / "_site/assets").glob("*.gif"):
         file.unlink()
-    shutil.copy2(
-        ROOT / "assets/fleetguard-logo.svg", folder / "assets/fleetguard-logo.svg"
-    )
-    body = (folder / "_body.html").read_text()
+    shutil.copy2(ROOT / "assets/fleetguard-logo.svg", folder / "assets/fleetguard-logo.svg")
+    body = (folder / "_body.html").read_text(encoding="utf-8")
     document = (
         (
             '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta n'
@@ -582,11 +566,12 @@ def main():
         )
         + body
         + (
+            '<script src="assets/vendor/mermaid.min.js"></script>'
             '<script src="assets/data.js"></script><script src="assets/atlas.js'
             '"></script></body></html>'
         )
     )
-    (folder / "index.html").write_text(document)
+    (folder / "index.html").write_text(document, encoding="utf-8")
     (folder / "index.qmd").write_text(
         (
             '---\ntitle: "FleetGuard AI — Engineering Atlas"\nformat:\n  html:\n   '
@@ -595,15 +580,19 @@ def main():
             "one\n---\n\n```{=html}\n"
         )
         + body
-        + "\n```\n"
+        + "\n```\n",
+        encoding="utf-8",
     )
     (folder / "_scripts.html").write_text(
-        '<script src="assets/data.js"></script><script src="assets/atlas.js"></script>\n'
+        '<script src="assets/vendor/mermaid.min.js"></script>'
+        '<script src="assets/data.js"></script><script src="assets/atlas.js"></script>\n',
+        encoding="utf-8",
     )
     (folder / "_quarto.yml").write_text(
         "project:\n  type: website\n  render: [index.qmd]\n"
         "  output-dir: _site\n  resources:\n    - as"
-        'sets/\nwebsite:\n  title: "FleetGuard AI Engineering Atlas"\n'
+        'sets/\nwebsite:\n  title: "FleetGuard AI Engineering Atlas"\n',
+        encoding="utf-8",
     )
     site = folder / "_site"
     site.mkdir(exist_ok=True)

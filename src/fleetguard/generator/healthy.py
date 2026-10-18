@@ -31,6 +31,7 @@ from fleetguard.generator.route import (
     JourneyPlan,
     RailRoute,
     interpolate_route,
+    journey_speed_at,
     journey_state_at,
 )
 
@@ -98,6 +99,7 @@ def _generate(
     direction: TravelDirection,
     cruise_speed_kph: float,
     sampling_interval_seconds: int,
+    journey: JourneyPlan | None = None,
 ) -> HealthyBatch:
     rng = random.Random(seed)
     events: list[TelemetryEvent] = []
@@ -107,6 +109,7 @@ def _generate(
         for bogie in asset.bogies
         for axle in bogie.axles
     }
+    development_distance_km = 0.0
     previous_speed = 0.0
     previous_elapsed_seconds = 0
     battery_voltage = 4.2
@@ -115,8 +118,19 @@ def _generate(
 
     for elapsed_seconds, journey_phase, state, route_progress, phase_progress in samples:
         event_time = start_time + timedelta(seconds=elapsed_seconds)
-        speed = _speed(state, phase_progress, rng, cruise_speed_kph)
+        speed = (
+            _speed(state, phase_progress, rng, cruise_speed_kph)
+            if journey is None
+            else journey_speed_at(journey, elapsed_seconds)
+        )
         elapsed_step = elapsed_seconds - previous_elapsed_seconds
+        if journey is None:
+            # Fixed-period development runs cover only the distance travelled;
+            # stationary samples must never teleport across the route.
+            development_distance_km += 0.5 * (previous_speed + speed) * elapsed_step / 3600
+            route_progress = min(1.0, development_distance_km / route.distance_km)
+            if route_progress >= 1:
+                route_progress, speed, state = 1.0, 0.0, OperatingState.STATIONARY
         power_source = PowerSource.AXLE_GENERATORS if speed >= 5 else PowerSource.BATTERY
         if power_source is PowerSource.AXLE_GENERATORS:
             battery_voltage = min(4.2, battery_voltage + elapsed_step * 0.18 / 3600)
@@ -342,4 +356,5 @@ def generate_healthy_journey(
         journey.travel_direction,
         journey.nominal_speed_kph,
         sampling_interval_seconds,
+        journey=journey,
     )

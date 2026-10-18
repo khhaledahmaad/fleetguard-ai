@@ -1,7 +1,8 @@
 # FleetGuard — Three EDA sessions
 
-One notebook per session. Use your existing `portfolio-v1` source and hierarchical
-features. Do not regenerate valid datasets for these notebooks.
+One notebook per session. Use the current `portfolio-v1` source and hierarchical features, generated
+with the bundled mapped railway geometry. Reuse valid matching datasets between
+notebook sessions.
 
 | Session | Notebook | Story |
 | --- | --- | --- |
@@ -11,8 +12,9 @@ features. Do not regenerate valid datasets for these notebooks.
 
 ## Apply and open (Windows CMD)
 
-Merge this pack's `nbs` and `tests` into your repository. Keep the existing files.
-The source generator, contracts and feature aggregation are unchanged.
+Install the notebook dependencies, then open the notebooks from this repository.
+If source data/features have not been generated with the current code, first run
+`scripts\generate_portfolio.cmd` after installing the project.
 
 ```cmd
 cd /d C:\Users\khhal\fleetguard-ai
@@ -60,7 +62,7 @@ individual wheel. Brake-release comparison uses the scenario's selected bogie.
 
 - Esri street, aerial and topographic maps include attribution. Map tiles and
   Folium browser libraries need internet; there is no offline-basemap claim.
-- Locations are coarse synthetic interpolations, not surveyed railway track.
+- Locations are simulated positions interpolated on historical Network Rail track geometry; not a live GPS feed.
 - Only wagon reporting positions are mapped; wheel rows are not duplicated.
 - Clusters use a deterministic sample of at most 600 markers; lines are thinned.
   Heat calculations use all received wagon reports, rounded to 0.01° cells.
@@ -130,15 +132,17 @@ git status
 - `docs/anomaly_catalogue.md`: fault signatures and limitations.
 - `docs/hierarchical_feature_rules.md`: exact aggregation rules.
 
-Tool guidance used: Plotly tile-map layers, Panel Plotly panes/notebook extensions,
+Tool guidance used: Folium maps, Panel Plotly panes/notebook extensions,
 HoloViz linked selections and Folium HeatMapWithTime documentation. The notebook
 outputs should determine findings; this pack makes no trained-model or commercial
 performance claims.
 
 Official tool references:
 
-- [Plotly tile-map layers](https://plotly.com/python/tile-map-layers/)
 - [Panel Plotly panes](https://panel.holoviz.org/reference/panes/Plotly.html)
 - [Panel notebook output](https://panel.holoviz.org/how_to/notebook/notebook.html)
 - [HoloViz linked selections](https://holoviz.org/tutorial/exercises/Linking_Plots.html)
 - [Folium heat replay](https://python-visualization.github.io/folium/latest/user_guide/plugins/heatmap_with_time.html)
+
+Each notebook starts with a centred Markdown wordmark. All geographic views use
+Folium with switchable Esri layers; Plotly remains for non-geographic charts.

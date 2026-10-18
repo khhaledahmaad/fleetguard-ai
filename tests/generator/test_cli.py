@@ -271,7 +271,10 @@ def test_cli_extended_profile_writes_effect_and_lineage(tmp_path, profile):
     manifest = json.loads((output / "manifest.json").read_text())
     assert manifest["schema_version"] == "3.2"
     assert manifest["anomaly_profile"] == profile
-    assert manifest["counts"]["expected_reports"] == 660
+    from fleetguard.generator.route import create_random_journey_plan
+
+    plan = create_random_journey_plan(42)
+    assert manifest["counts"]["expected_reports"] == 2 * plan.duration_seconds // 60
     assert manifest["anomalous_observed_reports_by_type"] or manifest["counts"]["missing_reports"]
     assert manifest["scenario_asset_ids"] == ["FG-WGN-0001"]
     assert (output / "scenario_metadata.json").is_file()

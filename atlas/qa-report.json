@@ -1,11 +1,63 @@
 {
-  "routes": 24,
-  "mobile_routes": 24,
-  "source_cards": 7,
-  "generation_steps": 4,
-  "feature_levels": 4,
-  "feature_numeric_fields": 28,
-  "persistent_labels": "passed",
-  "js_errors": [],
-  "offline": true
+  "documents": [
+    {
+      "document": "README.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/README.md",
+      "diagrams": 1
+    },
+    {
+      "document": "docs/anomaly_catalogue.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/data_contract.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/data_workflow.md",
+      "diagrams": 7
+    },
+    {
+      "document": "docs/dataset_generation_guide.md",
+      "diagrams": 1
+    },
+    {
+      "document": "docs/domain_specification.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/glossary.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/hierarchical_feature_rules.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/portfolio_dataset.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/product_contract.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/route_data.md",
+      "diagrams": 0
+    },
+    {
+      "document": "docs/signal_catalogue.md",
+      "diagrams": 0
+    }
+  ],
+  "errors": [],
+  "offline": true,
+  "mermaid_version": "10.9.3",
+  "diagram_count": 9,
+  "tested": "Chromium 131 headless, file://, desktop; document switching and primary pages",
+  "mapped_trace_vertices": 5983,
+  "named_trace_waypoints": 10
 }

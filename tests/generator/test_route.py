@@ -75,7 +75,9 @@ def test_wheel_rpm_and_stationary_behaviour_are_physically_consistent() -> None:
     batch = generate_healthy_journey(asset, datetime(2026, 1, 1, tzinfo=UTC), journey)
 
     stationary = next(event for event in batch.events if event.operating_state == "stationary")
-    moving = next(event for event in batch.events if event.operating_state == "moving")
+    moving = next(
+        event for event in batch.events if event.operating_state == "moving" and event.speed_kph > 0
+    )
 
     assert all(
         axle.rotational_speed_rpm == 0 for bogie in stationary.bogies for axle in bogie.axles

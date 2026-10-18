@@ -1,0 +1,5 @@
+# Optional: rebuild source geometry only. Runtime generation needs none of these.
+pyshp>=2.3,<4
+pyproj>=3.6,<4
+networkx>=3,<4
+scipy>=1.13,<2

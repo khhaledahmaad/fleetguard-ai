@@ -34,7 +34,7 @@ Definitions describe the FleetGuard model; manufacturer-specific terminology may
 | Regulated supply | Separate controller electrical rail, healthy near 25.2 V. |
 | Dwell | Planned stationary time at the origin, intermediate point or destination. |
 | Route / journey | Route is the reusable corridor; journey is one planned duty on it. |
-| GPS / coordinates | Latitude/longitude location context; FleetGuard interpolates coarse route points. |
+| GPS / coordinates | Latitude/longitude location context; FleetGuard interpolates positions along bundled mapped track geometry. |
 | Uptime / reset | Runtime since controller start; recovery can reset uptime and increase reset count. |
 
 ## Data and simulation terms

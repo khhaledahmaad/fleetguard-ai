@@ -199,8 +199,9 @@ disagreement is reserved for later fault injection or derived features.
 The initial route follows the geographic order of the Great Western and South
 Wales corridor: London, Reading, Swindon, Bath, Bristol, Avonmouth, Newport,
 Cardiff, Port Talbot and Swansea. Terminal names and all commercial movements
-are fictional. The committed points form a compact corridor-level polyline,
-not navigation-grade track geometry and not an operational railway timetable.
+are fictional. Generator 0.4.0 follows bundled historical Network Rail track-level
+polylines. Speed, distance and duration share one motion profile; dwell remains
+simulated rather than an operational railway timetable. See `route_data.md`.
 
 ## 7. Ground-Truth Anomaly Fields
 
@@ -353,5 +354,5 @@ There are two bogies, four axles, eight wheel/bearing observations, two BCP
 transducers (one per bogie), shared BPP/AR/SR, one battery and one controller.
 Wheels share rigid wheelset rotation. Vibration is axle RMS evidence. Power
 voltage and charging are simple synthetic approximations. Coordinates follow a
-coarse UK corridor fixture. All outputs support learning and human investigation,
+historical UK railway geometry fixture. All outputs support learning and human investigation,
 not operational safety or automatic maintenance decisions.
