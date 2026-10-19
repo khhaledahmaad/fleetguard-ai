@@ -15,8 +15,10 @@ import panel as pn
 import plotly.express as px
 import plotly.graph_objects as go
 from folium.plugins import HeatMap, HeatMapWithTime, MarkerCluster
+from plotly.subplots import make_subplots
 from scipy.cluster.hierarchy import leaves_list, linkage
 from scipy.spatial.distance import squareform
+from scipy.stats import gaussian_kde
 
 from fleetguard.features.hierarchical_aggregation import CATEGORICAL, NUMERIC
 from fleetguard.portfolio.validation import sha256
@@ -55,9 +57,7 @@ LABELS = {
     "rotational_speed_rpm": "Axle rotation",
 }
 ESRI_STREET = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
-ESRI_AERIAL = (
-    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-)
+ESRI_AERIAL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 ESRI_ATTR = "Tiles © Esri — Esri, HERE, Garmin, USGS and imagery providers"
 
 
@@ -89,13 +89,15 @@ def label(name):
 def unit(name):
     return UNITS.get(
         name,
-        "bar"
-        if name.endswith("_bar")
-        else "m/s²"
-        if name.endswith("_mps2")
-        else "seconds"
-        if name.endswith("_seconds")
-        else "count",
+        (
+            "bar"
+            if name.endswith("_bar")
+            else (
+                "m/s²"
+                if name.endswith("_mps2")
+                else "seconds" if name.endswith("_seconds") else "count"
+            )
+        ),
     )
 
 
@@ -113,7 +115,9 @@ def project_root():
     for p in (Path.cwd(), *Path.cwd().parents):
         if (p / "src/fleetguard/contracts/models.py").exists():
             return p
-    raise FileNotFoundError("Open Jupyter from your FleetGuard repository root or nbs folder.")
+    raise FileNotFoundError(
+        "Open Jupyter from your FleetGuard repository root or nbs folder."
+    )
 
 
 def figure(fig, title=None):
@@ -131,7 +135,9 @@ def figure(fig, title=None):
 
 
 def pane(fig):
-    return pn.pane.Plotly(fig, sizing_mode="stretch_width", config={"displaylogo": False})
+    return pn.pane.Plotly(
+        fig, sizing_mode="stretch_width", config={"displaylogo": False}
+    )
 
 
 def table(frame):
@@ -161,9 +167,13 @@ class Workspace:
         plan = read_json(self.source / "cohort_plan.json")
         self.plan = plan
         self.manifest = read_json(self.features / "feature_manifest.json")
-        if self.manifest["source_plan_sha256"] != sha256(self.source / "cohort_plan.json"):
+        if self.manifest["source_plan_sha256"] != sha256(
+            self.source / "cohort_plan.json"
+        ):
             raise ValueError("Feature plan does not match supplied source.")
-        if self.manifest["source_manifest_sha256"] != sha256(self.source / "cohort_manifest.json"):
+        if self.manifest["source_manifest_sha256"] != sha256(
+            self.source / "cohort_manifest.json"
+        ):
             raise ValueError("Feature source hash does not match supplied source.")
         if self.manifest["feature_schema_version"] != "2.0":
             raise ValueError("These notebooks require feature schema 2.0.")
@@ -200,7 +210,9 @@ class Workspace:
 
     def select(self, split="train", variants=None, assets=None):
         if split not in ("train", "validation"):
-            raise ValueError("Exploration is limited to train/validation. Test: inventory only.")
+            raise ValueError(
+                "Exploration is limited to train/validation. Test: inventory only."
+            )
         selected = self.assignments[self.assignments.split == split]
         if variants is not None:
             selected = selected[selected.variant.isin(variants)]
@@ -213,7 +225,9 @@ class Workspace:
         for run in self.select(split, variants, assets):
             folder = self.source / run["relative_directory"]
             truth = {r["event_id"]: r for r in rows(folder / "anomaly_truth.jsonl")}
-            filename = "telemetry.jsonl" if level == "wagon" else f"{level}_observations.jsonl"
+            filename = (
+                "telemetry.jsonl" if level == "wagon" else f"{level}_observations.jsonl"
+            )
             for item in rows(folder / filename):
                 if level == "wagon":
                     item.pop("bogies")
@@ -227,7 +241,9 @@ class Workspace:
                     }
                 )
                 item.update({"split": split, "variant": run["variant"]})
-                item["sampling_interval_seconds"] = self.plan["config"]["sampling_interval_seconds"]
+                item["sampling_interval_seconds"] = self.plan["config"][
+                    "sampling_interval_seconds"
+                ]
                 target = (run.get("scenario") or {}).get("target", {})
                 item.update(
                     {
@@ -285,7 +301,11 @@ class Workspace:
             }
             for name, summary in item["numeric"].items():
                 result.update(
-                    {name + "__" + k: v for k, v in summary.items() if not isinstance(v, dict)}
+                    {
+                        name + "__" + k: v
+                        for k, v in summary.items()
+                        if not isinstance(v, dict)
+                    }
                 )
             for name, summary in item["categorical"].items():
                 result[name] = summary["last"]
@@ -359,11 +379,15 @@ def context_labels(frame, level):
         lambda row: (
             "Healthy control"
             if row.variant == "healthy"
-            else "Before / no observed signature"
-            if not row.is_anomaly
-            else "Target / parent context"
-            if target_match(row, level)
-            else "Other component during fault"
+            else (
+                "Before / no observed signature"
+                if not row.is_anomaly
+                else (
+                    "Target / parent context"
+                    if target_match(row, level)
+                    else "Other component during fault"
+                )
+            )
         ),
         axis=1,
     )
@@ -393,7 +417,9 @@ def overview_views(ws):
     )
     identities = []
     for run in ws.plan["runs"]:
-        asset = next(rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl"))
+        asset = next(
+            rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl")
+        )
         for bogie in asset["bogies"]:
             for axle in bogie["axles"]:
                 for wheel in axle["wheels"]:
@@ -426,7 +452,9 @@ def overview_views(ws):
 
 def completeness_view(ws, split="train"):
     data = ws.summaries("wagon", split)
-    grid = data.pivot(index="asset_id", columns="window_start", values="report_completeness")
+    grid = data.pivot(
+        index="asset_id", columns="window_start", values="report_completeness"
+    )
     fig = px.imshow(
         grid,
         aspect="auto",
@@ -441,7 +469,7 @@ def completeness_view(ws, split="train"):
     )
 
 
-def distribution_gallery(ws, level="wagon", split="train"):
+def _histogram_gallery(ws, level="wagon", split="train"):
     data = ws.load(level, split, variants=["healthy"])
     numeric = list(NUMERIC[level])
     long = data.melt(
@@ -493,8 +521,120 @@ def distribution_gallery(ws, level="wagon", split="train"):
             middle = text.rfind(" ", 0, 38)
             text = text[:middle] + "<br>" + text[middle + 1 :]
         annotation.text = text
-    fig = figure(fig, f"{split.title()} healthy controls — every {level} numerical signal")
+    fig = figure(
+        fig, f"{split.title()} healthy controls — every {level} numerical signal"
+    )
     fig.update_layout(height=max(440, 260 * int(np.ceil(len(numeric) / 3))))
+    return fig
+
+
+def distribution_gallery(ws, level="wagon", split="train", view="Histogram"):
+    """Use KDE for continuous spread; preserve discrete values and point masses."""
+    if view == "Histogram":
+        return _histogram_gallery(ws, level, split)
+    if view not in {"Density / exact values", "ECDF"}:
+        raise ValueError("Choose Histogram, Density / exact values or ECDF")
+    data = ws.load(level, split, variants=["healthy"])
+    names = list(NUMERIC[level])
+    fig = make_subplots(
+        rows=int(np.ceil(len(names) / 3)),
+        cols=3,
+        subplot_titles=[f"{label(name)} ({unit(name)})" for name in names],
+        vertical_spacing=min(0.08, 0.3 / max(1, int(np.ceil(len(names) / 3)))),
+    )
+    for index, name in enumerate(names):
+        row, col = divmod(index, 3)
+        row, col = row + 1, col + 1
+        values = pd.to_numeric(data[name], errors="coerce").dropna().to_numpy()
+        values = values[np.isfinite(values)]
+        unique, counts = np.unique(values, return_counts=True)
+        if not len(values):
+            fig.add_annotation(
+                text="No valid readings", showarrow=False, row=row, col=col
+            )
+            continue
+        if len(unique) == 1:
+            fig.add_trace(
+                go.Scatter(
+                    x=unique,
+                    y=[1],
+                    mode="markers",
+                    marker=dict(color="#087c79", size=10),
+                    hovertemplate="Value %{x}<br>Sample share 100%<extra></extra>",
+                ),
+                row=row,
+                col=col,
+            )
+            fig.add_annotation(
+                text=f"Constant: {unique[0]:g}",
+                showarrow=False,
+                x=unique[0],
+                y=0.78,
+                row=row,
+                col=col,
+            )
+            ylabel = "Sample share"
+        elif view == "ECDF" or (len(unique) > 24 and counts.max() / len(values) >= 0.1):
+            fig.add_trace(
+                go.Scatter(
+                    x=unique,
+                    y=np.cumsum(counts) / len(values),
+                    mode="lines",
+                    line=dict(color="#087c79", shape="hv"),
+                    hovertemplate="Value %{x}<br>At or below %{y:.1%}<extra></extra>",
+                ),
+                row=row,
+                col=col,
+            )
+            ylabel = "Cumulative share"
+        elif len(unique) <= 24:
+            fig.add_trace(
+                go.Bar(
+                    x=unique,
+                    y=counts / len(values),
+                    width=(unique[-1] - unique[0]) / len(unique) * 0.7,
+                    marker_color="#087c79",
+                    hovertemplate="Value %{x}<br>Sample share %{y:.1%}<extra></extra>",
+                ),
+                row=row,
+                col=col,
+            )
+            ylabel = "Sample share"
+        else:
+            # Bound KDE cost and make approximation reproducible across callbacks.
+            sample = values
+            if len(sample) > 4000:
+                sample = np.random.default_rng(42).choice(sample, 4000, replace=False)
+            grid = np.linspace(unique[0], unique[-1], 220)
+            kde = gaussian_kde(sample)
+            density = kde(grid) / kde.integrate_box_1d(unique[0], unique[-1])
+            fig.add_trace(
+                go.Scatter(
+                    x=grid,
+                    y=density,
+                    mode="lines",
+                    fill="tozeroy",
+                    line=dict(color="#087c79", width=2),
+                    hovertemplate="Value %{x}<br>Density %{y:.4g}<extra></extra>",
+                ),
+                row=row,
+                col=col,
+            )
+            ylabel = "KDE density"
+        fig.update_yaxes(title_text=ylabel, row=row, col=col)
+        if ylabel != "KDE density":
+            fig.update_yaxes(range=[0, 1.12], tickformat=".0%", row=row, col=col)
+    for annotation in fig.layout.annotations:
+        if len(annotation.text) > 44:
+            words = annotation.text.split()
+            middle = len(words) // 2
+            annotation.text = (
+                " ".join(words[:middle]) + "<br>" + " ".join(words[middle:])
+            )
+    fig = figure(fig, f"{split.title()} healthy controls — {level}: {view}")
+    fig.update_layout(
+        showlegend=False, height=max(440, 290 * int(np.ceil(len(names) / 3)))
+    )
     return fig
 
 
@@ -506,17 +646,40 @@ def state_gallery(ws, level="wagon", split="train"):
     parts = []
     for name in names:
         counts = (
-            data[name].value_counts(dropna=False).rename_axis("State").reset_index(name="Reports")
+            data[name]
+            .value_counts(dropna=False)
+            .rename_axis("State")
+            .reset_index(name="Reports")
+        )
+        counts["State"] = (
+            counts.State.astype(str)
+            .str.replace("_", " ", regex=False)
+            .str.replace(" dwell", "<br>dwell", regex=False)
+            .str.replace("leaf contaminated", "leaf<br>contaminated", regex=False)
+            .str.replace("axle generators", "axle<br>generators", regex=False)
         )
         counts["Signal"] = label(name)
         parts.append(counts)
     long = pd.concat(parts, ignore_index=True)
-    return pane(
-        figure(
-            px.bar(long, x="State", y="Reports", facet_col="Signal", facet_col_wrap=3),
-            "Healthy categorical states — received sample counts",
-        )
+    fig = px.bar(
+        long,
+        x="State",
+        y="Reports",
+        facet_col="Signal",
+        facet_col_wrap=3,
+        facet_row_spacing=0.16,
+        text="Reports",
+        color_discrete_sequence=["#087c79"],
     )
+    fig.update_xaxes(matches=None, showticklabels=True, title_text="")
+    fig.update_traces(
+        texttemplate="%{text:,}", textposition="outside", cliponaxis=False
+    )
+    for annotation in fig.layout.annotations:
+        annotation.text = annotation.text.replace("Signal=", "")
+    fig = figure(fig, "Healthy wagon states — shared context shown once")
+    fig.update_layout(height=max(440, 330 * int(np.ceil(len(names) / 3))))
+    return pane(fig)
 
 
 def quality_profile(ws, split="train", variants=None):
@@ -561,30 +724,43 @@ def healthy_explorer(ws, level="wagon", split="train"):
     signal = pn.widgets.Select(
         name="Signal", options={label(n) + f" ({unit(n)})": n for n in NUMERIC[level]}
     )
-    asset = pn.widgets.Select(name="Wagon", options=["All", *sorted(data.asset_id.unique())])
+    asset = pn.widgets.Select(
+        name="Wagon", options=["All", *sorted(data.asset_id.unique())]
+    )
     component = pn.widgets.Select(
         name="Component", options=["All", *sorted(data.component.unique())]
     )
     state = pn.widgets.Select(
         name="Operating state",
-        options=["All", *sorted(data.operating_state.unique())]
-        if "operating_state" in data
-        else ["All"],
+        options=(
+            ["All", *sorted(data.operating_state.unique())]
+            if "operating_state" in data
+            else ["All"]
+        ),
     )
 
-    def view(name, wagon, comp, operating):
+    distribution_view = pn.widgets.Select(
+        name="Distribution view", options=["ECDF", "Histogram"]
+    )
+
+    def view(name, wagon, comp, operating, distribution_mode):
         selected = choose(data, wagon, comp, operating)
         if selected.empty:
             return pn.pane.Markdown("No observations for this selection.")
-        distribution = px.histogram(
-            selected,
-            x=name,
-            color="asset_id",
-            nbins=45,
-            histnorm="probability density",
-            barmode="overlay",
-            opacity=0.6,
-        )
+        if distribution_mode == "ECDF":
+            distribution = px.ecdf(selected, x=name, color="asset_id")
+            distribution_y = "Cumulative sample share"
+        else:
+            distribution = px.histogram(
+                selected,
+                x=name,
+                color="asset_id",
+                nbins=45,
+                histnorm="probability density",
+                barmode="overlay",
+                opacity=0.6,
+            )
+            distribution_y = "Density"
         box = px.box(selected, x="component", y=name, points=False)
         timeline = px.line(
             timeline_data(selected, name),
@@ -596,12 +772,16 @@ def healthy_explorer(ws, level="wagon", split="train"):
         timeline.update_traces(connectgaps=False)
         for f in [distribution, box, timeline]:
             f.update_layout(
-                xaxis_title=f"{label(name)} ({unit(name)})"
-                if f is distribution
-                else "Component"
-                if f is box
-                else "Observation time (UTC)",
-                yaxis_title="Density" if f is distribution else f"{label(name)} ({unit(name)})",
+                xaxis_title=(
+                    f"{label(name)} ({unit(name)})"
+                    if f is distribution
+                    else "Component" if f is box else "Observation time (UTC)"
+                ),
+                yaxis_title=(
+                    distribution_y
+                    if f is distribution
+                    else f"{label(name)} ({unit(name)})"
+                ),
             )
         return pn.Tabs(
             (
@@ -629,8 +809,8 @@ def healthy_explorer(ws, level="wagon", split="train"):
         )
 
     return pn.Column(
-        pn.Row(signal, asset, component, state),
-        pn.bind(view, signal, asset, component, state),
+        pn.Row(signal, asset, component, state, distribution_view),
+        pn.bind(view, signal, asset, component, state, distribution_view),
         sizing_mode="stretch_width",
     )
 
@@ -645,7 +825,9 @@ def linked_relationship(ws, level="axle", split="train"):
     data = data.reset_index(drop=True).dropna(subset=[x, y])
     if len(data) > 12000:
         data = data.iloc[np.linspace(0, len(data) - 1, 12000).astype(int)]
-    points = hv.Points(data, kdims=[x, y], vdims=["asset_id", "component", "event_time"]).opts(
+    points = hv.Points(
+        data, kdims=[x, y], vdims=["asset_id", "component", "event_time"]
+    ).opts(
         width=560,
         height=350,
         tools=["hover", "box_select", "lasso_select"],
@@ -656,7 +838,9 @@ def linked_relationship(ws, level="axle", split="train"):
         alpha=0.35,
         title="Brush a region: selection links both plots",
     )
-    time = hv.Points(data, kdims=["event_time", y], vdims=["asset_id", "component", x]).opts(
+    time = hv.Points(
+        data, kdims=["event_time", y], vdims=["asset_id", "component", x]
+    ).opts(
         width=560,
         height=350,
         tools=["hover", "box_select"],
@@ -675,11 +859,15 @@ def correlation_view(ws, level="wagon", split="train", clustered=False):
     corr = data[names].corr(method="spearman")
     corr = corr.dropna(how="all").dropna(axis=1, how="all")
     if len(corr) < 2:
-        return pane(figure(go.Figure(), "Not enough varying signals for a correlation matrix"))
+        return pane(
+            figure(go.Figure(), "Not enough varying signals for a correlation matrix")
+        )
     if clustered:
         distance = (1 - corr.abs()).fillna(1).clip(0, 1)
         np.fill_diagonal(distance.values, 0)
-        order = leaves_list(linkage(squareform(distance.values, checks=False), method="average"))
+        order = leaves_list(
+            linkage(squareform(distance.values, checks=False), method="average")
+        )
         corr = corr.iloc[order, order]
     corr.index = [f"{label(n)} ({unit(n)})" for n in corr.index]
     corr.columns = list(corr.index)
@@ -711,20 +899,26 @@ def folium_map(data, faults=False):
         control_scale=True,
     )
     folium.TileLayer(ESRI_STREET, attr=ESRI_ATTR, name="Esri street").add_to(base)
-    folium.TileLayer(ESRI_AERIAL, attr=ESRI_ATTR, name="Esri aerial", show=False).add_to(base)
+    folium.TileLayer(
+        ESRI_AERIAL, attr=ESRI_ATTR, name="Esri aerial", show=False
+    ).add_to(base)
     folium.TileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
         attr=ESRI_ATTR,
         name="Esri terrain / topographic",
         show=False,
     ).add_to(base)
-    cluster = MarkerCluster(name="Sampled wagon reports (maximum 600 markers)", show=False).add_to(
-        base
-    )
+    cluster = MarkerCluster(
+        name="Sampled wagon reports (maximum 600 markers)", show=False
+    ).add_to(base)
     sample = data.sort_values(["asset_id", "event_time"])
-    sample = sample.iloc[np.linspace(0, len(sample) - 1, min(600, len(sample))).astype(int)]
+    sample = sample.iloc[
+        np.linspace(0, len(sample) - 1, min(600, len(sample))).astype(int)
+    ]
     for asset, group in data.groupby("asset_id"):
-        coords = group.sort_values("event_time")[["latitude", "longitude"]].values.tolist()
+        coords = group.sort_values("event_time")[
+            ["latitude", "longitude"]
+        ].values.tolist()
         step = max(1, len(coords) // 800)
         folium.PolyLine(
             coords[::step],
@@ -755,12 +949,16 @@ def folium_map(data, faults=False):
             for i, r in enumerate(cells.itertuples())
             if intensity.iloc[i] > 0
         ],
-        name="Observed anomalous-report density" if faults else "Received-report density",
+        name=(
+            "Observed anomalous-report density" if faults else "Received-report density"
+        ),
         show=False,
         radius=18,
     ).add_to(base)
     if faults:
-        share = folium.FeatureGroup(name="Observed anomaly share per rounded cell", show=True)
+        share = folium.FeatureGroup(
+            name="Observed anomaly share per rounded cell", show=True
+        )
         for row in cells.itertuples():
             if row.anomalies:
                 folium.CircleMarker(
@@ -778,7 +976,10 @@ def folium_map(data, faults=False):
     for when, group in buckets.groupby("bucket"):
         grid = group.groupby([group.latitude.round(2), group.longitude.round(2)]).size()
         frames.append(
-            [[lat, lon, min(1, count / denominator)] for (lat, lon), count in grid.items()]
+            [
+                [lat, lon, min(1, count / denominator)]
+                for (lat, lon), count in grid.items()
+            ]
         )
         times.append(when.strftime("%H:%M UTC"))
     HeatMapWithTime(
@@ -797,7 +998,9 @@ def fault_evidence(ws, variant, level="axle", signal="wheel_speed_kph", split="t
     data = ws.load(level, split, variants=["healthy", variant])
     # Operating state belongs to wagon; join observed context using event identity.
     wagon = ws.load("wagon", split, variants=["healthy", variant])
-    context = wagon[["event_id", "asset_id", "speed_kph", "brake_demand", "operating_state"]]
+    context = wagon[
+        ["event_id", "asset_id", "speed_kph", "brake_demand", "operating_state"]
+    ]
     if level != "wagon":
         data = data.merge(
             context.rename(columns={"speed_kph": "wagon_speed_kph"}),
@@ -812,13 +1015,17 @@ def fault_evidence(ws, variant, level="axle", signal="wheel_speed_kph", split="t
         [-1, 1, 20, 60, 121],
         labels=["Stationary", "1–20", "20–60", "60–120"],
     )
-    data["condition"] = data.brake_demand.astype(str) + " · " + data.speed_band.astype(str)
+    data["condition"] = (
+        data.brake_demand.astype(str) + " · " + data.speed_band.astype(str)
+    )
     return data
 
 
 def anomaly_explorer(ws, split="train"):
     variants = sorted(
-        ws.assignments.query("split == @split and variant != 'healthy'").variant.unique()
+        ws.assignments.query(
+            "split == @split and variant != 'healthy'"
+        ).variant.unique()
     )
     variant = pn.widgets.Select(name="Assigned fault", options=variants)
     level = pn.widgets.Select(name="Component level", options=list(NUMERIC))
@@ -883,7 +1090,9 @@ def anomaly_explorer(ws, split="train"):
         )
         for f in [distributions, boxes, trace]:
             f.update_yaxes(
-                title="Density" if f is distributions else f"{label(name)} ({unit(name)})"
+                title=(
+                    "Density" if f is distributions else f"{label(name)} ({unit(name)})"
+                )
             )
         return pn.Tabs(
             (
@@ -897,7 +1106,9 @@ def anomaly_explorer(ws, split="train"):
             ),
             (
                 "Component comparison",
-                pane(figure(boxes, "EDA localisation groups, not final training labels")),
+                pane(
+                    figure(boxes, "EDA localisation groups, not final training labels")
+                ),
             ),
             (
                 "Fault wagon replay",
@@ -1011,7 +1222,9 @@ def artefact_views(ws, split="train"):
         if run["scenario"] is None:
             continue
         s = run["scenario"]
-        journey = read_json(ws.source / run["relative_directory"] / "journey_metadata.json")
+        journey = read_json(
+            ws.source / run["relative_directory"] / "journey_metadata.json"
+        )
         start = pd.Timestamp(journey["scheduled_start_time"])
         onset = (pd.Timestamp(s["start_time"]) - start).total_seconds()
         records.append(
@@ -1068,7 +1281,11 @@ def identity_frequency(ws, split="train"):
     frames = []
     for level in NUMERIC:
         data = ws.load(level, split)
-        counts = data.groupby(["asset_id", "component"]).size().reset_index(name="Received reports")
+        counts = (
+            data.groupby(["asset_id", "component"])
+            .size()
+            .reset_index(name="Received reports")
+        )
         counts["Level"] = level
         frames.append(counts)
     return table(pd.concat(frames, ignore_index=True))
@@ -1121,11 +1338,15 @@ def engineering_relationships(ws, split="train"):
     return pn.Tabs(
         (
             "Brake demand and response",
-            pane(figure(brake_chart, "Healthy braking — demand is independent context")),
+            pane(
+                figure(brake_chart, "Healthy braking — demand is independent context")
+            ),
         ),
         (
             "Thermal context",
-            pane(figure(heat_chart, "Healthy bearing heat — speed, load and thermal lag")),
+            pane(
+                figure(heat_chart, "Healthy bearing heat — speed, load and thermal lag")
+            ),
         ),
     )
 
@@ -1133,8 +1354,12 @@ def engineering_relationships(ws, split="train"):
 def static_properties(ws, split="train"):
     assets, bogies, wheels = [], [], []
     for run in ws.select(split, variants=["healthy"]):
-        asset = next(rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl"))
-        assets.append({k: v for k, v in asset.items() if k not in ("bogies", "generator_seed")})
+        asset = next(
+            rows(ws.source / run["relative_directory"] / "asset_metadata.jsonl")
+        )
+        assets.append(
+            {k: v for k, v in asset.items() if k not in ("bogies", "generator_seed")}
+        )
         for bogie in asset["bogies"]:
             bogies.append(
                 {
@@ -1167,6 +1392,8 @@ def static_properties(ws, split="train"):
         ("Handbrake position", table(pd.DataFrame(bogies))),
         (
             "Wheel diameters",
-            pane(figure(diameter, "One value per known wheel, not weighted by reports")),
+            pane(
+                figure(diameter, "One value per known wheel, not weighted by reports")
+            ),
         ),
     )
